@@ -3,17 +3,32 @@ import {
 } from '@angular/core';
 
 import {
-  SkySampleModule
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
+
+import {
+  SkyFlyoutModule,
+  SkyFlyoutService
 } from './public';
 
+import {
+  FlyoutDemoComponent
+} from './visual/flyout/flyout-demo.component';
+
 @NgModule({
+  declarations: [],
   imports: [
-    SkySampleModule
+    NoopAnimationsModule,
+    SkyFlyoutModule
   ],
   exports: [
-    SkySampleModule
+    SkyFlyoutModule
   ],
-  providers: [],
-  entryComponents: []
+  providers: [
+    SkyFlyoutService
+  ],
+  entryComponents: [
+    FlyoutDemoComponent
+  ]
 })
 export class AppExtrasModule { }
