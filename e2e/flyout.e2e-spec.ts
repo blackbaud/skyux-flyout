@@ -15,7 +15,7 @@ describe('Flyout', () => {
     SkyHostBrowser.setWindowBreakpoint('lg');
     element(by.css('.sky-btn-primary')).click();
     expect('body').toMatchBaselineScreenshot(done);
-    // element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
   });
 
   it('should match previous screenshot (screen: xs)', (done) => {
@@ -23,7 +23,7 @@ describe('Flyout', () => {
     SkyHostBrowser.setWindowBreakpoint('xs');
     element(by.css('.sky-btn-primary')).click();
     expect('body').toMatchBaselineScreenshot(done);
-    // element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
   });
 
   it('should handle absolutely positioned items inside the flyout', (done) => {
@@ -34,7 +34,7 @@ describe('Flyout', () => {
     element(by.css('.sky-flyout .sky-dropdown-button')).click();
     SkyHostBrowser.moveCursorOffScreen();
     expect('body').toMatchBaselineScreenshot(done);
-    // element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
   });
 
   it('should handle absolutely positioned items inside the flyout (screen: xs)', (done) => {
@@ -45,6 +45,6 @@ describe('Flyout', () => {
     element(by.css('.sky-flyout .sky-dropdown-button')).click();
     SkyHostBrowser.moveCursorOffScreen();
     expect('body').toMatchBaselineScreenshot(done);
-    // element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
   });
 });
