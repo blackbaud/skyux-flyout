@@ -27,8 +27,7 @@
   "homepage": "https://github.com/blackbaud/skyux-flyout#readme",
   "peerDependencies": {
     "@skyux/i18n": "^3.0.1",
-    "@skyux/indicators": ">=3.0.0-rc.1",
-    "@skyux/popovers": ">=3.0.0-rc.0"
+    "@skyux/indicators": ">=3.0.0-rc.1"
   },
   "dependencies": {},
   "devDependencies": {
