@@ -7,6 +7,10 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
+  SkyDropdownModule
+} from '@skyux/popovers';
+
+import {
   SkyFlyoutModule,
   SkyFlyoutService
 } from './public';
@@ -16,13 +20,14 @@ import {
 } from './visual/flyout/flyout-demo.component';
 
 @NgModule({
-  declarations: [],
   imports: [
     NoopAnimationsModule,
-    SkyFlyoutModule
+    SkyFlyoutModule,
+    SkyDropdownModule
   ],
   exports: [
-    SkyFlyoutModule
+    SkyFlyoutModule,
+    SkyDropdownModule
   ],
   providers: [
     SkyFlyoutService
