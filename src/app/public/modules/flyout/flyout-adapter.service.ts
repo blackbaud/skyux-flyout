@@ -63,7 +63,7 @@ export class SkyFlyoutAdapterService {
       for (let otherHostTag of this.otherHostElementTags) {
         let el = (<Element>target);
         do {
-          if (el.matches(otherHostTag)) {
+          if (el.tagName === otherHostTag) {
             return false;
           }
           el = el.parentElement;
