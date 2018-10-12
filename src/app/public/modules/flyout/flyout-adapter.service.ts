@@ -2,14 +2,22 @@ import {
   ElementRef,
   Injectable,
   Renderer2,
-  RendererFactory2
+  RendererFactory2,
+  ComponentRef
 } from '@angular/core';
 
-import { SkyWindowRefService } from '@skyux/core';
+import {
+  SkyWindowRefService
+} from '@skyux/core';
+
+import {
+  SkyFlyoutComponent
+} from './flyout.component';
 
 @Injectable()
 export class SkyFlyoutAdapterService {
   private renderer: Renderer2;
+  private otherHostElementTags = ['sky-modal-host', 'sky-toast', 'sky-modal'];
 
   constructor(
     private rendererFactory: RendererFactory2,
@@ -47,5 +55,24 @@ export class SkyFlyoutAdapterService {
     for (let i = 0; i < iframes.length; i++) {
       iframes[i].style.pointerEvents = enable ? '' : 'none';
     }
+  }
+
+  public shouldClickCloseFlyout(host: ComponentRef<SkyFlyoutComponent>, target: Node): boolean {
+    if (host && host.location && !host.location.nativeElement.contains(target)) {
+
+      for (let otherHostTag of this.otherHostElementTags) {
+        let el = (<Element>target);
+        do {
+          if (el.matches(otherHostTag)) {
+            return false;
+          }
+          el = el.parentElement;
+        // tslint:disable-next-line:no-null-keyword
+        } while (el !== null && el.nodeType === 1);
+      }
+      return true;
+    }
+
+    return false;
   }
 }

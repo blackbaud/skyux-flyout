@@ -15,12 +15,21 @@ import {
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
 
-import { SkyFlyoutTestComponent } from './fixtures/flyout.component.fixture';
-import { SkyFlyoutFixturesModule } from './fixtures/flyout-fixtures.module';
-import { SkyFlyoutTestSampleContext } from './fixtures/flyout-sample-context.fixture';
-import { SkyFlyoutInstance } from './flyout-instance';
-import { SkyFlyoutService } from './flyout.service';
-
+import {
+  SkyFlyoutTestComponent
+} from './fixtures/flyout.component.fixture';
+import {
+  SkyFlyoutFixturesModule
+} from './fixtures/flyout-fixtures.module';
+import {
+  SkyFlyoutTestSampleContext
+} from './fixtures/flyout-sample-context.fixture';
+import {
+  SkyFlyoutInstance
+} from './flyout-instance';
+import {
+  SkyFlyoutService
+} from './flyout.service';
 import {
   SkyFlyoutConfig
 } from './types';
@@ -53,6 +62,16 @@ describe('Flyout component', () => {
     }, config);
 
     const flyoutInstance = fixture.componentInstance.openFlyout(config);
+
+    applicationRef.tick();
+    tick();
+    fixture.detectChanges();
+
+    return flyoutInstance;
+  }
+
+  function openHostFlyout(): SkyFlyoutInstance<any> {
+    const flyoutInstance = fixture.componentInstance.openHostsFlyout();
 
     applicationRef.tick();
     tick();
@@ -98,6 +117,22 @@ describe('Flyout component', () => {
 
   function getPrimaryActionButtonElement(): HTMLElement {
     return document.querySelector('.sky-flyout-btn-primary-action') as HTMLElement;
+  }
+
+  function getFlyoutModalTriggerElement(): HTMLElement {
+    return document.querySelector('#modal-trigger') as HTMLElement;
+  }
+
+  function getModalElement(): HTMLElement {
+    return document.querySelector('.sky-modal-content') as HTMLElement;
+  }
+
+  function getFlyoutToastTriggerElement(): HTMLElement {
+    return document.querySelector('#toast-trigger') as HTMLElement;
+  }
+
+  function getToastElement(): HTMLElement {
+    return document.querySelector('.sky-toast-content') as HTMLElement;
   }
 
   function getIframe(): HTMLElement {
@@ -159,6 +194,40 @@ describe('Flyout component', () => {
 
     const flyoutContentElement = getFlyoutElement();
     flyoutContentElement.click();
+    fixture.detectChanges();
+    tick();
+
+    expect(flyout.isOpen).toBe(true);
+  }));
+
+  it('should NOT close when the click event fires on a modal element', fakeAsync(() => {
+    const flyout = openHostFlyout();
+    expect(flyout.isOpen).toBe(true);
+
+    const flyoutModalTriggerElement = getFlyoutModalTriggerElement();
+    flyoutModalTriggerElement.click();
+    fixture.detectChanges();
+    tick();
+
+    const modalContentElement = getModalElement();
+    modalContentElement.click();
+    fixture.detectChanges();
+    tick();
+
+    expect(flyout.isOpen).toBe(true);
+  }));
+
+  it('should NOT close when the click event fires on a toast element', fakeAsync(() => {
+    const flyout = openHostFlyout();
+    expect(flyout.isOpen).toBe(true);
+
+    const flyoutToastTriggerElement = getFlyoutToastTriggerElement();
+    flyoutToastTriggerElement.click();
+    fixture.detectChanges();
+    tick();
+
+    const toastContentElement = getToastElement();
+    toastContentElement.click();
     fixture.detectChanges();
     tick();
 
