@@ -24,6 +24,10 @@ import {
 } from '@angular/animations';
 
 import {
+  SkyLibResourcesService
+} from '@skyux/i18n';
+
+import {
   Subject
 } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
@@ -43,6 +47,7 @@ import {
   SkyFlyoutMessage,
   SkyFlyoutMessageType
 } from './types';
+
 import {
   SkyFlyoutAction
 } from './types/flyout-action';
@@ -69,12 +74,6 @@ let nextId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkyFlyoutComponent implements OnDestroy, OnInit {
-
-  // TODO: The following require statement is not recommended, but was done
-  // to avoid a breaking change (SkyResources is synchronous, but SkyAppResources is asynchronous).
-  // We should switch to using SkyAppResources in the next major release.
-  private resources: any = require('!json-loader!.skypageslocales/resources_en_US.json');
-
   public config: SkyFlyoutConfig;
   public flyoutId: string = `sky-flyout-${++nextId}`;
   public flyoutState = FLYOUT_CLOSED_STATE;
@@ -138,7 +137,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     private adapter: SkyFlyoutAdapterService,
     private changeDetector: ChangeDetectorRef,
     private injector: Injector,
-    private resolver: ComponentFactoryResolver
+    private resolver: ComponentFactoryResolver,
+    private resourcesService: SkyLibResourcesService
   ) {
     // All commands flow through the message stream.
     this.messageStream
@@ -295,12 +295,11 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.target.clear();
   }
 
-  /**
-   * This method is a stand-in for the old SkyResources service from skyux2.
-   * TODO: We should consider using Builder's resources service instead.
-   * @param key
-   */
   private getString(key: string): string {
-    return this.resources[key].message;
+    // TODO: Need to implement the async `getString` method in a breaking change.
+    return this.resourcesService.getStringForLocale(
+      { locale: 'en-US' },
+      key
+    );
   }
 }
