@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {
+  Component
+} from '@angular/core';
 
 import {
   SkyFlyoutModalFixtureContext
@@ -25,7 +27,10 @@ import {
 })
 export class SkyFlyoutHostsTestComponent {
 
-  constructor(private modal: SkyModalService, private toastService: SkyToastService) { }
+  constructor(
+    private modal: SkyModalService,
+    private toastService: SkyToastService
+  ) { }
 
   public openModal() {
     const context = new SkyFlyoutModalFixtureContext();
