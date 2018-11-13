@@ -14,13 +14,33 @@ import {
   RouterTestingModule
 } from '@angular/router/testing';
 
-import { SkyFlyoutModule } from '../flyout.module';
-import { SkyFlyoutTestComponent } from './flyout.component.fixture';
-import { SkyFlyoutTestSampleComponent } from './flyout-sample.component.fixture';
-import { SkyFlyoutHostsTestComponent } from './flyout-hosts.component.fixture';
-import { SkyModalModule } from '@skyux/modals/modules/modal';
-import { SkyFlyoutModalFixtureFormComponent } from './flyout-modal-form.component';
-import { SkyToastModule } from '@skyux/toast/modules/toast';
+import {
+  SkyModalModule
+} from '@skyux/modals/modules/modal';
+
+import {
+  SkyToastModule
+} from '@skyux/toast/modules/toast';
+
+import {
+  SkyFlyoutModule
+} from '../flyout.module';
+
+import {
+  SkyFlyoutHostsTestComponent
+} from './flyout-hosts.component.fixture';
+
+import {
+  SkyFlyoutModalFixtureFormComponent
+} from './flyout-modal-form.component';
+
+import {
+  SkyFlyoutTestComponent
+} from './flyout.component.fixture';
+
+import {
+  SkyFlyoutTestSampleComponent
+} from './flyout-sample.component.fixture';
 
 @NgModule({
   declarations: [

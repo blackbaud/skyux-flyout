@@ -3,22 +3,25 @@ import {
 } from '@angular/core';
 
 import {
-  SkyFlyoutModalFixtureContext
-} from './flyout-modal-context';
-import {
-  SkyFlyoutModalFixtureFormComponent
-} from './flyout-modal-form.component';
-import {
-  SkyFlyoutService
-} from '../flyout.service';
-
-import {
   SkyModalService
 } from '@skyux/modals/modules/modal';
+
 import {
   SkyToastService,
   SkyToastType
 } from '@skyux/toast/modules/toast';
+
+import {
+  SkyFlyoutModalFixtureContext
+} from './flyout-modal-context';
+
+import {
+  SkyFlyoutModalFixtureFormComponent
+} from './flyout-modal-form.component';
+
+import {
+  SkyFlyoutService
+} from '../flyout.service';
 
 @Component({
   selector: 'sky-test-cmp-flyout',

@@ -13,14 +13,21 @@ import {
   Observable,
   Subject
 } from 'rxjs';
+
 import 'rxjs/add/operator/take';
+
+import {
+  SkyWindowRefService
+} from '@skyux/core';
 
 import {
   SkyFlyoutAdapterService
 } from './flyout-adapter.service';
+
 import {
   SkyFlyoutComponent
 } from './flyout.component';
+
 import {
   SkyFlyoutInstance
 } from './flyout-instance';
@@ -30,10 +37,6 @@ import {
   SkyFlyoutMessage,
   SkyFlyoutMessageType
 } from './types';
-
-import {
-  SkyWindowRefService
-} from '@skyux/core';
 
 @Injectable()
 export class SkyFlyoutService implements OnDestroy {
@@ -112,8 +115,8 @@ export class SkyFlyoutService implements OnDestroy {
       Observable
       .fromEvent(windowObj, 'click')
       .takeUntil(this.idled)
-      .subscribe((event: MouseEvent) => {
-        if (this.adapter.shouldClickCloseFlyout(this.host, <Node> event.target)) {
+      .subscribe((event: any) => {
+        if (!this.adapter.hostContainsEventTarget(this.host, event)) {
           this.close();
         }
       });

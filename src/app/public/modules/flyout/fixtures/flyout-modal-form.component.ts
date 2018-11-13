@@ -3,12 +3,12 @@ import {
 } from '@angular/core';
 
 import {
-  SkyFlyoutModalFixtureContext
-} from './flyout-modal-context';
-
-import {
   SkyModalInstance
 } from '@skyux/modals/modules/modal';
+
+import {
+  SkyFlyoutModalFixtureContext
+} from './flyout-modal-context';
 
 @Component({
   selector: 'sky-demo-modal-form',

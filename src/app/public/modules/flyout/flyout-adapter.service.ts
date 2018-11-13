@@ -57,22 +57,30 @@ export class SkyFlyoutAdapterService {
     }
   }
 
-  public shouldClickCloseFlyout(host: ComponentRef<SkyFlyoutComponent>, target: Node): boolean {
-    if (host && host.location && !host.location.nativeElement.contains(target)) {
+  public hostContainsEventTarget(host: ComponentRef<SkyFlyoutComponent>, event: Event): boolean {
+    // If there is not a flyout host and if the event is not on the flyout host then check for other
+    // hosts that might contain the event target
+    if (!host || !host.location || !host.location.nativeElement.contains(event.target)) {
 
+      // Iterate over all of the possible host tags that we want to inspect
       for (let otherHostTag of this.otherHostElementTags) {
-        let el = (<Element>target);
+        // Convert event target to an element (by default this is typed as a generic type)
+        let el = (<Element>event.target);
+        // Iterate over the parents of the target element until we hit the top of the document or
+        // a non-html nodeType
         do {
+          // Check if the element is one of the host elements that we want to flag
           if (el.tagName.toLowerCase() === otherHostTag) {
-            return false;
+            return true;
           }
           el = el.parentElement;
         // tslint:disable-next-line:no-null-keyword
         } while (el !== null && el.nodeType === 1);
       }
+      return false;
+    // Else case is triggered when there is a flyout host and it contains the event target
+    } else {
       return true;
     }
-
-    return false;
   }
 }

@@ -8,11 +8,12 @@ import {
 } from '../../flyout';
 
 import {
-  SkyFlyoutTestSampleComponent
-} from './flyout-sample.component.fixture';
-import {
   SkyFlyoutHostsTestComponent
 } from './flyout-hosts.component.fixture';
+
+import {
+  SkyFlyoutTestSampleComponent
+} from './flyout-sample.component.fixture';
 
 @Component({
   selector: 'sky-test-component',

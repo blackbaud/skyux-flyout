@@ -16,23 +16,28 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyFlyoutTestComponent
-} from './fixtures/flyout.component.fixture';
+  SkyFlyoutConfig
+} from './types';
+
 import {
   SkyFlyoutFixturesModule
 } from './fixtures/flyout-fixtures.module';
-import {
-  SkyFlyoutTestSampleContext
-} from './fixtures/flyout-sample-context.fixture';
+
 import {
   SkyFlyoutInstance
 } from './flyout-instance';
+
 import {
   SkyFlyoutService
 } from './flyout.service';
+
 import {
-  SkyFlyoutConfig
-} from './types';
+  SkyFlyoutTestComponent
+} from './fixtures/flyout.component.fixture';
+
+import {
+  SkyFlyoutTestSampleContext
+} from './fixtures/flyout-sample-context.fixture';
 
 describe('Flyout component', () => {
   let applicationRef: ApplicationRef;
