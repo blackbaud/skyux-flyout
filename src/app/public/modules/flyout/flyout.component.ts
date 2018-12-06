@@ -46,7 +46,8 @@ import {
   SkyFlyoutConfig,
   SkyFlyoutMessage,
   SkyFlyoutMessageType,
-  SkyFlyoutPermalink
+  SkyFlyoutPermalink,
+  SkyFlyoutIterator
 } from './types';
 
 const FLYOUT_OPEN_STATE = 'flyoutOpen';
@@ -109,6 +110,10 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     }
 
     return {};
+  }
+
+  public get iteratorDetail(): SkyFlyoutIterator {
+    return this.config.iterator;
   }
 
   public get primaryActionLabel(): string {
@@ -200,6 +205,20 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     return false;
   }
 
+  public invokeIterator(showPrevious: boolean) {
+    let iteratorDetail = this.iteratorDetail;
+
+    if (iteratorDetail) {
+      if (showPrevious && iteratorDetail.previousIteratorButtonClick) {
+        iteratorDetail.previousIteratorButtonClick();
+      } else if (!showPrevious && iteratorDetail.nextIteratorButtonClick) {
+        iteratorDetail.nextIteratorButtonClick();
+      }
+    }
+
+    return false;
+  }
+
   public getAnimationState(): string {
     return (this.isOpening) ? FLYOUT_OPEN_STATE : FLYOUT_CLOSED_STATE;
   }
@@ -268,16 +287,16 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     /* tslint:disable-next-line:switch-default */
     switch (message.type) {
       case SkyFlyoutMessageType.Open:
-      if (!this.isOpen) {
-        this.isOpen = false;
-        this.isOpening = true;
-      }
-      break;
+        if (!this.isOpen) {
+          this.isOpen = false;
+          this.isOpening = true;
+        }
+        break;
 
       case SkyFlyoutMessageType.Close:
-      this.isOpen = true;
-      this.isOpening = false;
-      break;
+        this.isOpen = true;
+        this.isOpening = false;
+        break;
     }
 
     this.changeDetector.markForCheck();

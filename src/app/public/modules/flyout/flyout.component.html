@@ -26,7 +26,10 @@
     (mousedown)="onMouseDown($event)" />
 
   <div class="sky-flyout-header sky-padding-squish-large" #flyoutHeader>
-    <div class="sky-flyout-header-content"></div>
+    <div class="sky-flyout-header-content">
+        <ng-container *ngTemplateOutlet="iteratorTemplate">
+        </ng-container>
+    </div>
     <div class="sky-flyout-header-buttons">
       <ng-container *ngTemplateOutlet="permalinkTemplate">
       </ng-container>
@@ -80,6 +83,23 @@
       class="sky-btn sky-btn-default sky-flyout-btn-primary-action"
       (click)="invokePrimaryAction()">
         {{ primaryActionLabel }}
+    </button>
+  </ng-template>
+</ng-template>
+
+<ng-template class="" #iteratorTemplate>
+  <ng-template [ngIf]="iteratorDetail">
+    <button
+      (click)="invokeIterator(true)"
+      class="sky-btn sky-btn-default"
+      [disabled]="iteratorDetail.previousIteratorIsDisabled">
+      <span class="ng-scope fa fa-chevron-up"></span>
+    </button>
+    <button
+      (click)="invokeIterator(false)"
+      class="sky-btn sky-btn-default"
+      [disabled]="iteratorDetail.nextIteratorIsDisabled">
+        <span class="ng-scope fa fa-chevron-down"></span>
     </button>
   </ng-template>
 </ng-template>
