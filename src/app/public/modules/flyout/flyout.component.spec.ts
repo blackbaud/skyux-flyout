@@ -16,7 +16,8 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyFlyoutConfig
+  SkyFlyoutConfig,
+  SkyFlyoutIterator
 } from './types';
 
 import {
@@ -81,13 +82,13 @@ describe('Flyout component', () => {
 
   function makeEvent(eventType: string, evtObj: any) {
     let evt = document.createEvent('MouseEvents');
-      evt.initMouseEvent(eventType, false, false, window, 0, 0, 0, evtObj.clientX,
-        0, false, false, false, false, 0, undefined);
+    evt.initMouseEvent(eventType, false, false, window, 0, 0, 0, evtObj.clientX,
+      0, false, false, false, false, 0, undefined);
     document.dispatchEvent(evt);
   }
 
   function getFlyoutElement(): HTMLElement {
-   return document.querySelector('.sky-flyout') as HTMLElement;
+    return document.querySelector('.sky-flyout') as HTMLElement;
   }
 
   function getFlyoutHandleElement(): HTMLElement {
@@ -104,6 +105,10 @@ describe('Flyout component', () => {
 
   function getPermalinkButtonElement(): HTMLElement {
     return document.querySelector('.sky-flyout-btn-permalink') as HTMLElement;
+  }
+
+  function getIteratorButtonElement(): NodeListOf<HTMLButtonElement> {
+    return document.querySelectorAll('.sky-flyout-btn-iterator') as NodeListOf<HTMLButtonElement>;
   }
 
   function getPrimaryActionButtonElement(): HTMLElement {
@@ -314,61 +319,61 @@ describe('Flyout component', () => {
   );
 
   it('should resize when handle is dragged', fakeAsync(() => {
-      openFlyout({});
-      const flyoutElement = getFlyoutElement();
-      const handleElement = getFlyoutHandleElement();
+    openFlyout({});
+    const flyoutElement = getFlyoutElement();
+    const handleElement = getFlyoutHandleElement();
 
-      expect(flyoutElement.style.width).toBe('500px');
+    expect(flyoutElement.style.width).toBe('500px');
 
-      let evt = document.createEvent('MouseEvents');
-      evt.initMouseEvent('mousedown', false, false, window, 0, 0, 0, 1000,
-        0, false, false, false, false, 0, undefined);
+    let evt = document.createEvent('MouseEvents');
+    evt.initMouseEvent('mousedown', false, false, window, 0, 0, 0, 1000,
+      0, false, false, false, false, 0, undefined);
 
-      handleElement.dispatchEvent(evt);
-      makeEvent('mousemove', { clientX: 1100 });
-      fixture.detectChanges();
-      tick();
-      expect(flyoutElement.style.width).toBe('400px');
-      makeEvent('mousemove', { clientX: 1000 });
-      fixture.detectChanges();
-      tick();
-      expect(flyoutElement.style.width).toBe('500px');
-      makeEvent('mouseup', {});
+    handleElement.dispatchEvent(evt);
+    makeEvent('mousemove', { clientX: 1100 });
+    fixture.detectChanges();
+    tick();
+    expect(flyoutElement.style.width).toBe('400px');
+    makeEvent('mousemove', { clientX: 1000 });
+    fixture.detectChanges();
+    tick();
+    expect(flyoutElement.style.width).toBe('500px');
+    makeEvent('mouseup', {});
   }));
 
   it('should resize flyout when range input is changed', fakeAsync(() => {
-      openFlyout({});
-      const flyoutElement = getFlyoutElement();
-      expect(flyoutElement.style.width).toBe('500px');
-      let resizeInput: any = flyoutElement.querySelector('.sky-flyout-resize-handle');
+    openFlyout({});
+    const flyoutElement = getFlyoutElement();
+    expect(flyoutElement.style.width).toBe('500px');
+    let resizeInput: any = flyoutElement.querySelector('.sky-flyout-resize-handle');
 
-      resizeInput.value = '400';
-      SkyAppTestUtility.fireDomEvent(resizeInput, 'input');
-      fixture.detectChanges();
-      tick();
-      expect(flyoutElement.style.width).toBe('400px');
+    resizeInput.value = '400';
+    SkyAppTestUtility.fireDomEvent(resizeInput, 'input');
+    fixture.detectChanges();
+    tick();
+    expect(flyoutElement.style.width).toBe('400px');
 
-      resizeInput.value = '500';
-      SkyAppTestUtility.fireDomEvent(resizeInput, 'input');
-      fixture.detectChanges();
-      tick();
-      expect(flyoutElement.style.width).toBe('500px');
+    resizeInput.value = '500';
+    SkyAppTestUtility.fireDomEvent(resizeInput, 'input');
+    fixture.detectChanges();
+    tick();
+    expect(flyoutElement.style.width).toBe('500px');
   }));
 
   it('should have correct aria-labels on resizing range input', fakeAsync(() => {
-      openFlyout({maxWidth: 1000, minWidth: 200});
-      const flyoutElement = getFlyoutElement();
-      let resizeInput: any = flyoutElement.querySelector('.sky-flyout-resize-handle');
+    openFlyout({ maxWidth: 1000, minWidth: 200 });
+    const flyoutElement = getFlyoutElement();
+    let resizeInput: any = flyoutElement.querySelector('.sky-flyout-resize-handle');
 
-      expect(flyoutElement.style.width).toBe('500px');
-      expect(resizeInput.getAttribute('aria-controls')).toBe(flyoutElement.id);
+    expect(flyoutElement.style.width).toBe('500px');
+    expect(resizeInput.getAttribute('aria-controls')).toBe(flyoutElement.id);
 
-      expect(resizeInput.getAttribute('aria-valuenow')).toBe('500');
-      expect(resizeInput.getAttribute('aria-valuemax')).toBe('1000');
-      expect(resizeInput.getAttribute('aria-valuemin')).toBe('200');
+    expect(resizeInput.getAttribute('aria-valuenow')).toBe('500');
+    expect(resizeInput.getAttribute('aria-valuemax')).toBe('1000');
+    expect(resizeInput.getAttribute('aria-valuemin')).toBe('200');
 
-      expect(resizeInput.getAttribute('max')).toBe('1000');
-      expect(resizeInput.getAttribute('min')).toBe('200');
+    expect(resizeInput.getAttribute('max')).toBe('1000');
+    expect(resizeInput.getAttribute('min')).toBe('200');
   }));
 
   it('should set iframe styles correctly during dragging', fakeAsync(() => {
@@ -392,33 +397,33 @@ describe('Flyout component', () => {
   }));
 
   it('should respect minimum and maximum when resizing', fakeAsync(() => {
-      openFlyout({ maxWidth: 1000, minWidth: 200});
-      const flyoutElement = getFlyoutElement();
-      const handleElement = getFlyoutHandleElement();
+    openFlyout({ maxWidth: 1000, minWidth: 200 });
+    const flyoutElement = getFlyoutElement();
+    const handleElement = getFlyoutHandleElement();
 
-      expect(flyoutElement.style.width).toBe('500px');
-      let evt = document.createEvent('MouseEvents');
-      evt.initMouseEvent('mousedown', false, false, window, 0, 0, 0, 1000,
-        0, false, false, false, false, 0, undefined);
-      handleElement.dispatchEvent(evt);
-      makeEvent('mousemove', { clientX: 500 });
-      fixture.detectChanges();
-      tick();
-      expect(flyoutElement.style.width).toBe('1000px');
-      makeEvent('mousemove', { clientX: 200 });
-      fixture.detectChanges();
-      tick();
-      expect(flyoutElement.style.width).toBe('1000px');
-      makeEvent('mousemove', { clientX: 1300 });
-      fixture.detectChanges();
-      tick();
-      expect(flyoutElement.style.width).toBe('200px');
-      makeEvent('mousemove', { clientX: 1400 });
-      fixture.detectChanges();
-      tick();
-      expect(flyoutElement.style.width).toBe('200px');
-      makeEvent('mouseup', {});
-    })
+    expect(flyoutElement.style.width).toBe('500px');
+    let evt = document.createEvent('MouseEvents');
+    evt.initMouseEvent('mousedown', false, false, window, 0, 0, 0, 1000,
+      0, false, false, false, false, 0, undefined);
+    handleElement.dispatchEvent(evt);
+    makeEvent('mousemove', { clientX: 500 });
+    fixture.detectChanges();
+    tick();
+    expect(flyoutElement.style.width).toBe('1000px');
+    makeEvent('mousemove', { clientX: 200 });
+    fixture.detectChanges();
+    tick();
+    expect(flyoutElement.style.width).toBe('1000px');
+    makeEvent('mousemove', { clientX: 1300 });
+    fixture.detectChanges();
+    tick();
+    expect(flyoutElement.style.width).toBe('200px');
+    makeEvent('mousemove', { clientX: 1400 });
+    fixture.detectChanges();
+    tick();
+    expect(flyoutElement.style.width).toBe('200px');
+    makeEvent('mouseup', {});
+  })
   );
 
   it('should not resize when handle is not clicked',
@@ -649,6 +654,75 @@ describe('Flyout component', () => {
         tick();
 
         expect(flyoutInstance.isOpen).toBeTruthy();
+      })
+    );
+  });
+
+  describe('iterator', () => {
+    it('should not show the iterator button if no iterator config properties are defined',
+      fakeAsync(() => {
+        openFlyout();
+        const iteratorButtons = getIteratorButtonElement();
+        expect(iteratorButtons.length).toEqual(0);
+      })
+    );
+
+    it('should show disabled iterator buttons if iterator config properties are set to disabled',
+      fakeAsync(() => {
+        openFlyout({
+          iterator: <SkyFlyoutIterator>{
+            previousIteratorIsDisabled: true,
+            nextIteratorIsDisabled: true,
+            previousIteratorButtonClick: () => undefined,
+            nextIteratorButtonClick: () => undefined
+          }
+        });
+        const iteratorButtons = getIteratorButtonElement();
+        expect(iteratorButtons.length).toEqual(2);
+        expect(iteratorButtons[0].disabled).toBeTruthy();
+        expect(iteratorButtons[1].disabled).toBeTruthy();
+      })
+    );
+
+    it('should call previousIteratorButtonClick callback if previous button is clicked',
+      fakeAsync(() => {
+        let callbackClicked: boolean = false;
+        openFlyout({
+          iterator: <SkyFlyoutIterator>{
+            previousIteratorIsDisabled: false,
+            nextIteratorIsDisabled: false,
+            previousIteratorButtonClick: () => {
+              callbackClicked = true;
+            },
+            nextIteratorButtonClick: () => undefined
+          }
+        });
+        const iteratorButtons = getIteratorButtonElement();
+        iteratorButtons[0].click();
+        fixture.detectChanges();
+        tick();
+        expect(callbackClicked).toBeTruthy();
+      })
+    );
+
+    it('should call nextIteratorButtonClick callback if next button is clicked',
+      fakeAsync(() => {
+        let callbackClicked: boolean = false;
+        openFlyout({
+          iterator: <SkyFlyoutIterator>{
+            previousIteratorIsDisabled: false,
+            nextIteratorIsDisabled: false,
+            previousIteratorButtonClick: () => undefined,
+            nextIteratorButtonClick: () => {
+              callbackClicked = true;
+            }
+          }
+        });
+        const iteratorButtons = getIteratorButtonElement();
+        iteratorButtons[1].click();
+        fixture.detectChanges();
+        tick();
+        expect(callbackClicked).toBeTruthy();
       })
     );
   });

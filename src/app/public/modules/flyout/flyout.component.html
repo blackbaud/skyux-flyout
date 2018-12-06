@@ -91,13 +91,13 @@
   <ng-template [ngIf]="iteratorDetail">
     <button
       (click)="invokeIterator(true)"
-      class="sky-btn sky-btn-default"
+      class="sky-btn sky-btn-default sky-flyout-btn-iterator"
       [disabled]="iteratorDetail.previousIteratorIsDisabled">
       <span class="ng-scope fa fa-chevron-up"></span>
     </button>
     <button
       (click)="invokeIterator(false)"
-      class="sky-btn sky-btn-default"
+      class="sky-btn sky-btn-default sky-flyout-btn-iterator"
       [disabled]="iteratorDetail.nextIteratorIsDisabled">
         <span class="ng-scope fa fa-chevron-down"></span>
     </button>
