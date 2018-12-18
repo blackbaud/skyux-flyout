@@ -652,4 +652,124 @@ describe('Flyout component', () => {
       })
     );
   });
+
+  describe('row iterator', () => {
+    function getIteratorButtons() {
+      return document.querySelectorAll('#row-iterators button') as NodeListOf<HTMLButtonElement>;
+    }
+
+    it('should not show iterator buttons if config.rowIterator is undefined', fakeAsync(() => {
+      openFlyout();
+      const iteratorButtons = getIteratorButtons();
+      expect(iteratorButtons.length).toEqual(0);
+    }));
+
+    it('should show iterator buttons if config.rowIterator is defined', fakeAsync(() => {
+      openFlyout({
+        rowIterator: {
+          previousIsDisabled: false,
+          nextIsDisabled: false
+        }
+      });
+      const iteratorButtons = getIteratorButtons();
+      expect(iteratorButtons.length).toEqual(2);
+      expect(iteratorButtons[0].disabled).toBeFalsy();
+      expect(iteratorButtons[1].disabled).toBeFalsy();
+    }));
+
+    it('should disable iterator buttons if config.rowIterator contains truthy isDisabled properties', fakeAsync(() => {
+      openFlyout({
+        rowIterator: {
+          previousIsDisabled: true,
+          nextIsDisabled: true
+        }
+      });
+      const iteratorButtons = getIteratorButtons();
+      expect(iteratorButtons.length).toEqual(2);
+      expect(iteratorButtons[0].disabled).toBeTruthy();
+      expect(iteratorButtons[1].disabled).toBeTruthy();
+    }));
+
+    it('should emit if previous button is clicked', fakeAsync(() => {
+      let previousCalled = false;
+      let nextCalled = false;
+
+      const flyoutInstance = openFlyout({
+        rowIterator: {
+          previousIsDisabled: false,
+          nextIsDisabled: false
+        }
+      });
+
+      flyoutInstance.onRowIteratorPreviousClick.subscribe(() => {
+        previousCalled = true;
+      });
+
+      flyoutInstance.onRowIteratorNextClick.subscribe(() => {
+        nextCalled = true;
+      });
+
+      const iteratorButtons = getIteratorButtons();
+      iteratorButtons[0].click();
+      fixture.detectChanges();
+      tick();
+      expect(previousCalled).toEqual(true);
+      expect(nextCalled).toEqual(false);
+    }));
+
+    it('should emit if next button is clicked', fakeAsync(() => {
+      let previousCalled = false;
+      let nextCalled = false;
+
+      const flyoutInstance = openFlyout({
+        rowIterator: {
+          previousIsDisabled: false,
+          nextIsDisabled: false
+        }
+      });
+
+      flyoutInstance.onRowIteratorPreviousClick.subscribe(() => {
+        previousCalled = true;
+      });
+
+      flyoutInstance.onRowIteratorNextClick.subscribe(() => {
+        nextCalled = true;
+      });
+
+      const iteratorButtons = getIteratorButtons();
+      iteratorButtons[1].click();
+      fixture.detectChanges();
+      tick();
+      expect(previousCalled).toEqual(false);
+      expect(nextCalled).toEqual(true);
+    }));
+
+    it('should not emit if iterator buttons are clicked when config properties are disabled', fakeAsync(() => {
+      let previousCalled = false;
+      let nextCalled = false;
+
+      const flyoutInstance = openFlyout({
+        rowIterator: {
+          previousIsDisabled: true,
+          nextIsDisabled: true
+        }
+      });
+
+      flyoutInstance.onRowIteratorPreviousClick.subscribe(() => {
+        previousCalled = true;
+      });
+
+      flyoutInstance.onRowIteratorNextClick.subscribe(() => {
+        nextCalled = true;
+      });
+
+      const iteratorButtons = getIteratorButtons();
+      iteratorButtons[0].click();
+      iteratorButtons[1].click();
+      fixture.detectChanges();
+      tick();
+      expect(previousCalled).toEqual(false);
+      expect(nextCalled).toEqual(false);
+    }));
+  });
 });

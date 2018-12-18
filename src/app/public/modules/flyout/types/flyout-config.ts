@@ -6,6 +6,10 @@ import {
   SkyFlyoutPermalink
 } from './flyout-permalink';
 
+import {
+  SkyFlyoutRowIterator
+} from './flyout-row-iterator';
+
 export interface SkyFlyoutConfig {
   ariaDescribedBy?: string;
   ariaLabelledBy?: string;
@@ -16,4 +20,5 @@ export interface SkyFlyoutConfig {
   permalink?: SkyFlyoutPermalink;
   primaryAction?: SkyFlyoutAction;
   providers?: any[];
+  rowIterator?: SkyFlyoutRowIterator;
 }

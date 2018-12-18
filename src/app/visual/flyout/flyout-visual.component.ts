@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 
 import {
-  SkyFlyoutService
+  SkyFlyoutService, SkyFlyoutInstance
 } from '../../public';
 
 import {
@@ -27,6 +27,8 @@ export class FlyoutVisualComponent {
     { id: '4', name: 'Janet' }
   ];
 
+  public flyout: SkyFlyoutInstance<any>;
+
   constructor(
     private flyoutService: SkyFlyoutService
   ) { }
@@ -37,6 +39,27 @@ export class FlyoutVisualComponent {
         provide: FlyoutDemoContext,
         useValue: record
       }]
+    });
+  }
+
+  public openFlyoutWithRowIterators(record: any, previousIsDisabled: boolean, nextIsDisabled: boolean) {
+    this.flyout = this.flyoutService.open(FlyoutDemoComponent, {
+      providers: [{
+        provide: FlyoutDemoContext,
+        useValue: record
+      }],
+      rowIterator: {
+        previousIsDisabled: previousIsDisabled,
+        nextIsDisabled: nextIsDisabled
+      }
+    });
+
+    this.flyout.onRowIteratorPreviousClick.subscribe(() => {
+      console.log('previous clicked');
+    });
+
+    this.flyout.onRowIteratorNextClick.subscribe(() => {
+      console.log('next clicked');
     });
   }
 }

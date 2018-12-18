@@ -16,6 +16,10 @@ export class SkyFlyoutInstance<T> {
   public componentInstance: T;
   public isOpen = true;
 
+  public onRowIteratorPreviousClick = new EventEmitter<void>();
+
+  public onRowIteratorNextClick = new EventEmitter<void>();
+
   // Used to communicate with the host component.
   public get hostController(): Subject<SkyFlyoutMessage> {
     return this._hostController;

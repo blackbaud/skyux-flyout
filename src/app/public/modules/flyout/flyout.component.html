@@ -26,8 +26,33 @@
     (mousedown)="onMouseDown($event)" />
 
   <div class="sky-flyout-header sky-padding-squish-large" #flyoutHeader>
-    <div class="sky-flyout-header-content"></div>
-    <div class="sky-flyout-header-buttons">
+    <div class="sky-flyout-header-content">
+
+      <div *ngIf="config?.rowIterator"
+        id="row-iterators"
+      >
+        <button
+          class="sky-btn sky-btn-default"
+          [disabled]="config.rowIterator.previousIsDisabled"
+          (click)="onIteratorPreviousClick()"
+        >
+          <sky-icon
+            icon="chevron-up"
+          ></sky-icon>
+        </button>
+        <button
+          class="sky-btn sky-btn-default"
+          [disabled]="config.rowIterator.nextIsDisabled"
+          (click)="onIteratorNextClick()"
+        >
+        <sky-icon
+          icon="chevron-down"
+        ></sky-icon>
+        </button>
+      </div>
+
+    </div>
+      <div class="sky-flyout-header-buttons">
       <ng-container *ngTemplateOutlet="permalinkTemplate">
       </ng-container>
       <ng-container *ngTemplateOutlet="primaryActionTemplate">

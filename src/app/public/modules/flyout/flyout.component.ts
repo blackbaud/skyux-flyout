@@ -251,6 +251,18 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.adapter.toggleIframePointerEvents(true);
   }
 
+  public onIteratorPreviousClick() {
+    if (this.config.rowIterator && !this.config.rowIterator.previousIsDisabled) {
+      this.flyoutInstance.onRowIteratorPreviousClick.emit();
+    }
+  }
+
+  public onIteratorNextClick() {
+    if (this.config.rowIterator && !this.config.rowIterator.nextIsDisabled) {
+      this.flyoutInstance.onRowIteratorNextClick.emit();
+    }
+  }
+
   private createFlyoutInstance<T>(component: T): SkyFlyoutInstance<T> {
     const instance = new SkyFlyoutInstance<T>();
 
