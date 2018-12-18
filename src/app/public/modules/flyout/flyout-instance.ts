@@ -1,5 +1,6 @@
 import {
-  EventEmitter
+  EventEmitter,
+  OnDestroy
 } from '@angular/core';
 
 import {
@@ -11,14 +12,15 @@ import {
   SkyFlyoutMessageType
 } from './types';
 
-export class SkyFlyoutInstance<T> {
+export class SkyFlyoutInstance<T> implements OnDestroy {
   public closed = new EventEmitter<void>();
   public componentInstance: T;
   public isOpen = true;
 
-  public onRowIteratorPreviousClick = new EventEmitter<void>();
-
-  public onRowIteratorNextClick = new EventEmitter<void>();
+  public iterator = {
+    previousButtonClick: new EventEmitter<void>(),
+    nextButtonClick: new EventEmitter<void>()
+  };
 
   // Used to communicate with the host component.
   public get hostController(): Subject<SkyFlyoutMessage> {
@@ -31,6 +33,11 @@ export class SkyFlyoutInstance<T> {
     this.closed.subscribe(() => {
       this.isOpen = false;
     });
+  }
+
+  public ngOnDestroy() {
+    this.iterator.previousButtonClick.complete();
+    this.iterator.nextButtonClick.complete();
   }
 
   public close() {

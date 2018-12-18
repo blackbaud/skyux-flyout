@@ -658,17 +658,17 @@ describe('Flyout component', () => {
       return document.querySelectorAll('#row-iterators button') as NodeListOf<HTMLButtonElement>;
     }
 
-    it('should not show iterator buttons if config.rowIterator is undefined', fakeAsync(() => {
+    it('should not show iterator buttons if config.iterator is undefined', fakeAsync(() => {
       openFlyout();
       const iteratorButtons = getIteratorButtons();
       expect(iteratorButtons.length).toEqual(0);
     }));
 
-    it('should show iterator buttons if config.rowIterator is defined', fakeAsync(() => {
+    it('should show iterator buttons if config.iterator is defined', fakeAsync(() => {
       openFlyout({
-        rowIterator: {
-          previousIsDisabled: false,
-          nextIsDisabled: false
+        iterator: {
+          previousButtonDisabled: false,
+          nextButtonDisabled: false
         }
       });
       const iteratorButtons = getIteratorButtons();
@@ -677,11 +677,11 @@ describe('Flyout component', () => {
       expect(iteratorButtons[1].disabled).toBeFalsy();
     }));
 
-    it('should disable iterator buttons if config.rowIterator contains truthy isDisabled properties', fakeAsync(() => {
+    it('should disable iterator buttons if config.iterator contains truthy isDisabled properties', fakeAsync(() => {
       openFlyout({
-        rowIterator: {
-          previousIsDisabled: true,
-          nextIsDisabled: true
+        iterator: {
+          previousButtonDisabled: true,
+          nextButtonDisabled: true
         }
       });
       const iteratorButtons = getIteratorButtons();
@@ -695,17 +695,17 @@ describe('Flyout component', () => {
       let nextCalled = false;
 
       const flyoutInstance = openFlyout({
-        rowIterator: {
-          previousIsDisabled: false,
-          nextIsDisabled: false
+        iterator: {
+          previousButtonDisabled: false,
+          nextButtonDisabled: false
         }
       });
 
-      flyoutInstance.onRowIteratorPreviousClick.subscribe(() => {
+      flyoutInstance.iterator.previousButtonClick.subscribe(() => {
         previousCalled = true;
       });
 
-      flyoutInstance.onRowIteratorNextClick.subscribe(() => {
+      flyoutInstance.iterator.nextButtonClick.subscribe(() => {
         nextCalled = true;
       });
 
@@ -722,17 +722,17 @@ describe('Flyout component', () => {
       let nextCalled = false;
 
       const flyoutInstance = openFlyout({
-        rowIterator: {
-          previousIsDisabled: false,
-          nextIsDisabled: false
+        iterator: {
+          previousButtonDisabled: false,
+          nextButtonDisabled: false
         }
       });
 
-      flyoutInstance.onRowIteratorPreviousClick.subscribe(() => {
+      flyoutInstance.iterator.previousButtonClick.subscribe(() => {
         previousCalled = true;
       });
 
-      flyoutInstance.onRowIteratorNextClick.subscribe(() => {
+      flyoutInstance.iterator.nextButtonClick.subscribe(() => {
         nextCalled = true;
       });
 
@@ -749,17 +749,17 @@ describe('Flyout component', () => {
       let nextCalled = false;
 
       const flyoutInstance = openFlyout({
-        rowIterator: {
-          previousIsDisabled: true,
-          nextIsDisabled: true
+        iterator: {
+          previousButtonDisabled: true,
+          nextButtonDisabled: true
         }
       });
 
-      flyoutInstance.onRowIteratorPreviousClick.subscribe(() => {
+      flyoutInstance.iterator.previousButtonClick.subscribe(() => {
         previousCalled = true;
       });
 
-      flyoutInstance.onRowIteratorNextClick.subscribe(() => {
+      flyoutInstance.iterator.nextButtonClick.subscribe(() => {
         nextCalled = true;
       });
 

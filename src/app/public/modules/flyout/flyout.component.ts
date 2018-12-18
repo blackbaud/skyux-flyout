@@ -252,14 +252,14 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public onIteratorPreviousClick() {
-    if (this.config.rowIterator && !this.config.rowIterator.previousIsDisabled) {
-      this.flyoutInstance.onRowIteratorPreviousClick.emit();
+    if (this.config.iterator && !this.config.iterator.previousButtonDisabled) {
+      this.flyoutInstance.iterator.previousButtonClick.emit();
     }
   }
 
   public onIteratorNextClick() {
-    if (this.config.rowIterator && !this.config.rowIterator.nextIsDisabled) {
-      this.flyoutInstance.onRowIteratorNextClick.emit();
+    if (this.config.iterator && !this.config.iterator.nextButtonDisabled) {
+      this.flyoutInstance.iterator.nextButtonClick.emit();
     }
   }
 

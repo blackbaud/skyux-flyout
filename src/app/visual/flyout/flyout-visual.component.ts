@@ -1,9 +1,15 @@
 import {
-  Component
+  Component,
+  OnDestroy
 } from '@angular/core';
 
 import {
-  SkyFlyoutService, SkyFlyoutInstance
+  Subscription
+} from 'rxjs';
+
+import {
+  SkyFlyoutInstance,
+  SkyFlyoutService
 } from '../../public';
 
 import {
@@ -19,7 +25,7 @@ import {
   templateUrl: './flyout-visual.component.html',
   styleUrls: ['./flyout-visual.component.scss']
 })
-export class FlyoutVisualComponent {
+export class FlyoutVisualComponent implements OnDestroy {
   public users: {id: string, name: string}[] = [
     { id: '1', name: 'Sally' },
     { id: '2', name: 'John' },
@@ -29,9 +35,17 @@ export class FlyoutVisualComponent {
 
   public flyout: SkyFlyoutInstance<any>;
 
+  private subscriptions: Subscription[] = [];
+
   constructor(
     private flyoutService: SkyFlyoutService
   ) { }
+
+  public ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
+    });
+  }
 
   public openFlyout(record: any) {
     this.flyoutService.open(FlyoutDemoComponent, {
@@ -42,24 +56,28 @@ export class FlyoutVisualComponent {
     });
   }
 
-  public openFlyoutWithRowIterators(record: any, previousIsDisabled: boolean, nextIsDisabled: boolean) {
+  public openFlyoutWithIterators(record: any, previousButtonDisabled: boolean, nextButtonDisabled: boolean) {
     this.flyout = this.flyoutService.open(FlyoutDemoComponent, {
       providers: [{
         provide: FlyoutDemoContext,
         useValue: record
       }],
-      rowIterator: {
-        previousIsDisabled: previousIsDisabled,
-        nextIsDisabled: nextIsDisabled
+      iterator: {
+        previousButtonDisabled: previousButtonDisabled,
+        nextButtonDisabled: nextButtonDisabled
       }
     });
 
-    this.flyout.onRowIteratorPreviousClick.subscribe(() => {
-      console.log('previous clicked');
-    });
+    this.subscriptions.push(
+      this.flyout.iterator.previousButtonClick.subscribe(() => {
+        console.log('previous clicked');
+      })
+    );
 
-    this.flyout.onRowIteratorNextClick.subscribe(() => {
-      console.log('next clicked');
-    });
+    this.subscriptions.push(
+      this.flyout.iterator.nextButtonClick.subscribe(() => {
+        console.log('next clicked');
+      })
+    );
   }
 }

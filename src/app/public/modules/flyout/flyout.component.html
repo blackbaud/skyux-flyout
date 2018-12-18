@@ -28,12 +28,12 @@
   <div class="sky-flyout-header sky-padding-squish-large" #flyoutHeader>
     <div class="sky-flyout-header-content">
 
-      <div *ngIf="config?.rowIterator"
+      <div *ngIf="config?.iterator"
         id="row-iterators"
       >
         <button
           class="sky-btn sky-btn-default"
-          [disabled]="config.rowIterator.previousIsDisabled"
+          [disabled]="config.iterator.previousButtonDisabled"
           (click)="onIteratorPreviousClick()"
         >
           <sky-icon
@@ -42,7 +42,7 @@
         </button>
         <button
           class="sky-btn sky-btn-default"
-          [disabled]="config.rowIterator.nextIsDisabled"
+          [disabled]="config.iterator.nextButtonDisabled"
           (click)="onIteratorNextClick()"
         >
         <sky-icon
