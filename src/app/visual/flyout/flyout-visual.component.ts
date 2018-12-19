@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 
 import {
-  Subscription
+  Subscription, Subject, Observable
 } from 'rxjs';
 
 import {
@@ -35,16 +35,15 @@ export class FlyoutVisualComponent implements OnDestroy {
 
   public flyout: SkyFlyoutInstance<any>;
 
-  private subscriptions: Subscription[] = [];
+  private ngUnsubscribe = new Subject();
 
   constructor(
     private flyoutService: SkyFlyoutService
   ) { }
 
   public ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription: Subscription) => {
-      subscription.unsubscribe();
-    });
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   public openFlyout(record: any) {
@@ -68,16 +67,16 @@ export class FlyoutVisualComponent implements OnDestroy {
       }
     });
 
-    this.subscriptions.push(
-      this.flyout.iterator.previousButtonClick.subscribe(() => {
+    this.flyout.iterator.previousButtonClick
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(() => {
         console.log('previous clicked');
-      })
-    );
+      });
 
-    this.subscriptions.push(
-      this.flyout.iterator.nextButtonClick.subscribe(() => {
+    this.flyout.iterator.nextButtonClick
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(() => {
         console.log('next clicked');
-      })
-    );
+      });
   }
 }
