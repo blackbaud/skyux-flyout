@@ -33,6 +33,7 @@
       >
         <button
           class="sky-btn sky-btn-default"
+          [attr.aria-label]="'skyux_flyout_iterator_previous_button' | skyLibResources"
           [disabled]="config.iterator.previousButtonDisabled"
           (click)="onIteratorPreviousClick()"
         >
@@ -42,6 +43,7 @@
         </button>
         <button
           class="sky-btn sky-btn-default"
+          [attr.aria-label]="'skyux_flyout_iterator_next_button' | skyLibResources"
           [disabled]="config.iterator.nextButtonDisabled"
           (click)="onIteratorNextClick()"
         >
