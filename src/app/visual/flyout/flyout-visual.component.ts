@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 
 import {
-  Subscription, Subject, Observable
+  Subject
 } from 'rxjs';
 
 import {
