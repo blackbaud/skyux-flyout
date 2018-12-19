@@ -39,12 +39,17 @@ import {
 } from './flyout.component';
 
 import {
+  SkyFlyoutIteratorComponent
+} from './flyout-iterator.component';
+
+import {
   SkyFlyoutService
 } from './flyout.service';
 
 @NgModule({
   declarations: [
-    SkyFlyoutComponent
+    SkyFlyoutComponent,
+    SkyFlyoutIteratorComponent
   ],
   providers: [
     SkyFlyoutAdapterService,
@@ -60,7 +65,8 @@ import {
     SkyFlyoutResourcesModule
   ],
   exports: [
-    SkyFlyoutComponent
+    SkyFlyoutComponent,
+    SkyFlyoutIteratorComponent
   ],
   entryComponents: [
     SkyFlyoutComponent

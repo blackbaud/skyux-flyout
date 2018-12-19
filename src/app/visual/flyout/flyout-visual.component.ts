@@ -5,7 +5,7 @@ import {
 
 import {
   Subject
-} from 'rxjs';
+} from 'rxjs/Subject';
 
 import {
   SkyFlyoutInstance,
