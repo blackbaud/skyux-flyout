@@ -29,4 +29,14 @@ describe('Flyout instance', () => {
       type: SkyFlyoutMessageType.Close
     });
   });
+
+  it('should complete subscribes on destroy', () => {
+    const flyout = new SkyFlyoutInstance();
+    const previousSpy = spyOn(flyout.iterator.previousButtonClick, 'complete').and.callThrough();
+    const nextSpy = spyOn(flyout.iterator.nextButtonClick, 'complete').and.callThrough();
+
+    flyout.ngOnDestroy();
+    expect(previousSpy).toHaveBeenCalled();
+    expect(nextSpy).toHaveBeenCalled();
+  });
 });
