@@ -256,15 +256,11 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public onIteratorPreviousButtonClick() {
-    if (this.config.showIterator && !this.config.iteratorPreviousButtonDisabled) {
-      this.flyoutInstance.iteratorPreviousButtonClick.emit();
-    }
+    this.flyoutInstance.iteratorPreviousButtonClick.emit();
   }
 
   public onIteratorNextButtonClick() {
-    if (this.config.showIterator && !this.config.iteratorNextButtonDisabled) {
-      this.flyoutInstance.iteratorNextButtonClick.emit();
-    }
+    this.flyoutInstance.iteratorNextButtonClick.emit();
   }
 
   private createFlyoutInstance<T>(component: T): SkyFlyoutInstance<T> {
