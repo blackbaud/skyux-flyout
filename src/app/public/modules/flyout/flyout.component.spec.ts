@@ -11,10 +11,6 @@ import {
 } from '@angular/core/testing';
 
 import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
-
-import {
   expect,
   SkyAppTestUtility
 } from '@skyux-sdk/testing';
@@ -137,8 +133,7 @@ describe('Flyout component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SkyFlyoutFixturesModule,
-        NoopAnimationsModule
+        SkyFlyoutFixturesModule
       ]
     });
 
