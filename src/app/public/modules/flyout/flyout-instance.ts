@@ -17,19 +17,23 @@ export class SkyFlyoutInstance<T> implements OnDestroy {
   public componentInstance: T;
   public isOpen = true;
 
-  public iteratorPreviousButtonClick = new EventEmitter<void>();
+  public get iteratorNextButtonClick(): EventEmitter<void> {
+    return this._iteratorNextButtonClick;
+  }
 
-  public iteratorNextButtonClick = new EventEmitter<void>();
+  public get iteratorPreviousButtonClick(): EventEmitter<void> {
+    return this._iteratorPreviousButtonClick;
+  }
 
   public set iteratorNextButtonDisabled(newValue: boolean) {
     this._iteratorNextButtonDisabled = newValue;
     if (newValue) {
       this.hostController.next({
-        type: SkyFlyoutMessageType.IteratorNextButtonDisabled
+        type: SkyFlyoutMessageType.DisableIteratorNextButton
       });
     } else {
       this.hostController.next({
-        type: SkyFlyoutMessageType.IteratorNextButtonEnabled
+        type: SkyFlyoutMessageType.EnableIteratorNextButton
       });
     }
   }
@@ -42,11 +46,11 @@ export class SkyFlyoutInstance<T> implements OnDestroy {
     this._iteratorPreviousButtonDisabled = newValue;
     if (newValue) {
       this.hostController.next({
-        type: SkyFlyoutMessageType.IteratorPreviousButtonDisabled
+        type: SkyFlyoutMessageType.DisableIteratorPreviousButton
       });
     } else {
       this.hostController.next({
-        type: SkyFlyoutMessageType.IteratorPreviousButtonEnabled
+        type: SkyFlyoutMessageType.EnableIteratorPreviousButton
       });
     }
   }
@@ -54,6 +58,10 @@ export class SkyFlyoutInstance<T> implements OnDestroy {
   public get iteratorPreviousButtonDisabled(): boolean {
     return this._iteratorPreviousButtonDisabled;
   }
+
+  private _iteratorNextButtonClick = new EventEmitter<void>();
+
+  private _iteratorPreviousButtonClick = new EventEmitter<void>();
 
   private _iteratorNextButtonDisabled = false;
 
@@ -73,8 +81,8 @@ export class SkyFlyoutInstance<T> implements OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.iteratorPreviousButtonClick.complete();
-    this.iteratorNextButtonClick.complete();
+    this._iteratorPreviousButtonClick.complete();
+    this._iteratorNextButtonClick.complete();
   }
 
   public close() {

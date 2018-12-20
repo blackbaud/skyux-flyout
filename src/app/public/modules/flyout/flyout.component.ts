@@ -295,19 +295,19 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       this.isOpening = false;
       break;
 
-      case SkyFlyoutMessageType.IteratorNextButtonEnabled:
+      case SkyFlyoutMessageType.EnableIteratorNextButton:
       this.config.iteratorNextButtonDisabled = false;
       break;
 
-      case SkyFlyoutMessageType.IteratorPreviousButtonEnabled:
+      case SkyFlyoutMessageType.EnableIteratorPreviousButton:
       this.config.iteratorPreviousButtonDisabled = false;
       break;
 
-      case SkyFlyoutMessageType.IteratorNextButtonDisabled:
+      case SkyFlyoutMessageType.DisableIteratorNextButton:
       this.config.iteratorNextButtonDisabled = true;
       break;
 
-      case SkyFlyoutMessageType.IteratorPreviousButtonDisabled:
+      case SkyFlyoutMessageType.DisableIteratorPreviousButton:
       this.config.iteratorPreviousButtonDisabled = true;
       break;
     }

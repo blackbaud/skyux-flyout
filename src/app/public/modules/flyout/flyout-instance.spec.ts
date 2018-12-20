@@ -36,12 +36,12 @@ describe('Flyout instance', () => {
 
     flyout.iteratorNextButtonDisabled = true;
     expect(spy).toHaveBeenCalledWith({
-      type: SkyFlyoutMessageType.IteratorNextButtonDisabled
+      type: SkyFlyoutMessageType.DisableIteratorNextButton
     });
 
     flyout.iteratorNextButtonDisabled = false;
     expect(spy).toHaveBeenCalledWith({
-      type: SkyFlyoutMessageType.IteratorNextButtonEnabled
+      type: SkyFlyoutMessageType.EnableIteratorNextButton
     });
   });
 
@@ -51,12 +51,12 @@ describe('Flyout instance', () => {
 
     flyout.iteratorPreviousButtonDisabled = true;
     expect(spy).toHaveBeenCalledWith({
-      type: SkyFlyoutMessageType.IteratorPreviousButtonDisabled
+      type: SkyFlyoutMessageType.DisableIteratorPreviousButton
     });
 
     flyout.iteratorPreviousButtonDisabled = false;
     expect(spy).toHaveBeenCalledWith({
-      type: SkyFlyoutMessageType.IteratorPreviousButtonEnabled
+      type: SkyFlyoutMessageType.EnableIteratorPreviousButton
     });
   });
 

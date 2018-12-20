@@ -65,8 +65,7 @@ import {
     SkyFlyoutResourcesModule
   ],
   exports: [
-    SkyFlyoutComponent,
-    SkyFlyoutIteratorComponent
+    SkyFlyoutComponent
   ],
   entryComponents: [
     SkyFlyoutComponent
