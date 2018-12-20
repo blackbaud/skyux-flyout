@@ -61,19 +61,18 @@ export class FlyoutVisualComponent implements OnDestroy {
         provide: FlyoutDemoContext,
         useValue: record
       }],
-      iterator: {
-        previousButtonDisabled: previousButtonDisabled,
-        nextButtonDisabled: nextButtonDisabled
-      }
+      showIterator: true,
+      iteratorPreviousButtonDisabled: previousButtonDisabled,
+      iteratorNextButtonDisabled: nextButtonDisabled
     });
 
-    this.flyout.iterator.previousButtonClick
+    this.flyout.iteratorPreviousButtonClick
       .takeUntil(this.ngUnsubscribe)
       .subscribe(() => {
         console.log('previous clicked');
       });
 
-    this.flyout.iterator.nextButtonClick
+    this.flyout.iteratorNextButtonClick
       .takeUntil(this.ngUnsubscribe)
       .subscribe(() => {
         console.log('next clicked');

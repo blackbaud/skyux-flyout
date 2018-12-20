@@ -167,6 +167,10 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.config.minWidth = this.config.minWidth || 320;
     this.config.maxWidth = this.config.maxWidth || this.config.defaultWidth;
 
+    this.config.showIterator = this.config.showIterator || false;
+    this.config.iteratorNextButtonDisabled = this.config.iteratorNextButtonDisabled || false;
+    this.config.iteratorPreviousButtonDisabled = this.config.iteratorPreviousButtonDisabled || false;
+
     const factory = this.resolver.resolveComponentFactory(component);
     const providers = ReflectiveInjector.resolve(this.config.providers);
     const injector = ReflectiveInjector.fromResolvedProviders(providers, this.injector);
@@ -251,15 +255,15 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.adapter.toggleIframePointerEvents(true);
   }
 
-  public onIteratorPreviousClick() {
-    if (this.config.iterator && !this.config.iterator.previousButtonDisabled) {
-      this.flyoutInstance.iterator.previousButtonClick.emit();
+  public onIteratorPreviousButtonClick() {
+    if (this.config.showIterator && !this.config.iteratorPreviousButtonDisabled) {
+      this.flyoutInstance.iteratorPreviousButtonClick.emit();
     }
   }
 
-  public onIteratorNextClick() {
-    if (this.config.iterator && !this.config.iterator.nextButtonDisabled) {
-      this.flyoutInstance.iterator.nextButtonClick.emit();
+  public onIteratorNextButtonClick() {
+    if (this.config.showIterator && !this.config.iteratorNextButtonDisabled) {
+      this.flyoutInstance.iteratorNextButtonClick.emit();
     }
   }
 
@@ -289,6 +293,22 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       case SkyFlyoutMessageType.Close:
       this.isOpen = true;
       this.isOpening = false;
+      break;
+
+      case SkyFlyoutMessageType.IteratorNextButtonEnabled:
+      this.config.iteratorNextButtonDisabled = false;
+      break;
+
+      case SkyFlyoutMessageType.IteratorPreviousButtonEnabled:
+      this.config.iteratorPreviousButtonDisabled = false;
+      break;
+
+      case SkyFlyoutMessageType.IteratorNextButtonDisabled:
+      this.config.iteratorNextButtonDisabled = true;
+      break;
+
+      case SkyFlyoutMessageType.IteratorPreviousButtonDisabled:
+      this.config.iteratorPreviousButtonDisabled = true;
       break;
     }
 

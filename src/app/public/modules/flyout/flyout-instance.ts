@@ -17,10 +17,47 @@ export class SkyFlyoutInstance<T> implements OnDestroy {
   public componentInstance: T;
   public isOpen = true;
 
-  public iterator = {
-    previousButtonClick: new EventEmitter<void>(),
-    nextButtonClick: new EventEmitter<void>()
-  };
+  public iteratorPreviousButtonClick = new EventEmitter<void>();
+
+  public iteratorNextButtonClick = new EventEmitter<void>();
+
+  public set iteratorNextButtonDisabled(newValue: boolean) {
+    this._iteratorNextButtonDisabled = newValue;
+    if (newValue) {
+      this.hostController.next({
+        type: SkyFlyoutMessageType.IteratorNextButtonDisabled
+      });
+    } else {
+      this.hostController.next({
+        type: SkyFlyoutMessageType.IteratorNextButtonEnabled
+      });
+    }
+  }
+
+  public get iteratorNextButtonDisabled(): boolean {
+    return this._iteratorNextButtonDisabled;
+  }
+
+  public set iteratorPreviousButtonDisabled(newValue: boolean) {
+    this._iteratorPreviousButtonDisabled = newValue;
+    if (newValue) {
+      this.hostController.next({
+        type: SkyFlyoutMessageType.IteratorPreviousButtonDisabled
+      });
+    } else {
+      this.hostController.next({
+        type: SkyFlyoutMessageType.IteratorPreviousButtonEnabled
+      });
+    }
+  }
+
+  public get iteratorPreviousButtonDisabled(): boolean {
+    return this._iteratorPreviousButtonDisabled;
+  }
+
+  private _iteratorNextButtonDisabled = false;
+
+  private _iteratorPreviousButtonDisabled = false;
 
   // Used to communicate with the host component.
   public get hostController(): Subject<SkyFlyoutMessage> {
@@ -36,8 +73,8 @@ export class SkyFlyoutInstance<T> implements OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.iterator.previousButtonClick.complete();
-    this.iterator.nextButtonClick.complete();
+    this.iteratorPreviousButtonClick.complete();
+    this.iteratorNextButtonClick.complete();
   }
 
   public close() {

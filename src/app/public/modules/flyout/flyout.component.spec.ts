@@ -653,23 +653,28 @@ describe('Flyout component', () => {
     );
   });
 
-  describe('row iterator', () => {
+  describe('iterator', () => {
     function getIteratorButtons() {
-      return document.querySelectorAll('#row-iterators button') as NodeListOf<HTMLButtonElement>;
+      return document.querySelectorAll('#iterators button') as NodeListOf<HTMLButtonElement>;
     }
 
-    it('should not show iterator buttons if config.iterator is undefined', fakeAsync(() => {
+    it('should not show iterator buttons if config.showIterator is undefined', fakeAsync(() => {
       openFlyout();
       const iteratorButtons = getIteratorButtons();
       expect(iteratorButtons.length).toEqual(0);
     }));
 
-    it('should show iterator buttons if config.iterator is defined', fakeAsync(() => {
+    it('should not show iterator buttons if config.showIterator is false', fakeAsync(() => {
       openFlyout({
-        iterator: {
-          previousButtonDisabled: false,
-          nextButtonDisabled: false
-        }
+        showIterator: false
+      });
+      const iteratorButtons = getIteratorButtons();
+      expect(iteratorButtons.length).toEqual(0);
+    }));
+
+    it('should show iterator buttons if config.showIterator is true', fakeAsync(() => {
+      openFlyout({
+        showIterator: true
       });
       const iteratorButtons = getIteratorButtons();
       expect(iteratorButtons.length).toEqual(2);
@@ -677,12 +682,11 @@ describe('Flyout component', () => {
       expect(iteratorButtons[1].disabled).toBeFalsy();
     }));
 
-    it('should disable iterator buttons if config.iterator contains truthy isDisabled properties', fakeAsync(() => {
+    it('should disable iterator buttons if config disabled properties are true', fakeAsync(() => {
       openFlyout({
-        iterator: {
-          previousButtonDisabled: true,
-          nextButtonDisabled: true
-        }
+        showIterator: true,
+        iteratorPreviousButtonDisabled: true,
+        iteratorNextButtonDisabled: true
       });
       const iteratorButtons = getIteratorButtons();
       expect(iteratorButtons.length).toEqual(2);
@@ -690,22 +694,31 @@ describe('Flyout component', () => {
       expect(iteratorButtons[1].disabled).toBeTruthy();
     }));
 
+    it('should enable iterator buttons if disabled properties are false', fakeAsync(() => {
+      openFlyout({
+        showIterator: true,
+        iteratorPreviousButtonDisabled: false,
+        iteratorNextButtonDisabled: false
+      });
+      const iteratorButtons = getIteratorButtons();
+      expect(iteratorButtons.length).toEqual(2);
+      expect(iteratorButtons[0].disabled).toBeFalsy();
+      expect(iteratorButtons[1].disabled).toBeFalsy();
+    }));
+
     it('should emit if previous button is clicked', fakeAsync(() => {
       let previousCalled = false;
       let nextCalled = false;
 
       const flyoutInstance = openFlyout({
-        iterator: {
-          previousButtonDisabled: false,
-          nextButtonDisabled: false
-        }
+        showIterator: true
       });
 
-      flyoutInstance.iterator.previousButtonClick.subscribe(() => {
+      flyoutInstance.iteratorPreviousButtonClick.subscribe(() => {
         previousCalled = true;
       });
 
-      flyoutInstance.iterator.nextButtonClick.subscribe(() => {
+      flyoutInstance.iteratorNextButtonClick.subscribe(() => {
         nextCalled = true;
       });
 
@@ -722,17 +735,14 @@ describe('Flyout component', () => {
       let nextCalled = false;
 
       const flyoutInstance = openFlyout({
-        iterator: {
-          previousButtonDisabled: false,
-          nextButtonDisabled: false
-        }
+        showIterator: true
       });
 
-      flyoutInstance.iterator.previousButtonClick.subscribe(() => {
+      flyoutInstance.iteratorPreviousButtonClick.subscribe(() => {
         previousCalled = true;
       });
 
-      flyoutInstance.iterator.nextButtonClick.subscribe(() => {
+      flyoutInstance.iteratorNextButtonClick.subscribe(() => {
         nextCalled = true;
       });
 
@@ -749,17 +759,16 @@ describe('Flyout component', () => {
       let nextCalled = false;
 
       const flyoutInstance = openFlyout({
-        iterator: {
-          previousButtonDisabled: true,
-          nextButtonDisabled: true
-        }
+        showIterator: true,
+        iteratorPreviousButtonDisabled: true,
+        iteratorNextButtonDisabled: true
       });
 
-      flyoutInstance.iterator.previousButtonClick.subscribe(() => {
+      flyoutInstance.iteratorPreviousButtonClick.subscribe(() => {
         previousCalled = true;
       });
 
-      flyoutInstance.iterator.nextButtonClick.subscribe(() => {
+      flyoutInstance.iteratorNextButtonClick.subscribe(() => {
         nextCalled = true;
       });
 
@@ -770,6 +779,42 @@ describe('Flyout component', () => {
       tick();
       expect(previousCalled).toEqual(false);
       expect(nextCalled).toEqual(false);
+    }));
+
+    it('should allow consumer to enable/disable buttons after flyout is opened', fakeAsync(() => {
+      const flyout = openFlyout({
+        showIterator: true
+      });
+      const iteratorButtons = getIteratorButtons();
+
+      // Expect flyout to have iterator buttons, both enabled.
+      expect(iteratorButtons.length).toEqual(2);
+      expect(iteratorButtons[0].disabled).toBeFalsy();
+      expect(iteratorButtons[1].disabled).toBeFalsy();
+      expect(flyout.iteratorNextButtonDisabled).toEqual(false);
+      expect(flyout.iteratorPreviousButtonDisabled).toEqual(false);
+
+      flyout.iteratorPreviousButtonDisabled = true;
+      flyout.iteratorNextButtonDisabled = true;
+      fixture.detectChanges();
+
+      // Expect flyout to have iterator buttons, both disabled.
+      expect(iteratorButtons.length).toEqual(2);
+      expect(iteratorButtons[0].disabled).toBeTruthy();
+      expect(iteratorButtons[1].disabled).toBeTruthy();
+      expect(flyout.iteratorNextButtonDisabled).toEqual(true);
+      expect(flyout.iteratorPreviousButtonDisabled).toEqual(true);
+
+      flyout.iteratorPreviousButtonDisabled = false;
+      flyout.iteratorNextButtonDisabled = false;
+      fixture.detectChanges();
+
+      // Expect flyout to have iterator buttons, both enabled.
+      expect(iteratorButtons.length).toEqual(2);
+      expect(iteratorButtons[0].disabled).toBeFalsy();
+      expect(iteratorButtons[1].disabled).toBeFalsy();
+      expect(flyout.iteratorNextButtonDisabled).toEqual(false);
+      expect(flyout.iteratorPreviousButtonDisabled).toEqual(false);
     }));
   });
 });

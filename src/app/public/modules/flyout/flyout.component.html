@@ -28,11 +28,11 @@
   <div class="sky-flyout-header sky-padding-squish-large" #flyoutHeader>
     <div class="sky-flyout-header-content">
 
-      <sky-flyout-iterator *ngIf="config?.iterator"
-        [nextButtonDisabled]="config.iterator.nextButtonDisabled"
-        [previousButtonDisabled]="config.iterator.previousButtonDisabled"
-        (nextButtonClick)="onIteratorNextClick()"
-        (previousButtonClick)="onIteratorPreviousClick()"
+      <sky-flyout-iterator *ngIf="config.showIterator"
+        [nextButtonDisabled]="config.iteratorNextButtonDisabled"
+        [previousButtonDisabled]="config.iteratorPreviousButtonDisabled"
+        (nextButtonClick)="onIteratorNextButtonClick()"
+        (previousButtonClick)="onIteratorPreviousButtonClick()"
       >
       </sky-flyout-iterator>
 

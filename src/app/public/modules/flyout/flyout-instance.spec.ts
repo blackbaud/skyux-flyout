@@ -30,10 +30,40 @@ describe('Flyout instance', () => {
     });
   });
 
+  it('should expose iterator next button methods to the flyout', () => {
+    const flyout = new SkyFlyoutInstance();
+    const spy = spyOn(flyout.hostController, 'next').and.callThrough();
+
+    flyout.iteratorNextButtonDisabled = true;
+    expect(spy).toHaveBeenCalledWith({
+      type: SkyFlyoutMessageType.IteratorNextButtonDisabled
+    });
+
+    flyout.iteratorNextButtonDisabled = false;
+    expect(spy).toHaveBeenCalledWith({
+      type: SkyFlyoutMessageType.IteratorNextButtonEnabled
+    });
+  });
+
+  it('should expose iterator previous button methods to the flyout', () => {
+    const flyout = new SkyFlyoutInstance();
+    const spy = spyOn(flyout.hostController, 'next').and.callThrough();
+
+    flyout.iteratorPreviousButtonDisabled = true;
+    expect(spy).toHaveBeenCalledWith({
+      type: SkyFlyoutMessageType.IteratorPreviousButtonDisabled
+    });
+
+    flyout.iteratorPreviousButtonDisabled = false;
+    expect(spy).toHaveBeenCalledWith({
+      type: SkyFlyoutMessageType.IteratorPreviousButtonEnabled
+    });
+  });
+
   it('should complete subscribes on destroy', () => {
     const flyout = new SkyFlyoutInstance();
-    const previousSpy = spyOn(flyout.iterator.previousButtonClick, 'complete').and.callThrough();
-    const nextSpy = spyOn(flyout.iterator.nextButtonClick, 'complete').and.callThrough();
+    const previousSpy = spyOn(flyout.iteratorPreviousButtonClick, 'complete').and.callThrough();
+    const nextSpy = spyOn(flyout.iteratorNextButtonClick, 'complete').and.callThrough();
 
     flyout.ngOnDestroy();
     expect(previousSpy).toHaveBeenCalled();
