@@ -8,14 +8,11 @@ import {
 } from '@angular/core/testing';
 
 import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
-
-import {
   expect
 } from '@skyux-sdk/testing';
 
 import {
+  SkyDynamicComponentService,
   SkyWindowRefService
 } from '@skyux/core';
 
@@ -46,7 +43,6 @@ describe('Flyout service', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        NoopAnimationsModule,
         SkyFlyoutFixturesModule
       ],
       providers: [
@@ -99,4 +95,20 @@ describe('Flyout service', () => {
       });
     }
   );
+
+  it('should dispose of any open host if the service is destroyed', () => {
+    spyOn(window, 'setTimeout').and.callFake((fun: Function) => {
+      fun();
+    });
+    service.open(SkyFlyoutHostsTestComponent);
+    applicationRef.tick();
+    const dynamicService = TestBed.get(SkyDynamicComponentService);
+    const spy = spyOn(dynamicService, 'removeComponent').and.callThrough();
+    // Note: Calling the lifecycle function directly as there is no way to destroy the service
+    // as it would be in the wild.
+    service.ngOnDestroy();
+    applicationRef.tick();
+    expect(spy).toHaveBeenCalled();
+  }
+);
 });
