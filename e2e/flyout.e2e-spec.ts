@@ -47,4 +47,36 @@ describe('Flyout', () => {
     expect('body').toMatchBaselineScreenshot(done);
     element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
   });
+
+  it('should match previous screenshot when row iterators are enabled', (done) => {
+    SkyHostBrowser.get('visual/flyout');
+    SkyHostBrowser.setWindowBreakpoint('lg');
+    element(by.css('#open-flyout-with-iterators')).click();
+    expect('body').toMatchBaselineScreenshot(done);
+    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+  });
+
+  it('should match previous screenshot when row iterators are enabled (screen: xs)', (done) => {
+    SkyHostBrowser.get('visual/flyout');
+    SkyHostBrowser.setWindowBreakpoint('xs');
+    element(by.css('#open-flyout-with-iterators')).click();
+    expect('body').toMatchBaselineScreenshot(done);
+    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+  });
+
+  it('should match previous screenshot when row iterators are disabled', (done) => {
+    SkyHostBrowser.get('visual/flyout');
+    SkyHostBrowser.setWindowBreakpoint('lg');
+    element(by.css('#open-flyout-with-iterators-disabled')).click();
+    expect('body').toMatchBaselineScreenshot(done);
+    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+  });
+
+  it('should match previous screenshot when row iterator are disabled (screen: xs)', (done) => {
+    SkyHostBrowser.get('visual/flyout');
+    SkyHostBrowser.setWindowBreakpoint('xs');
+    element(by.css('#open-flyout-with-iterators-disabled')).click();
+    expect('body').toMatchBaselineScreenshot(done);
+    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+  });
 });
