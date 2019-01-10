@@ -1,3 +1,8 @@
+# 3.0.0-rc.5 (2019-01-10)
+
+- Fixed flyout component resize handle to not have extra styles in Firefox. [#15](https://github.com/blackbaud/skyux-flyout/pull/15)
+- Fixed flyout component component to only listen to `mousemove` and `mouseup` events while being resized. [#16](https://github.com/blackbaud/skyux-flyout/pull/16)
+
 # 3.0.0-rc.4 (2018-12-20)
 
 - Added iterator buttons to the flyout component. [#10](https://github.com/blackbaud/skyux-flyout/pull/10) (Thanks @Theaggarwal)
