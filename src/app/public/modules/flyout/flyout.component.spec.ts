@@ -320,7 +320,8 @@ describe('Flyout component', () => {
     openFlyout({});
     fixture.detectChanges();
     tick();
-    const spy = spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
+    const moveSpy = spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
+    const mouseUpSpy = spyOn(SkyFlyoutComponent.prototype, 'onHandleRelease').and.callThrough();
     const flyoutElement = getFlyoutElement();
     const handleElement = getFlyoutHandleElement();
 
@@ -340,14 +341,16 @@ describe('Flyout component', () => {
     tick();
     expect(flyoutElement.style.width).toBe('500px');
     makeEvent('mouseup', {});
-    expect(spy).toHaveBeenCalled();
+    expect(moveSpy).toHaveBeenCalled();
+    expect(mouseUpSpy).toHaveBeenCalled();
   }));
 
   it('should not resize on mousemove unless the resize handle was clicked', fakeAsync(() => {
     openFlyout({});
     fixture.detectChanges();
     tick();
-    const spy = spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
+    const moveSpy = spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
+    const mouseUpSpy = spyOn(SkyFlyoutComponent.prototype, 'onHandleRelease').and.callThrough();
     const flyoutElement = getFlyoutElement();
 
     expect(flyoutElement.style.width).toBe('500px');
@@ -361,7 +364,8 @@ describe('Flyout component', () => {
     tick();
     expect(flyoutElement.style.width).toBe('500px');
     makeEvent('mouseup', {});
-    expect(spy).not.toHaveBeenCalled();
+    expect(moveSpy).not.toHaveBeenCalled();
+    expect(mouseUpSpy).not.toHaveBeenCalled();
   }));
 
   it('should resize flyout when range input is changed', fakeAsync(() => {
