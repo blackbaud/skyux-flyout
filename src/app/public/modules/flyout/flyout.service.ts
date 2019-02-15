@@ -6,6 +6,10 @@ import {
 } from '@angular/core';
 
 import {
+  Router, NavigationStart
+} from '@angular/router';
+
+import {
   Observable,
   Subject
 } from 'rxjs';
@@ -45,7 +49,8 @@ export class SkyFlyoutService implements OnDestroy {
   constructor(
     private adapter: SkyFlyoutAdapterService,
     private windowRef: SkyWindowRefService,
-    private dynamicComponentService: SkyDynamicComponentService
+    private dynamicComponentService: SkyDynamicComponentService,
+    private router: Router
   ) { }
 
   public ngOnDestroy(): void {
@@ -64,6 +69,14 @@ export class SkyFlyoutService implements OnDestroy {
 
     if (!this.host) {
       this.host = this.createHostComponent();
+
+      this.router.events
+      .takeWhile(() => this.host !== undefined)
+      .subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          this.close();
+        }
+      });
     }
 
     const flyout = this.host.instance.attach(component, config);
