@@ -1,12 +1,13 @@
 import {
   ComponentRef,
   Injectable,
-  Type,
-  OnDestroy
+  OnDestroy,
+  Type
 } from '@angular/core';
 
 import {
-  Router, NavigationStart
+  NavigationStart,
+  Router
 } from '@angular/router';
 
 import {
@@ -17,8 +18,8 @@ import {
 import 'rxjs/add/operator/take';
 
 import {
-  SkyWindowRefService,
-  SkyDynamicComponentService
+  SkyDynamicComponentService,
+  SkyWindowRefService
 } from '@skyux/core';
 
 import {
