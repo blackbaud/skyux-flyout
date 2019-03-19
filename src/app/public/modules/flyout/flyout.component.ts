@@ -252,6 +252,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public onMouseMove(event: MouseEvent) {
+    console.log('mouse move');
     if (!this.isDragging) {
       return;
     }
