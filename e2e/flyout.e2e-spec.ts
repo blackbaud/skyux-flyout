@@ -14,7 +14,9 @@ describe('Flyout', () => {
     SkyHostBrowser.get('visual/flyout');
     SkyHostBrowser.setWindowBreakpoint('lg');
     element(by.css('.sky-btn-primary')).click();
-    expect('body').toMatchBaselineScreenshot(done);
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: 'flyout-lg'
+    });
     element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
   });
 
@@ -22,7 +24,9 @@ describe('Flyout', () => {
     SkyHostBrowser.get('visual/flyout');
     SkyHostBrowser.setWindowBreakpoint('xs');
     element(by.css('.sky-btn-primary')).click();
-    expect('body').toMatchBaselineScreenshot(done);
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: 'flyout-xs'
+    });
     element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
   });
 
@@ -33,7 +37,9 @@ describe('Flyout', () => {
     browser.sleep(250);
     element(by.css('.sky-flyout .sky-dropdown-button')).click();
     SkyHostBrowser.moveCursorOffScreen();
-    expect('body').toMatchBaselineScreenshot(done);
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: 'flyout-absolute-lg'
+    });
     element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
   });
 
@@ -44,7 +50,9 @@ describe('Flyout', () => {
     browser.sleep(250);
     element(by.css('.sky-flyout .sky-dropdown-button')).click();
     SkyHostBrowser.moveCursorOffScreen();
-    expect('body').toMatchBaselineScreenshot(done);
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: 'flyout-absolute-xs'
+    });
     element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
   });
 
@@ -52,7 +60,9 @@ describe('Flyout', () => {
     SkyHostBrowser.get('visual/flyout');
     SkyHostBrowser.setWindowBreakpoint('lg');
     element(by.css('#open-flyout-with-iterators')).click();
-    expect('body').toMatchBaselineScreenshot(done);
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: 'flyout-iterators-lg'
+    });
     element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
   });
 
@@ -60,7 +70,9 @@ describe('Flyout', () => {
     SkyHostBrowser.get('visual/flyout');
     SkyHostBrowser.setWindowBreakpoint('xs');
     element(by.css('#open-flyout-with-iterators')).click();
-    expect('body').toMatchBaselineScreenshot(done);
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: 'flyout-iterators-xs'
+    });
     element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
   });
 
@@ -68,7 +80,9 @@ describe('Flyout', () => {
     SkyHostBrowser.get('visual/flyout');
     SkyHostBrowser.setWindowBreakpoint('lg');
     element(by.css('#open-flyout-with-iterators-disabled')).click();
-    expect('body').toMatchBaselineScreenshot(done);
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: 'flyout-no-iterators-lg'
+    });
     element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
   });
 
@@ -76,7 +90,9 @@ describe('Flyout', () => {
     SkyHostBrowser.get('visual/flyout');
     SkyHostBrowser.setWindowBreakpoint('xs');
     element(by.css('#open-flyout-with-iterators-disabled')).click();
-    expect('body').toMatchBaselineScreenshot(done);
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: 'flyout-no-iterators-xs'
+    });
     element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
   });
 });
