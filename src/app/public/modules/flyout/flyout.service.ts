@@ -16,6 +16,7 @@ import {
 } from 'rxjs';
 
 import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/takeWhile';
 
 import {
   SkyDynamicComponentService,
