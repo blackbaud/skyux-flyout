@@ -13,7 +13,6 @@ import {
 import {
   Observable,
   Subject
-
 } from 'rxjs';
 
 import 'rxjs/add/operator/take';
