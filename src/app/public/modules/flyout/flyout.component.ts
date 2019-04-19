@@ -33,6 +33,10 @@ import {
 import 'rxjs/add/operator/takeUntil';
 
 import {
+  SkyMediaQueryService
+} from '@skyux/core';
+
+import {
   SkyLibResourcesService
 } from '@skyux/i18n';
 
@@ -43,6 +47,10 @@ import {
 import {
   SkyFlyoutInstance
 } from './flyout-instance';
+
+import {
+  SkyFlyoutMediaQueryService
+} from './flyout-media-query.service';
 
 import {
   SkyFlyoutAction,
@@ -60,6 +68,10 @@ let nextId = 0;
   selector: 'sky-flyout',
   templateUrl: './flyout.component.html',
   styleUrls: ['./flyout.component.scss'],
+  providers: [
+    SkyFlyoutMediaQueryService,
+    { provide: SkyMediaQueryService, useExisting: SkyFlyoutMediaQueryService }
+  ],
   animations: [
     trigger('flyoutState', [
       state(FLYOUT_OPEN_STATE, style({ transform: 'initial' })),
@@ -138,7 +150,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     private changeDetector: ChangeDetectorRef,
     private injector: Injector,
     private resolver: ComponentFactoryResolver,
-    private resourcesService: SkyLibResourcesService
+    private resourcesService: SkyLibResourcesService,
+    private flyoutMediaQueryService: SkyFlyoutMediaQueryService
   ) {
     // All commands flow through the message stream.
     this.messageStream
@@ -187,6 +200,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     });
 
     this.flyoutWidth = this.config.defaultWidth;
+
+    this.flyoutMediaQueryService.setBreakPoint(this.flyoutWidth);
 
     return this.flyoutInstance;
   }
@@ -266,6 +281,9 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     }
 
     this.flyoutWidth = width;
+
+    this.flyoutMediaQueryService.setBreakPoint(this.flyoutWidth);
+
     this.xCoord = event.clientX;
     this.changeDetector.detectChanges();
   }
@@ -301,32 +319,32 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     /* tslint:disable-next-line:switch-default */
     switch (message.type) {
       case SkyFlyoutMessageType.Open:
-      if (!this.isOpen) {
-        this.isOpen = false;
-        this.isOpening = true;
-      }
-      break;
+        if (!this.isOpen) {
+          this.isOpen = false;
+          this.isOpening = true;
+        }
+        break;
 
       case SkyFlyoutMessageType.Close:
-      this.isOpen = true;
-      this.isOpening = false;
-      break;
+        this.isOpen = true;
+        this.isOpening = false;
+        break;
 
       case SkyFlyoutMessageType.EnableIteratorNextButton:
-      this.config.iteratorNextButtonDisabled = false;
-      break;
+        this.config.iteratorNextButtonDisabled = false;
+        break;
 
       case SkyFlyoutMessageType.EnableIteratorPreviousButton:
-      this.config.iteratorPreviousButtonDisabled = false;
-      break;
+        this.config.iteratorPreviousButtonDisabled = false;
+        break;
 
       case SkyFlyoutMessageType.DisableIteratorNextButton:
-      this.config.iteratorNextButtonDisabled = true;
-      break;
+        this.config.iteratorNextButtonDisabled = true;
+        break;
 
       case SkyFlyoutMessageType.DisableIteratorPreviousButton:
-      this.config.iteratorPreviousButtonDisabled = true;
-      break;
+        this.config.iteratorPreviousButtonDisabled = true;
+        break;
     }
 
     this.changeDetector.markForCheck();

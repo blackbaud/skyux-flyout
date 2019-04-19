@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 
 import {
+  SkyMediaBreakpoints,
   SkyWindowRefService
 } from '@skyux/core';
 
@@ -32,6 +33,23 @@ export class SkyFlyoutAdapterService {
 
     if (helpWidget) {
       this.renderer.addClass(header.nativeElement, 'sky-flyout-help-shim');
+    }
+  }
+
+  public setFlexClass(el: HTMLElement, breakpoint: SkyMediaBreakpoints) {
+    this.renderer.removeClass(el, 'sky-media-container-xs');
+    this.renderer.removeClass(el, 'sky-media-container-sm');
+    this.renderer.removeClass(el, 'sky-media-container-md');
+    this.renderer.removeClass(el, 'sky-media-container-lg');
+
+    if (breakpoint === SkyMediaBreakpoints.xs) {
+      this.renderer.addClass(el, 'sky-media-container-xs');
+    } else if (breakpoint === SkyMediaBreakpoints.sm) {
+      this.renderer.addClass(el, 'sky-media-container-sm');
+    } else if (breakpoint === SkyMediaBreakpoints.md) {
+      this.renderer.addClass(el, 'sky-media-container-md');
+    } else {
+      this.renderer.addClass(el, 'sky-media-container-lg');
     }
   }
 
