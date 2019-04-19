@@ -42,3 +42,21 @@
     Navigate to new page
   </button>
 </p>
+
+<h3>Infinite scroll</h3>
+
+<sky-repeater>
+  <sky-repeater-item *ngFor="let item of infiniteScrollData">
+    <sky-repeater-item-title>
+      <div
+        class="pull-left"
+      >
+        {{ item.name }}
+      </div>
+    </sky-repeater-item-title>
+  </sky-repeater-item>
+</sky-repeater>
+<sky-infinite-scroll
+  [enabled]="enableInfiniteScroll"
+>
+</sky-infinite-scroll>

@@ -466,6 +466,18 @@ describe('Flyout component', () => {
     })
   );
 
+  it('should prevent click events from bubbling beyond the flyout component', fakeAsync(() => {
+    let numClicks = 0;
+    document.addEventListener('click', function () {
+      numClicks++;
+    });
+    openFlyout({ maxWidth: 1000, minWidth: 200 });
+
+    SkyAppTestUtility.fireDomEvent(document.querySelector('.sky-flyout'), 'click');
+
+    expect(numClicks).toEqual(0);
+  }));
+
   describe('permalink', () => {
     it('should not show the permalink button if no permalink config peroperties are defined',
       fakeAsync(() => {
