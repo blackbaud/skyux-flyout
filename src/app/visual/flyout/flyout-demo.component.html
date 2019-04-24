@@ -45,17 +45,11 @@
 
 <h3>Infinite scroll</h3>
 
-<sky-repeater>
-  <sky-repeater-item *ngFor="let item of infiniteScrollData">
-    <sky-repeater-item-title>
-      <div
-        class="pull-left"
-      >
-        {{ item.name }}
-      </div>
-    </sky-repeater-item-title>
-  </sky-repeater-item>
-</sky-repeater>
+<ul>
+  <li *ngFor="let item of infiniteScrollData">
+    {{ item.name }}
+  </li>
+</ul>
 <sky-infinite-scroll
   [enabled]="enableInfiniteScroll"
 >

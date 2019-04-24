@@ -467,15 +467,23 @@ describe('Flyout component', () => {
   );
 
   it('should prevent click events from bubbling beyond the flyout component', fakeAsync(() => {
-    let numClicks = 0;
-    document.addEventListener('click', function () {
-      numClicks++;
-    });
     openFlyout({ maxWidth: 1000, minWidth: 200 });
+    const flyout = document.querySelector('.sky-flyout');
 
-    SkyAppTestUtility.fireDomEvent(document.querySelector('.sky-flyout'), 'click');
+    let numDocumentClicks = 0;
+    document.addEventListener('click', function () {
+      numDocumentClicks++;
+    });
 
-    expect(numClicks).toEqual(0);
+    let numFlyoutClicks = 0;
+    flyout.addEventListener('click', function () {
+      numFlyoutClicks++;
+    });
+
+    SkyAppTestUtility.fireDomEvent(flyout, 'click');
+
+    expect(numFlyoutClicks).toEqual(1);
+    expect(numDocumentClicks).toEqual(0);
   }));
 
   describe('permalink', () => {
