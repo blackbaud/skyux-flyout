@@ -1,6 +1,6 @@
 # 3.0.3 (2019-04-25)
 
-- Fixed flyout component to not close when infinite scroll "Load more" button is clicked. [#30](https://github.com/blackbaud/skyux-flyout/pull/30)
+- Fixed flyout component to not close when clicking on internal components. [#30](https://github.com/blackbaud/skyux-flyout/pull/30)
 
 # 3.0.2 (2019-04-15)
 
