@@ -17,7 +17,10 @@ import {
 import {
   SkyMediaQueryListener
 } from '@skyux/core/modules/media-query/media-query-listener';
-import { SkyFlyoutAdapterService } from './flyout-adapter.service';
+
+import {
+  SkyFlyoutAdapterService
+} from './flyout-adapter.service';
 
 @Injectable()
 export class SkyFlyoutMediaQueryService {
