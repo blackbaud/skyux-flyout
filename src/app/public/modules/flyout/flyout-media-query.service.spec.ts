@@ -114,9 +114,6 @@ describe('Flyout media query service', () => {
       inject(
         [SkyFlyoutMediaQueryService, SkyFlyoutAdapterService],
         (mediaQueryService: SkyFlyoutMediaQueryService, adapterService: SkyFlyoutAdapterService) => {
-
-          spyOn(adapterService, 'setFlexClass');
-
           mediaQueryService.setBreakPoint(300);
 
           expect(adapterService.setFlexClass).toHaveBeenCalledWith(SkyMediaBreakpoints.xs);
