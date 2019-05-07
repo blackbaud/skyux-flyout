@@ -110,38 +110,32 @@ describe('Flyout media query service', () => {
       }
     ));
 
-    it('should update the breakpoint correctly when setBreakPoint is called', inject(
-      [SkyFlyoutMediaQueryService],
-      (mediaQueryService: SkyFlyoutMediaQueryService) => {
-        let subscription: Subscription;
-        let result: SkyMediaBreakpoints;
+    it('should call the adapter to update the responsive class when setBreakPoint is called',
+      inject(
+        [SkyFlyoutMediaQueryService, SkyFlyoutAdapterService],
+        (mediaQueryService: SkyFlyoutMediaQueryService, adapterService: SkyFlyoutAdapterService) => {
 
-        subscription = mediaQueryService.subscribe(
-          (args: SkyMediaBreakpoints) => {
-            result = args;
-          }
-        );
+          spyOn(adapterService, 'setFlexClass');
 
-        mediaQueryService.setBreakPoint(300);
+          mediaQueryService.setBreakPoint(300);
 
-        expect(result).toEqual(SkyMediaBreakpoints.xs);
+          expect(adapterService.setFlexClass).toHaveBeenCalledWith(SkyMediaBreakpoints.xs);
 
-        mediaQueryService.setBreakPoint(900);
+          mediaQueryService.setBreakPoint(900);
 
-        expect(result).toEqual(SkyMediaBreakpoints.sm);
+          expect(adapterService.setFlexClass).toHaveBeenCalledWith(SkyMediaBreakpoints.sm);
 
-        mediaQueryService.setBreakPoint(1100);
+          mediaQueryService.setBreakPoint(1100);
 
-        expect(result).toEqual(SkyMediaBreakpoints.md);
+          expect(adapterService.setFlexClass).toHaveBeenCalledWith(SkyMediaBreakpoints.md);
 
-        mediaQueryService.setBreakPoint(1400);
+          mediaQueryService.setBreakPoint(1400);
 
-        expect(result).toEqual(SkyMediaBreakpoints.lg);
+          expect(adapterService.setFlexClass).toHaveBeenCalledWith(SkyMediaBreakpoints.lg);
 
-        subscription.unsubscribe();
-        mediaQueryService.destroy();
-      }
-    ));
+          mediaQueryService.destroy();
+        }
+      ));
 
     it('should provide the ability to check the current breakpoints', inject(
       [SkyFlyoutMediaQueryService],
