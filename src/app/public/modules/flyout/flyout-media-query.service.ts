@@ -48,14 +48,19 @@ export class SkyFlyoutMediaQueryService {
   }
 
   public setBreakPoint(width: number) {
+    const xsBreakpointMaxPixels = 767;
+    const smBreakpointMinPixels = 768;
+    const smBreakpointMaxPixels = 991;
+    const mdBreakpointMinPixels = 992;
+    const mdBreakpointMaxPixels = 1199;
 
-    if (width <= 767) {
+    if (width <= xsBreakpointMaxPixels) {
       this._current = SkyMediaBreakpoints.xs;
       this.adapterService.setFlexClass(SkyMediaBreakpoints.xs);
-    } else if (width >= 768 && width <= 991) {
+    } else if (width >= smBreakpointMinPixels && width <= smBreakpointMaxPixels) {
       this._current = SkyMediaBreakpoints.sm;
       this.adapterService.setFlexClass(SkyMediaBreakpoints.sm);
-    } else if (width >= 992 && width <= 1199) {
+    } else if (width >= mdBreakpointMinPixels && width <= mdBreakpointMaxPixels) {
       this._current = SkyMediaBreakpoints.md;
       this.adapterService.setFlexClass(SkyMediaBreakpoints.md);
     } else {

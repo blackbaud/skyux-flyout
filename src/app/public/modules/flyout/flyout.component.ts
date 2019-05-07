@@ -177,6 +177,16 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     event.stopPropagation();
   }
 
+  @HostListener('window:resize', ['$event'])
+  public onWindowResize(event: any): void {
+    const xsBreakpointMaxPixels = 767;
+    if (event.target.innerWidth <= xsBreakpointMaxPixels) {
+      this.flyoutMediaQueryService.setBreakPoint(event.target.innerWidth);
+    } else {
+      this.flyoutMediaQueryService.setBreakPoint(this.flyoutWidth);
+    }
+  }
+
   public attach<T>(component: Type<T>, config: SkyFlyoutConfig): SkyFlyoutInstance<T> {
     this.cleanTemplate();
 
