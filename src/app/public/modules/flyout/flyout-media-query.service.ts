@@ -31,7 +31,7 @@ export class SkyFlyoutMediaQueryService {
 
   private currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(this.current);
 
-  private _current = SkyMediaBreakpoints.lg;
+  private _current = SkyMediaBreakpoints.xs;
 
   constructor(
     private adapterService: SkyFlyoutAdapterService

@@ -50,7 +50,7 @@ describe('Flyout media query service', () => {
           }
         );
 
-        expect(result).toEqual(SkyMediaBreakpoints.lg);
+        expect(result).toEqual(SkyMediaBreakpoints.xs);
 
         subscription.unsubscribe();
         mediaQueryService.destroy();
