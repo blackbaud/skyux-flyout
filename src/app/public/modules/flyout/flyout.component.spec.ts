@@ -891,10 +891,10 @@ describe('Flyout component', () => {
       makeEvent('mouseup', {});
 
       expect(flyoutElement.style.width).toBe('400px');
-      expect(flyoutElement.classList.contains('sky-media-container-xs')).toBeTruthy();
-      expect(flyoutElement.classList.contains('sky-media-container-sm')).toBeFalsy();
-      expect(flyoutElement.classList.contains('sky-media-container-md')).toBeFalsy();
-      expect(flyoutElement.classList.contains('sky-media-container-lg')).toBeFalsy();
+      expect(flyoutElement.classList.contains('sky-responsive-container-xs')).toBeTruthy();
+      expect(flyoutElement.classList.contains('sky-responsive-container-sm')).toBeFalsy();
+      expect(flyoutElement.classList.contains('sky-responsive-container-md')).toBeFalsy();
+      expect(flyoutElement.classList.contains('sky-responsive-container-lg')).toBeFalsy();
     }));
 
     it('should add the sm class when appropriate', fakeAsync(() => {
@@ -917,10 +917,10 @@ describe('Flyout component', () => {
       makeEvent('mouseup', {});
 
       expect(flyoutElement.style.width).toBe('900px');
-      expect(flyoutElement.classList.contains('sky-media-container-sm')).toBeTruthy();
-      expect(flyoutElement.classList.contains('sky-media-container-xs')).toBeFalsy();
-      expect(flyoutElement.classList.contains('sky-media-container-md')).toBeFalsy();
-      expect(flyoutElement.classList.contains('sky-media-container-lg')).toBeFalsy();
+      expect(flyoutElement.classList.contains('sky-responsive-container-sm')).toBeTruthy();
+      expect(flyoutElement.classList.contains('sky-responsive-container-xs')).toBeFalsy();
+      expect(flyoutElement.classList.contains('sky-responsive-container-md')).toBeFalsy();
+      expect(flyoutElement.classList.contains('sky-responsive-container-lg')).toBeFalsy();
     }));
 
     it('should add the md class when appropriate', fakeAsync(() => {
@@ -943,10 +943,10 @@ describe('Flyout component', () => {
       makeEvent('mouseup', {});
 
       expect(flyoutElement.style.width).toBe('1100px');
-      expect(flyoutElement.classList.contains('sky-media-container-md')).toBeTruthy();
-      expect(flyoutElement.classList.contains('sky-media-container-xs')).toBeFalsy();
-      expect(flyoutElement.classList.contains('sky-media-container-sm')).toBeFalsy();
-      expect(flyoutElement.classList.contains('sky-media-container-lg')).toBeFalsy();
+      expect(flyoutElement.classList.contains('sky-responsive-container-md')).toBeTruthy();
+      expect(flyoutElement.classList.contains('sky-responsive-container-xs')).toBeFalsy();
+      expect(flyoutElement.classList.contains('sky-responsive-container-sm')).toBeFalsy();
+      expect(flyoutElement.classList.contains('sky-responsive-container-lg')).toBeFalsy();
     }));
 
     it('should add the lg class when appropriate', fakeAsync(() => {
@@ -969,10 +969,10 @@ describe('Flyout component', () => {
       makeEvent('mouseup', {});
 
       expect(flyoutElement.style.width).toBe('1400px');
-      expect(flyoutElement.classList.contains('sky-media-container-lg')).toBeTruthy();
-      expect(flyoutElement.classList.contains('sky-media-container-xs')).toBeFalsy();
-      expect(flyoutElement.classList.contains('sky-media-container-sm')).toBeFalsy();
-      expect(flyoutElement.classList.contains('sky-media-container-md')).toBeFalsy();
+      expect(flyoutElement.classList.contains('sky-responsive-container-lg')).toBeTruthy();
+      expect(flyoutElement.classList.contains('sky-responsive-container-xs')).toBeFalsy();
+      expect(flyoutElement.classList.contains('sky-responsive-container-sm')).toBeFalsy();
+      expect(flyoutElement.classList.contains('sky-responsive-container-md')).toBeFalsy();
     }));
   });
 });

@@ -33,19 +33,19 @@ export class SkyFlyoutAdapterService {
   public setFlexClass(breakpoint: SkyMediaBreakpoints) {
     const flexEl = document.querySelector('.sky-flyout') as HTMLElement;
 
-    this.renderer.removeClass(flexEl, 'sky-media-container-xs');
-    this.renderer.removeClass(flexEl, 'sky-media-container-sm');
-    this.renderer.removeClass(flexEl, 'sky-media-container-md');
-    this.renderer.removeClass(flexEl, 'sky-media-container-lg');
+    this.renderer.removeClass(flexEl, 'sky-responsive-container-xs');
+    this.renderer.removeClass(flexEl, 'sky-responsive-container-sm');
+    this.renderer.removeClass(flexEl, 'sky-responsive-container-md');
+    this.renderer.removeClass(flexEl, 'sky-responsive-container-lg');
 
     if (breakpoint === SkyMediaBreakpoints.xs) {
-      this.renderer.addClass(flexEl, 'sky-media-container-xs');
+      this.renderer.addClass(flexEl, 'sky-responsive-container-xs');
     } else if (breakpoint === SkyMediaBreakpoints.sm) {
-      this.renderer.addClass(flexEl, 'sky-media-container-sm');
+      this.renderer.addClass(flexEl, 'sky-responsive-container-sm');
     } else if (breakpoint === SkyMediaBreakpoints.md) {
-      this.renderer.addClass(flexEl, 'sky-media-container-md');
+      this.renderer.addClass(flexEl, 'sky-responsive-container-md');
     } else {
-      this.renderer.addClass(flexEl, 'sky-media-container-lg');
+      this.renderer.addClass(flexEl, 'sky-responsive-container-lg');
     }
   }
 
