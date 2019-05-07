@@ -87,6 +87,31 @@ describe('Flyout component', () => {
     document.dispatchEvent(evt);
   }
 
+  function grabDragHandle(handleXCord: number) {
+    const handleElement = getFlyoutHandleElement();
+    let evt = document.createEvent('MouseEvents');
+    evt.initMouseEvent('mousedown', false, false, window, 0, 0, 0, handleXCord,
+      0, false, false, false, false, 0, undefined);
+
+    handleElement.dispatchEvent(evt);
+  }
+
+  function dragHandle(endingXCord: number) {
+    makeEvent('mousemove', { clientX: endingXCord });
+    fixture.detectChanges();
+    tick();
+  }
+
+  function releaseDragHandle() {
+    makeEvent('mouseup', {});
+  }
+
+  function resizeFlyout(startingXCord: number, endingXCord: number) {
+    grabDragHandle(startingXCord);
+    dragHandle(endingXCord);
+    releaseDragHandle();
+  }
+
   function getFlyoutElement(): HTMLElement {
     return document.querySelector('.sky-flyout') as HTMLElement;
   }
@@ -323,24 +348,15 @@ describe('Flyout component', () => {
     const moveSpy = spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
     const mouseUpSpy = spyOn(SkyFlyoutComponent.prototype, 'onHandleRelease').and.callThrough();
     const flyoutElement = getFlyoutElement();
-    const handleElement = getFlyoutHandleElement();
 
     expect(flyoutElement.style.width).toBe('500px');
 
-    let evt = document.createEvent('MouseEvents');
-    evt.initMouseEvent('mousedown', false, false, window, 0, 0, 0, 1000,
-      0, false, false, false, false, 0, undefined);
+    resizeFlyout(1000, 1100);
 
-    handleElement.dispatchEvent(evt);
-    makeEvent('mousemove', { clientX: 1100 });
-    fixture.detectChanges();
-    tick();
     expect(flyoutElement.style.width).toBe('400px');
-    makeEvent('mousemove', { clientX: 1000 });
-    fixture.detectChanges();
-    tick();
-    expect(flyoutElement.style.width).toBe('500px');
-    makeEvent('mouseup', {});
+
+    resizeFlyout(1100, 1000);
+
     expect(moveSpy).toHaveBeenCalled();
     expect(mouseUpSpy).toHaveBeenCalled();
   }));
@@ -355,15 +371,16 @@ describe('Flyout component', () => {
 
     expect(flyoutElement.style.width).toBe('500px');
 
-    makeEvent('mousemove', { clientX: 1100 });
-    fixture.detectChanges();
-    tick();
+    dragHandle(1100);
+
     expect(flyoutElement.style.width).toBe('500px');
-    makeEvent('mousemove', { clientX: 1000 });
-    fixture.detectChanges();
-    tick();
+
+    dragHandle(1000);
+
     expect(flyoutElement.style.width).toBe('500px');
-    makeEvent('mouseup', {});
+
+    releaseDragHandle();
+
     expect(moveSpy).not.toHaveBeenCalled();
     expect(mouseUpSpy).not.toHaveBeenCalled();
   }));
@@ -405,51 +422,44 @@ describe('Flyout component', () => {
 
   it('should set iframe styles correctly during dragging', fakeAsync(() => {
     openFlyout({}, true);
-    const handleElement = getFlyoutHandleElement();
     const iframe = getIframe();
 
     expect(iframe.style.pointerEvents).toBeFalsy();
-    let evt = document.createEvent('MouseEvents');
-    evt.initMouseEvent('mousedown', false, false, window, 0, 0, 0, 1000,
-      0, false, false, false, false, 0, undefined);
-    handleElement.dispatchEvent(evt);
-    fixture.detectChanges();
+
+    grabDragHandle(1000);
+
     expect(iframe.style.pointerEvents).toBe('none');
-    makeEvent('mousemove', { clientX: 500 });
-    fixture.detectChanges();
+
+    dragHandle(500);
+
     expect(iframe.style.pointerEvents).toBe('none');
-    makeEvent('mouseup', {});
-    fixture.detectChanges();
+
+    releaseDragHandle();
+
     expect(iframe.style.pointerEvents).toBeFalsy();
   }));
 
   it('should respect minimum and maximum when resizing', fakeAsync(() => {
     openFlyout({ maxWidth: 1000, minWidth: 200 });
     const flyoutElement = getFlyoutElement();
-    const handleElement = getFlyoutHandleElement();
 
     expect(flyoutElement.style.width).toBe('500px');
-    let evt = document.createEvent('MouseEvents');
-    evt.initMouseEvent('mousedown', false, false, window, 0, 0, 0, 1000,
-      0, false, false, false, false, 0, undefined);
-    handleElement.dispatchEvent(evt);
-    makeEvent('mousemove', { clientX: 500 });
-    fixture.detectChanges();
-    tick();
+
+    resizeFlyout(1000, 500);
+
     expect(flyoutElement.style.width).toBe('1000px');
-    makeEvent('mousemove', { clientX: 200 });
-    fixture.detectChanges();
-    tick();
+
+    resizeFlyout(500, 200);
+
     expect(flyoutElement.style.width).toBe('1000px');
-    makeEvent('mousemove', { clientX: 1300 });
-    fixture.detectChanges();
-    tick();
+
+    resizeFlyout(500, 1300);
+
     expect(flyoutElement.style.width).toBe('200px');
-    makeEvent('mousemove', { clientX: 1400 });
-    fixture.detectChanges();
-    tick();
+
+    resizeFlyout(1300, 1400);
+
     expect(flyoutElement.style.width).toBe('200px');
-    makeEvent('mouseup', {});
   })
   );
 
@@ -876,19 +886,8 @@ describe('Flyout component', () => {
       fixture.detectChanges();
       tick();
       const flyoutElement = getFlyoutElement();
-      const handleElement = getFlyoutHandleElement();
 
-      expect(flyoutElement.style.width).toBe('500px');
-
-      let evt = document.createEvent('MouseEvents');
-      evt.initMouseEvent('mousedown', false, false, window, 0, 0, 0, 1000,
-        0, false, false, false, false, 0, undefined);
-
-      handleElement.dispatchEvent(evt);
-      makeEvent('mousemove', { clientX: 1100 });
-      fixture.detectChanges();
-      tick();
-      makeEvent('mouseup', {});
+      resizeFlyout(1000, 1100);
 
       expect(flyoutElement.style.width).toBe('400px');
       expect(flyoutElement.classList.contains('sky-responsive-container-xs')).toBeTruthy();
@@ -902,19 +901,8 @@ describe('Flyout component', () => {
       fixture.detectChanges();
       tick();
       const flyoutElement = getFlyoutElement();
-      const handleElement = getFlyoutHandleElement();
 
-      expect(flyoutElement.style.width).toBe('500px');
-
-      let evt = document.createEvent('MouseEvents');
-      evt.initMouseEvent('mousedown', false, false, window, 0, 0, 0, 1000,
-        0, false, false, false, false, 0, undefined);
-
-      handleElement.dispatchEvent(evt);
-      makeEvent('mousemove', { clientX: 600 });
-      fixture.detectChanges();
-      tick();
-      makeEvent('mouseup', {});
+      resizeFlyout(1000, 600);
 
       expect(flyoutElement.style.width).toBe('900px');
       expect(flyoutElement.classList.contains('sky-responsive-container-sm')).toBeTruthy();
@@ -928,19 +916,8 @@ describe('Flyout component', () => {
       fixture.detectChanges();
       tick();
       const flyoutElement = getFlyoutElement();
-      const handleElement = getFlyoutHandleElement();
 
-      expect(flyoutElement.style.width).toBe('500px');
-
-      let evt = document.createEvent('MouseEvents');
-      evt.initMouseEvent('mousedown', false, false, window, 0, 0, 0, 1000,
-        0, false, false, false, false, 0, undefined);
-
-      handleElement.dispatchEvent(evt);
-      makeEvent('mousemove', { clientX: 400 });
-      fixture.detectChanges();
-      tick();
-      makeEvent('mouseup', {});
+      resizeFlyout(1000, 400);
 
       expect(flyoutElement.style.width).toBe('1100px');
       expect(flyoutElement.classList.contains('sky-responsive-container-md')).toBeTruthy();
@@ -954,19 +931,8 @@ describe('Flyout component', () => {
       fixture.detectChanges();
       tick();
       const flyoutElement = getFlyoutElement();
-      const handleElement = getFlyoutHandleElement();
 
-      expect(flyoutElement.style.width).toBe('500px');
-
-      let evt = document.createEvent('MouseEvents');
-      evt.initMouseEvent('mousedown', false, false, window, 0, 0, 0, 1000,
-        0, false, false, false, false, 0, undefined);
-
-      handleElement.dispatchEvent(evt);
-      makeEvent('mousemove', { clientX: 100 });
-      fixture.detectChanges();
-      tick();
-      makeEvent('mouseup', {});
+      resizeFlyout(1000, 100);
 
       expect(flyoutElement.style.width).toBe('1400px');
       expect(flyoutElement.classList.contains('sky-responsive-container-lg')).toBeTruthy();
