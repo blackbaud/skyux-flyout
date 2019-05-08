@@ -47,7 +47,7 @@ export class SkyFlyoutMediaQueryService {
     });
   }
 
-  public setBreakPoint(width: number) {
+  public setBreakpoint(width: number) {
     const xsBreakpointMaxPixels = 767;
     const smBreakpointMinPixels = 768;
     const smBreakpointMaxPixels = 991;

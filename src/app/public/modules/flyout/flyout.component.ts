@@ -181,9 +181,9 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public onWindowResize(event: any): void {
     const xsBreakpointMaxPixels = 767;
     if (event.target.innerWidth <= xsBreakpointMaxPixels) {
-      this.flyoutMediaQueryService.setBreakPoint(event.target.innerWidth);
+      this.flyoutMediaQueryService.setBreakpoint(event.target.innerWidth);
     } else {
-      this.flyoutMediaQueryService.setBreakPoint(this.flyoutWidth);
+      this.flyoutMediaQueryService.setBreakpoint(this.flyoutWidth);
     }
   }
 
@@ -218,7 +218,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     this.flyoutWidth = this.config.defaultWidth;
 
-    this.flyoutMediaQueryService.setBreakPoint(this.flyoutWidth);
+    this.flyoutMediaQueryService.setBreakpoint(this.flyoutWidth);
 
     return this.flyoutInstance;
   }
@@ -299,7 +299,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     this.flyoutWidth = width;
 
-    this.flyoutMediaQueryService.setBreakPoint(this.flyoutWidth);
+    this.flyoutMediaQueryService.setBreakpoint(this.flyoutWidth);
 
     this.xCoord = event.clientX;
     this.changeDetector.detectChanges();

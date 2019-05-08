@@ -89,19 +89,19 @@ describe('Flyout media query service', () => {
           }
         );
 
-        mediaQueryService.setBreakPoint(300);
+        mediaQueryService.setBreakpoint(300);
 
         expect(result).toEqual(SkyMediaBreakpoints.xs);
 
-        mediaQueryService.setBreakPoint(900);
+        mediaQueryService.setBreakpoint(900);
 
         expect(result).toEqual(SkyMediaBreakpoints.sm);
 
-        mediaQueryService.setBreakPoint(1100);
+        mediaQueryService.setBreakpoint(1100);
 
         expect(result).toEqual(SkyMediaBreakpoints.md);
 
-        mediaQueryService.setBreakPoint(1400);
+        mediaQueryService.setBreakpoint(1400);
 
         expect(result).toEqual(SkyMediaBreakpoints.lg);
 
@@ -114,19 +114,19 @@ describe('Flyout media query service', () => {
       inject(
         [SkyFlyoutMediaQueryService, SkyFlyoutAdapterService],
         (mediaQueryService: SkyFlyoutMediaQueryService, adapterService: SkyFlyoutAdapterService) => {
-          mediaQueryService.setBreakPoint(300);
+          mediaQueryService.setBreakpoint(300);
 
           expect(adapterService.setFlexClass).toHaveBeenCalledWith(SkyMediaBreakpoints.xs);
 
-          mediaQueryService.setBreakPoint(900);
+          mediaQueryService.setBreakpoint(900);
 
           expect(adapterService.setFlexClass).toHaveBeenCalledWith(SkyMediaBreakpoints.sm);
 
-          mediaQueryService.setBreakPoint(1100);
+          mediaQueryService.setBreakpoint(1100);
 
           expect(adapterService.setFlexClass).toHaveBeenCalledWith(SkyMediaBreakpoints.md);
 
-          mediaQueryService.setBreakPoint(1400);
+          mediaQueryService.setBreakpoint(1400);
 
           expect(adapterService.setFlexClass).toHaveBeenCalledWith(SkyMediaBreakpoints.lg);
 
@@ -137,7 +137,7 @@ describe('Flyout media query service', () => {
     it('should provide the ability to check the current breakpoints', inject(
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
-        mediaQueryService.setBreakPoint(900);
+        mediaQueryService.setBreakpoint(900);
 
         expect(mediaQueryService.current).toEqual(SkyMediaBreakpoints.sm);
         mediaQueryService.destroy();

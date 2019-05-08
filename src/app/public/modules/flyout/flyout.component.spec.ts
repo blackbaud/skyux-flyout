@@ -38,7 +38,14 @@ import {
 import {
   SkyFlyoutTestSampleContext
 } from './fixtures/flyout-sample-context.fixture';
-import { SkyFlyoutComponent } from './flyout.component';
+
+import {
+  SkyFlyoutComponent
+} from './flyout.component';
+
+import {
+  SkyFlyoutMediaQueryService
+} from './flyout-media-query.service';
 
 describe('Flyout component', () => {
   let applicationRef: ApplicationRef;
@@ -941,4 +948,57 @@ describe('Flyout component', () => {
       expect(flyoutElement.classList.contains('sky-responsive-container-md')).toBeFalsy();
     }));
   });
+
+  describe('resize listener', () => {
+    it('should call the host listener correctly on resize', fakeAsync(() => {
+      const resizeSpy = spyOn(SkyFlyoutComponent.prototype, 'onWindowResize').and.callThrough();
+
+      openFlyout();
+
+      expect(resizeSpy).not.toHaveBeenCalled();
+
+      SkyAppTestUtility.fireDomEvent(window, 'resize');
+
+      expect(resizeSpy).toHaveBeenCalled();
+    }));
+  });
+
+  it('should set the media query service breakpoint to the window size when xs', fakeAsync(() => {
+    const breakpointSpy = spyOn(SkyFlyoutMediaQueryService.prototype, 'setBreakpoint')
+      .and.callThrough();
+
+    openFlyout();
+
+    (window as any).innerWidth = 767;
+
+    SkyAppTestUtility.fireDomEvent(window, 'resize');
+
+    expect(breakpointSpy).toHaveBeenCalledWith(767);
+  }));
+
+  it('should set the media query service breakpoint to the window size when larger than xs',
+    fakeAsync(() => {
+      const breakpointSpy = spyOn(SkyFlyoutMediaQueryService.prototype, 'setBreakpoint')
+        .and.callThrough();
+
+      openFlyout();
+
+      (window as any).innerWidth = 800;
+
+      SkyAppTestUtility.fireDomEvent(window, 'resize');
+
+      expect(breakpointSpy).toHaveBeenCalledWith(500);
+
+      (window as any).innerWidth = 1000;
+
+      SkyAppTestUtility.fireDomEvent(window, 'resize');
+
+      expect(breakpointSpy).toHaveBeenCalledWith(500);
+
+      (window as any).innerWidth = 1400;
+
+      SkyAppTestUtility.fireDomEvent(window, 'resize');
+
+      expect(breakpointSpy).toHaveBeenCalledWith(500);
+    }));
 });
