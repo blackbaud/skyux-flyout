@@ -969,7 +969,7 @@ describe('Flyout component', () => {
 
     openFlyout();
 
-    (window as any).innerWidth = 767;
+    spyOnProperty(window, 'innerWidth', 'get').and.returnValue(767);
 
     SkyAppTestUtility.fireDomEvent(window, 'resize');
 
@@ -980,22 +980,23 @@ describe('Flyout component', () => {
     fakeAsync(() => {
       const breakpointSpy = spyOn(SkyFlyoutMediaQueryService.prototype, 'setBreakpoint')
         .and.callThrough();
+      const windowSizeSpy = spyOnProperty(window, 'innerWidth', 'get');
 
       openFlyout();
 
-      (window as any).innerWidth = 800;
+      windowSizeSpy.and.returnValue(800);
 
       SkyAppTestUtility.fireDomEvent(window, 'resize');
 
       expect(breakpointSpy).toHaveBeenCalledWith(500);
 
-      (window as any).innerWidth = 1000;
+      windowSizeSpy.and.returnValue(1000);
 
       SkyAppTestUtility.fireDomEvent(window, 'resize');
 
       expect(breakpointSpy).toHaveBeenCalledWith(500);
 
-      (window as any).innerWidth = 1400;
+      windowSizeSpy.and.returnValue(1400);
 
       SkyAppTestUtility.fireDomEvent(window, 'resize');
 
