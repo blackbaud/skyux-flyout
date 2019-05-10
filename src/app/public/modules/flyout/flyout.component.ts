@@ -152,7 +152,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     private injector: Injector,
     private resolver: ComponentFactoryResolver,
     private resourcesService: SkyLibResourcesService,
-    private flyoutMediaQueryService: SkyFlyoutMediaQueryService
+    private flyoutMediaQueryService: SkyFlyoutMediaQueryService,
+    private elementRef: ElementRef
   ) {
     // All commands flow through the message stream.
     this.messageStream
@@ -162,11 +163,11 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       });
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.adapter.adjustHeaderForHelp(this.flyoutHeader);
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
@@ -179,11 +180,10 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
   @HostListener('window:resize', ['$event'])
   public onWindowResize(event: any): void {
-    const xsBreakpointMaxPixels = 767;
-    if (event.target.innerWidth <= xsBreakpointMaxPixels) {
-      this.flyoutMediaQueryService.setBreakpoint(event.target.innerWidth);
+    if (this.flyoutMediaQueryService.isWidthXs(event.target.innerWidth)) {
+      this.updateBreakpointAndResponsiveClass(event.target.innerWidth);
     } else {
-      this.flyoutMediaQueryService.setBreakpoint(this.flyoutWidth);
+      this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
     }
   }
 
@@ -218,18 +218,18 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     this.flyoutWidth = this.config.defaultWidth;
 
-    this.flyoutMediaQueryService.setBreakpoint(this.flyoutWidth);
+    this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
 
     return this.flyoutInstance;
   }
 
-  public close() {
+  public close(): void {
     this.messageStream.next({
       type: SkyFlyoutMessageType.Close
     });
   }
 
-  public invokePrimaryAction() {
+  public invokePrimaryAction(): boolean {
     this.primaryAction.callback();
 
     if (this.primaryAction.closeAfterInvoking) {
@@ -243,7 +243,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     return (this.isOpening) ? FLYOUT_OPEN_STATE : FLYOUT_CLOSED_STATE;
   }
 
-  public animationDone(event: AnimationEvent) {
+  public animationDone(event: AnimationEvent): void {
     if (event.toState === FLYOUT_OPEN_STATE) {
       this.isOpen = true;
     }
@@ -255,7 +255,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     }
   }
 
-  public onMouseDown(event: MouseEvent) {
+  public onMouseDown(event: MouseEvent): void {
     this.isDragging = true;
     this.xCoord = event.clientX;
 
@@ -283,7 +283,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       });
   }
 
-  public onMouseMove(event: MouseEvent) {
+  public onMouseMove(event: MouseEvent): void {
     if (!this.isDragging) {
       return;
     }
@@ -299,23 +299,23 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     this.flyoutWidth = width;
 
-    this.flyoutMediaQueryService.setBreakpoint(this.flyoutWidth);
+    this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
 
     this.xCoord = event.clientX;
     this.changeDetector.detectChanges();
   }
 
-  public onHandleRelease(event: MouseEvent) {
+  public onHandleRelease(event: MouseEvent): void {
     this.isDragging = false;
     this.adapter.toggleIframePointerEvents(true);
     this.changeDetector.detectChanges();
   }
 
-  public onIteratorPreviousButtonClick() {
+  public onIteratorPreviousButtonClick(): void {
     this.flyoutInstance.iteratorPreviousButtonClick.emit();
   }
 
-  public onIteratorNextButtonClick() {
+  public onIteratorNextButtonClick(): void {
     this.flyoutInstance.iteratorNextButtonClick.emit();
   }
 
@@ -332,7 +332,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     return instance;
   }
 
-  private handleIncomingMessages(message: SkyFlyoutMessage) {
+  private handleIncomingMessages(message: SkyFlyoutMessage): void {
     /* tslint:disable-next-line:switch-default */
     switch (message.type) {
       case SkyFlyoutMessageType.Open:
@@ -367,13 +367,21 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.changeDetector.markForCheck();
   }
 
-  private notifyClosed() {
+  private notifyClosed(): void {
     this.flyoutInstance.closed.emit();
     this.flyoutInstance.closed.complete();
   }
 
-  private cleanTemplate() {
+  private cleanTemplate(): void {
     this.target.clear();
+  }
+
+  private updateBreakpointAndResponsiveClass(width: number): void {
+    this.flyoutMediaQueryService.setBreakpointForWidth(width);
+
+    const newBreakpiont = this.flyoutMediaQueryService.current;
+
+    this.adapter.setResponsiveClass(this.elementRef, newBreakpiont);
   }
 
   private getString(key: string): string {

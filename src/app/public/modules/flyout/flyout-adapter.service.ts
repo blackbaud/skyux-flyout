@@ -30,23 +30,36 @@ export class SkyFlyoutAdapterService {
     }
   }
 
-  public setFlexClass(breakpoint: SkyMediaBreakpoints) {
-    const flexEl = document.querySelector('.sky-flyout') as HTMLElement;
+  public setResponsiveClass(element: ElementRef, breakpoint: SkyMediaBreakpoints): void {
+    const nativeEl: HTMLElement = element.nativeElement;
 
-    this.renderer.removeClass(flexEl, 'sky-responsive-container-xs');
-    this.renderer.removeClass(flexEl, 'sky-responsive-container-sm');
-    this.renderer.removeClass(flexEl, 'sky-responsive-container-md');
-    this.renderer.removeClass(flexEl, 'sky-responsive-container-lg');
+    this.renderer.removeClass(nativeEl, 'sky-responsive-container-xs');
+    this.renderer.removeClass(nativeEl, 'sky-responsive-container-sm');
+    this.renderer.removeClass(nativeEl, 'sky-responsive-container-md');
+    this.renderer.removeClass(nativeEl, 'sky-responsive-container-lg');
 
-    if (breakpoint === SkyMediaBreakpoints.xs) {
-      this.renderer.addClass(flexEl, 'sky-responsive-container-xs');
-    } else if (breakpoint === SkyMediaBreakpoints.sm) {
-      this.renderer.addClass(flexEl, 'sky-responsive-container-sm');
-    } else if (breakpoint === SkyMediaBreakpoints.md) {
-      this.renderer.addClass(flexEl, 'sky-responsive-container-md');
-    } else {
-      this.renderer.addClass(flexEl, 'sky-responsive-container-lg');
+    let newClass: string;
+
+    switch (breakpoint) {
+      case SkyMediaBreakpoints.xs: {
+        newClass = 'sky-responsive-container-xs';
+        break;
+      }
+      case SkyMediaBreakpoints.sm: {
+        newClass = 'sky-responsive-container-sm';
+        break;
+      }
+      case SkyMediaBreakpoints.md: {
+        newClass = 'sky-responsive-container-md';
+        break;
+      }
+      default: {
+        newClass = 'sky-responsive-container-lg';
+        break;
+      }
     }
+
+    this.renderer.addClass(nativeEl, newClass);
   }
 
   public toggleIframePointerEvents(enable: boolean): void {

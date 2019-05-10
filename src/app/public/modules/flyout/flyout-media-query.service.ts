@@ -11,16 +11,9 @@ import {
 } from 'rxjs/Subscription';
 
 import {
-  SkyMediaBreakpoints
-} from '@skyux/core';
-
-import {
+  SkyMediaBreakpoints,
   SkyMediaQueryListener
-} from '@skyux/core/modules/media-query/media-query-listener';
-
-import {
-  SkyFlyoutAdapterService
-} from './flyout-adapter.service';
+} from '@skyux/core';
 
 @Injectable()
 export class SkyFlyoutMediaQueryService {
@@ -33,9 +26,7 @@ export class SkyFlyoutMediaQueryService {
 
   private _current = SkyMediaBreakpoints.xs;
 
-  constructor(
-    private adapterService: SkyFlyoutAdapterService
-  ) {
+  constructor() {
     this.currentSubject.next(this._current);
   }
 
@@ -47,28 +38,63 @@ export class SkyFlyoutMediaQueryService {
     });
   }
 
-  public setBreakpoint(width: number) {
+  public setBreakpointForWidth(width: number): void {
+    let breakpoint: SkyMediaBreakpoints;
+
+    if (this.isWidthXs(width)) {
+      breakpoint = SkyMediaBreakpoints.xs;
+    } else if (this.isWidthSm(width)) {
+      breakpoint = SkyMediaBreakpoints.sm;
+    } else if (this.isWidthMd(width)) {
+      breakpoint = SkyMediaBreakpoints.md;
+    } else {
+      breakpoint = SkyMediaBreakpoints.lg;
+    }
+
+    this._current = breakpoint;
+    this.currentSubject.next(this._current);
+  }
+
+  public isWidthXs(width: number): boolean {
     const xsBreakpointMaxPixels = 767;
+
+    if (width <= xsBreakpointMaxPixels) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public isWidthSm(width: number): boolean {
     const smBreakpointMinPixels = 768;
     const smBreakpointMaxPixels = 991;
+
+    if (width >= smBreakpointMinPixels && width <= smBreakpointMaxPixels) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public isWidthMd(width: number): boolean {
     const mdBreakpointMinPixels = 992;
     const mdBreakpointMaxPixels = 1199;
 
-    if (width <= xsBreakpointMaxPixels) {
-      this._current = SkyMediaBreakpoints.xs;
-      this.adapterService.setFlexClass(SkyMediaBreakpoints.xs);
-    } else if (width >= smBreakpointMinPixels && width <= smBreakpointMaxPixels) {
-      this._current = SkyMediaBreakpoints.sm;
-      this.adapterService.setFlexClass(SkyMediaBreakpoints.sm);
-    } else if (width >= mdBreakpointMinPixels && width <= mdBreakpointMaxPixels) {
-      this._current = SkyMediaBreakpoints.md;
-      this.adapterService.setFlexClass(SkyMediaBreakpoints.md);
+    if (width >= mdBreakpointMinPixels && width <= mdBreakpointMaxPixels) {
+      return true;
     } else {
-      this._current = SkyMediaBreakpoints.lg;
-      this.adapterService.setFlexClass(SkyMediaBreakpoints.lg);
+      return false;
     }
+  }
 
-    this.currentSubject.next(this._current);
+  public isWidthLg(width: number): boolean {
+    const lgBreakpointMinPixels = 1200;
+
+    if (width >= lgBreakpointMinPixels) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public destroy(): void {

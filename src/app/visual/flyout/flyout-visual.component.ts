@@ -46,7 +46,7 @@ export class FlyoutVisualComponent implements OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  public openFlyout(record: any) {
+  public openFlyout(record: any): void {
     this.flyoutService.open(FlyoutDemoComponent, {
       providers: [{
         provide: FlyoutDemoContext,
@@ -55,7 +55,7 @@ export class FlyoutVisualComponent implements OnDestroy {
     });
   }
 
-  public openFlyoutWithIterators(record: any, previousButtonDisabled: boolean, nextButtonDisabled: boolean) {
+  public openFlyoutWithIterators(record: any, previousButtonDisabled: boolean, nextButtonDisabled: boolean): void {
     this.flyout = this.flyoutService.open(FlyoutDemoComponent, {
       providers: [{
         provide: FlyoutDemoContext,

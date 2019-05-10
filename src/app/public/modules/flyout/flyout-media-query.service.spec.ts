@@ -8,13 +8,8 @@ import {
 } from 'rxjs/Subscription';
 
 import {
-  SkyMediaBreakpoints,
-  SkyWindowRefService
+  SkyMediaBreakpoints
 } from '@skyux/core';
-
-import {
-  SkyFlyoutAdapterService
-} from './flyout-adapter.service';
 
 import {
   SkyFlyoutMediaQueryService
@@ -25,16 +20,10 @@ describe('Flyout media query service', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        SkyFlyoutAdapterService,
-        SkyFlyoutMediaQueryService,
-        SkyWindowRefService
+        SkyFlyoutMediaQueryService
       ]
     });
   });
-
-  beforeEach(inject([SkyFlyoutAdapterService], (adapterService: SkyFlyoutAdapterService) => {
-    spyOn(adapterService, 'setFlexClass').and.stub();
-  }));
 
   describe('initialization test', () => {
 
@@ -89,19 +78,19 @@ describe('Flyout media query service', () => {
           }
         );
 
-        mediaQueryService.setBreakpoint(300);
+        mediaQueryService.setBreakpointForWidth(300);
 
         expect(result).toEqual(SkyMediaBreakpoints.xs);
 
-        mediaQueryService.setBreakpoint(900);
+        mediaQueryService.setBreakpointForWidth(900);
 
         expect(result).toEqual(SkyMediaBreakpoints.sm);
 
-        mediaQueryService.setBreakpoint(1100);
+        mediaQueryService.setBreakpointForWidth(1100);
 
         expect(result).toEqual(SkyMediaBreakpoints.md);
 
-        mediaQueryService.setBreakpoint(1400);
+        mediaQueryService.setBreakpointForWidth(1400);
 
         expect(result).toEqual(SkyMediaBreakpoints.lg);
 
@@ -110,36 +99,91 @@ describe('Flyout media query service', () => {
       }
     ));
 
-    it('should call the adapter to update the responsive class when setBreakPoint is called',
-      inject(
-        [SkyFlyoutMediaQueryService, SkyFlyoutAdapterService],
-        (mediaQueryService: SkyFlyoutMediaQueryService, adapterService: SkyFlyoutAdapterService) => {
-          mediaQueryService.setBreakpoint(300);
-
-          expect(adapterService.setFlexClass).toHaveBeenCalledWith(SkyMediaBreakpoints.xs);
-
-          mediaQueryService.setBreakpoint(900);
-
-          expect(adapterService.setFlexClass).toHaveBeenCalledWith(SkyMediaBreakpoints.sm);
-
-          mediaQueryService.setBreakpoint(1100);
-
-          expect(adapterService.setFlexClass).toHaveBeenCalledWith(SkyMediaBreakpoints.md);
-
-          mediaQueryService.setBreakpoint(1400);
-
-          expect(adapterService.setFlexClass).toHaveBeenCalledWith(SkyMediaBreakpoints.lg);
-
-          mediaQueryService.destroy();
-        }
-      ));
-
     it('should provide the ability to check the current breakpoints', inject(
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
-        mediaQueryService.setBreakpoint(900);
+        mediaQueryService.setBreakpointForWidth(900);
 
         expect(mediaQueryService.current).toEqual(SkyMediaBreakpoints.sm);
+        mediaQueryService.destroy();
+      }
+    ));
+  });
+
+  describe('width checks', () => {
+    it('should return true from isWidthXs when appropriate', inject(
+      [SkyFlyoutMediaQueryService],
+      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+        expect(mediaQueryService.isWidthXs(767)).toBeTruthy();
+
+        mediaQueryService.destroy();
+      }
+    ));
+
+    it('should return false from isWidthXs when appropriate', inject(
+      [SkyFlyoutMediaQueryService],
+      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+        expect(mediaQueryService.isWidthXs(768)).toBeFalsy();
+
+        mediaQueryService.destroy();
+      }
+    ));
+
+    it('should return true from isWidthSm when appropriate', inject(
+      [SkyFlyoutMediaQueryService],
+      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+        expect(mediaQueryService.isWidthSm(768)).toBeTruthy();
+        expect(mediaQueryService.isWidthSm(991)).toBeTruthy();
+
+        mediaQueryService.destroy();
+      }
+    ));
+
+    it('should return false from isWidthSm when appropriate', inject(
+      [SkyFlyoutMediaQueryService],
+      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+        expect(mediaQueryService.isWidthSm(767)).toBeFalsy();
+        expect(mediaQueryService.isWidthSm(992)).toBeFalsy();
+
+        mediaQueryService.destroy();
+      }
+    ));
+
+    it('should return true from isWidthMd when appropriate', inject(
+      [SkyFlyoutMediaQueryService],
+      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+        expect(mediaQueryService.isWidthMd(992)).toBeTruthy();
+        expect(mediaQueryService.isWidthMd(1199)).toBeTruthy();
+
+        mediaQueryService.destroy();
+      }
+    ));
+
+    it('should return false from isWidthMd when appropriate', inject(
+      [SkyFlyoutMediaQueryService],
+      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+        expect(mediaQueryService.isWidthMd(991)).toBeFalsy();
+        expect(mediaQueryService.isWidthMd(1200)).toBeFalsy();
+
+        mediaQueryService.destroy();
+      }
+    ));
+
+    it('should return true from isWidthLg when appropriate', inject(
+      [SkyFlyoutMediaQueryService],
+      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+        expect(mediaQueryService.isWidthLg(1200)).toBeTruthy();
+        expect(mediaQueryService.isWidthLg(2000)).toBeTruthy();
+
+        mediaQueryService.destroy();
+      }
+    ));
+
+    it('should return false from isWidthLg when appropriate', inject(
+      [SkyFlyoutMediaQueryService],
+      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+        expect(mediaQueryService.isWidthLg(1199)).toBeFalsy();
+
         mediaQueryService.destroy();
       }
     ));

@@ -79,7 +79,7 @@ describe('Flyout component', () => {
     return flyoutInstance;
   }
 
-  function closeFlyout() {
+  function closeFlyout(): void {
     const closeButton = getCloseButtonElement();
     closeButton.click();
     tick();
@@ -87,14 +87,14 @@ describe('Flyout component', () => {
     tick();
   }
 
-  function makeEvent(eventType: string, evtObj: any) {
+  function makeEvent(eventType: string, evtObj: any): void {
     let evt = document.createEvent('MouseEvents');
     evt.initMouseEvent(eventType, false, false, window, 0, 0, 0, evtObj.clientX,
       0, false, false, false, false, 0, undefined);
     document.dispatchEvent(evt);
   }
 
-  function grabDragHandle(handleXCord: number) {
+  function grabDragHandle(handleXCord: number): void {
     const handleElement = getFlyoutHandleElement();
     let evt = document.createEvent('MouseEvents');
     evt.initMouseEvent('mousedown', false, false, window, 0, 0, 0, handleXCord,
@@ -103,17 +103,17 @@ describe('Flyout component', () => {
     handleElement.dispatchEvent(evt);
   }
 
-  function dragHandle(endingXCord: number) {
+  function dragHandle(endingXCord: number): void {
     makeEvent('mousemove', { clientX: endingXCord });
     fixture.detectChanges();
     tick();
   }
 
-  function releaseDragHandle() {
+  function releaseDragHandle(): void {
     makeEvent('mouseup', {});
   }
 
-  function resizeFlyout(startingXCord: number, endingXCord: number) {
+  function resizeFlyout(startingXCord: number, endingXCord: number): void {
     grabDragHandle(startingXCord);
     dragHandle(endingXCord);
     releaseDragHandle();
@@ -121,6 +121,10 @@ describe('Flyout component', () => {
 
   function getFlyoutElement(): HTMLElement {
     return document.querySelector('.sky-flyout') as HTMLElement;
+  }
+
+  function getFlyoutHostElement(): HTMLElement {
+    return document.querySelector('sky-flyout') as HTMLElement;
   }
 
   function getFlyoutHandleElement(): HTMLElement {
@@ -723,7 +727,7 @@ describe('Flyout component', () => {
   });
 
   describe('iterator', () => {
-    function getIteratorButtons() {
+    function getIteratorButtons(): NodeListOf<HTMLButtonElement> {
       return document.querySelectorAll('#iterators button') as NodeListOf<HTMLButtonElement>;
     }
 
@@ -887,65 +891,69 @@ describe('Flyout component', () => {
     }));
   });
 
-  describe('flex classes', () => {
+  describe('responsive classes', () => {
     it('should add the xs class when appropriate', fakeAsync(() => {
       openFlyout({ maxWidth: 10000, minWidth: 50 });
       fixture.detectChanges();
       tick();
+      const flyoutHostElement = getFlyoutHostElement();
       const flyoutElement = getFlyoutElement();
 
       resizeFlyout(1000, 1100);
 
       expect(flyoutElement.style.width).toBe('400px');
-      expect(flyoutElement.classList.contains('sky-responsive-container-xs')).toBeTruthy();
-      expect(flyoutElement.classList.contains('sky-responsive-container-sm')).toBeFalsy();
-      expect(flyoutElement.classList.contains('sky-responsive-container-md')).toBeFalsy();
-      expect(flyoutElement.classList.contains('sky-responsive-container-lg')).toBeFalsy();
+      expect(flyoutHostElement.classList.contains('sky-responsive-container-xs')).toBeTruthy();
+      expect(flyoutHostElement.classList.contains('sky-responsive-container-sm')).toBeFalsy();
+      expect(flyoutHostElement.classList.contains('sky-responsive-container-md')).toBeFalsy();
+      expect(flyoutHostElement.classList.contains('sky-responsive-container-lg')).toBeFalsy();
     }));
 
     it('should add the sm class when appropriate', fakeAsync(() => {
       openFlyout({ maxWidth: 10000, minWidth: 50 });
       fixture.detectChanges();
       tick();
+      const flyoutHostElement = getFlyoutHostElement();
       const flyoutElement = getFlyoutElement();
 
       resizeFlyout(1000, 600);
 
       expect(flyoutElement.style.width).toBe('900px');
-      expect(flyoutElement.classList.contains('sky-responsive-container-sm')).toBeTruthy();
-      expect(flyoutElement.classList.contains('sky-responsive-container-xs')).toBeFalsy();
-      expect(flyoutElement.classList.contains('sky-responsive-container-md')).toBeFalsy();
-      expect(flyoutElement.classList.contains('sky-responsive-container-lg')).toBeFalsy();
+      expect(flyoutHostElement.classList.contains('sky-responsive-container-sm')).toBeTruthy();
+      expect(flyoutHostElement.classList.contains('sky-responsive-container-xs')).toBeFalsy();
+      expect(flyoutHostElement.classList.contains('sky-responsive-container-md')).toBeFalsy();
+      expect(flyoutHostElement.classList.contains('sky-responsive-container-lg')).toBeFalsy();
     }));
 
     it('should add the md class when appropriate', fakeAsync(() => {
       openFlyout({ maxWidth: 10000, minWidth: 50 });
       fixture.detectChanges();
       tick();
+      const flyoutHostElement = getFlyoutHostElement();
       const flyoutElement = getFlyoutElement();
 
       resizeFlyout(1000, 400);
 
       expect(flyoutElement.style.width).toBe('1100px');
-      expect(flyoutElement.classList.contains('sky-responsive-container-md')).toBeTruthy();
-      expect(flyoutElement.classList.contains('sky-responsive-container-xs')).toBeFalsy();
-      expect(flyoutElement.classList.contains('sky-responsive-container-sm')).toBeFalsy();
-      expect(flyoutElement.classList.contains('sky-responsive-container-lg')).toBeFalsy();
+      expect(flyoutHostElement.classList.contains('sky-responsive-container-md')).toBeTruthy();
+      expect(flyoutHostElement.classList.contains('sky-responsive-container-xs')).toBeFalsy();
+      expect(flyoutHostElement.classList.contains('sky-responsive-container-sm')).toBeFalsy();
+      expect(flyoutHostElement.classList.contains('sky-responsive-container-lg')).toBeFalsy();
     }));
 
     it('should add the lg class when appropriate', fakeAsync(() => {
       openFlyout({ maxWidth: 10000, minWidth: 50 });
       fixture.detectChanges();
       tick();
+      const flyoutHostElement = getFlyoutHostElement();
       const flyoutElement = getFlyoutElement();
 
       resizeFlyout(1000, 100);
 
       expect(flyoutElement.style.width).toBe('1400px');
-      expect(flyoutElement.classList.contains('sky-responsive-container-lg')).toBeTruthy();
-      expect(flyoutElement.classList.contains('sky-responsive-container-xs')).toBeFalsy();
-      expect(flyoutElement.classList.contains('sky-responsive-container-sm')).toBeFalsy();
-      expect(flyoutElement.classList.contains('sky-responsive-container-md')).toBeFalsy();
+      expect(flyoutHostElement.classList.contains('sky-responsive-container-lg')).toBeTruthy();
+      expect(flyoutHostElement.classList.contains('sky-responsive-container-xs')).toBeFalsy();
+      expect(flyoutHostElement.classList.contains('sky-responsive-container-sm')).toBeFalsy();
+      expect(flyoutHostElement.classList.contains('sky-responsive-container-md')).toBeFalsy();
     }));
   });
 
@@ -964,7 +972,7 @@ describe('Flyout component', () => {
   });
 
   it('should set the media query service breakpoint to the window size when xs', fakeAsync(() => {
-    const breakpointSpy = spyOn(SkyFlyoutMediaQueryService.prototype, 'setBreakpoint')
+    const breakpointSpy = spyOn(SkyFlyoutMediaQueryService.prototype, 'setBreakpointForWidth')
       .and.callThrough();
 
     openFlyout();
@@ -978,7 +986,7 @@ describe('Flyout component', () => {
 
   it('should set the media query service breakpoint to the window size when larger than xs',
     fakeAsync(() => {
-      const breakpointSpy = spyOn(SkyFlyoutMediaQueryService.prototype, 'setBreakpoint')
+      const breakpointSpy = spyOn(SkyFlyoutMediaQueryService.prototype, 'setBreakpointForWidth')
         .and.callThrough();
       const windowSizeSpy = spyOnProperty(window, 'innerWidth', 'get');
 
