@@ -41,11 +41,11 @@ export class SkyFlyoutMediaQueryService {
   public setBreakpointForWidth(width: number): void {
     let breakpoint: SkyMediaBreakpoints;
 
-    if (this.isWidthXs(width)) {
+    if (this.isWidthWithinBreakpiont(width, SkyMediaBreakpoints.xs)) {
       breakpoint = SkyMediaBreakpoints.xs;
-    } else if (this.isWidthSm(width)) {
+    } else if (this.isWidthWithinBreakpiont(width, SkyMediaBreakpoints.sm)) {
       breakpoint = SkyMediaBreakpoints.sm;
-    } else if (this.isWidthMd(width)) {
+    } else if (this.isWidthWithinBreakpiont(width, SkyMediaBreakpoints.md)) {
       breakpoint = SkyMediaBreakpoints.md;
     } else {
       breakpoint = SkyMediaBreakpoints.lg;
@@ -55,45 +55,27 @@ export class SkyFlyoutMediaQueryService {
     this.currentSubject.next(this._current);
   }
 
-  public isWidthXs(width: number): boolean {
+  public isWidthWithinBreakpiont(width: number, breakpoint: SkyMediaBreakpoints): boolean {
     const xsBreakpointMaxPixels = 767;
-
-    if (width <= xsBreakpointMaxPixels) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public isWidthSm(width: number): boolean {
     const smBreakpointMinPixels = 768;
     const smBreakpointMaxPixels = 991;
-
-    if (width >= smBreakpointMinPixels && width <= smBreakpointMaxPixels) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public isWidthMd(width: number): boolean {
     const mdBreakpointMinPixels = 992;
     const mdBreakpointMaxPixels = 1199;
-
-    if (width >= mdBreakpointMinPixels && width <= mdBreakpointMaxPixels) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public isWidthLg(width: number): boolean {
     const lgBreakpointMinPixels = 1200;
 
-    if (width >= lgBreakpointMinPixels) {
-      return true;
-    } else {
-      return false;
+    switch (breakpoint) {
+      case SkyMediaBreakpoints.xs: {
+        return (width <= xsBreakpointMaxPixels);
+      }
+      case SkyMediaBreakpoints.sm: {
+        return (width >= smBreakpointMinPixels && width <= smBreakpointMaxPixels);
+      }
+      case SkyMediaBreakpoints.md: {
+        return (width >= mdBreakpointMinPixels && width <= mdBreakpointMaxPixels);
+      }
+      default: {
+        return (width >= lgBreakpointMinPixels);
+      }
     }
   }
 

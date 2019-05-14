@@ -17,6 +17,10 @@ import {
 } from './flyout-demo.component';
 
 import {
+  FlyoutResponsiveDemoComponent
+} from './flyout-responsive-demo.component';
+
+import {
   FlyoutDemoContext
 } from './flyout-demo-context';
 
@@ -35,6 +39,8 @@ export class FlyoutVisualComponent implements OnDestroy {
 
   public flyout: SkyFlyoutInstance<any>;
 
+  public showButtons = true;
+
   private ngUnsubscribe = new Subject();
 
   constructor(
@@ -47,12 +53,18 @@ export class FlyoutVisualComponent implements OnDestroy {
   }
 
   public openFlyout(record: any): void {
-    this.flyoutService.open(FlyoutDemoComponent, {
+    this.flyout = this.flyoutService.open(FlyoutDemoComponent, {
       providers: [{
         provide: FlyoutDemoContext,
         useValue: record
       }]
     });
+
+    this.flyout.closed.subscribe(() => {
+      this.showButtons = true;
+    });
+
+    this.showButtons = false;
   }
 
   public openFlyoutWithIterators(record: any, previousButtonDisabled: boolean, nextButtonDisabled: boolean): void {
@@ -77,5 +89,28 @@ export class FlyoutVisualComponent implements OnDestroy {
       .subscribe(() => {
         console.log('next clicked');
       });
+
+    this.flyout.closed.subscribe(() => {
+      this.showButtons = true;
+    });
+
+    this.showButtons = false;
+  }
+
+  public openResponsiveFlyout(width: number): void {
+    this.flyout = this.flyoutService.open(FlyoutResponsiveDemoComponent, {
+      defaultWidth: width,
+      maxWidth: 5000
+    });
+
+    this.flyout.closed.subscribe(() => {
+      this.showButtons = true;
+    });
+
+    this.showButtons = false;
+  }
+
+  public toggleButtons() {
+    this.showButtons = !this.showButtons;
   }
 }

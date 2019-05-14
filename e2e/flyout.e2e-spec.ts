@@ -95,4 +95,54 @@ describe('Flyout', () => {
     });
     element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
   });
+
+  it('should match previous screenshot when their is responsive content (flyout: xs)', (done) => {
+    SkyHostBrowser.get('visual/flyout');
+    SkyHostBrowser.setWindowBreakpoint('lg');
+    element(by.css('#open-responsive-flyout-xs')).click();
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: 'flyout-responsive-xs'
+    });
+    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+  });
+
+  it('should match previous screenshot when their is responsive content (flyout: sm)', (done) => {
+    SkyHostBrowser.get('visual/flyout');
+    SkyHostBrowser.setWindowBreakpoint('lg');
+    element(by.css('#open-responsive-flyout-sm')).click();
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: 'flyout-responsive-sm'
+    });
+    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+  });
+
+  it('should match previous screenshot when their is responsive content (flyout: md)', (done) => {
+    SkyHostBrowser.get('visual/flyout');
+    SkyHostBrowser.setWindowBreakpoint('lg');
+    element(by.css('#open-responsive-flyout-md')).click();
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: 'flyout-responsive-md'
+    });
+    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+  });
+
+  it('should match previous screenshot when their is responsive content (flyout: lg)', (done) => {
+    SkyHostBrowser.get('visual/flyout');
+    SkyHostBrowser.setWindowBreakpoint('lg');
+    element(by.css('#open-responsive-flyout-lg')).click();
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: 'flyout-responsive-lg'
+    });
+    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+  });
+
+  it('should match previous screenshot when their is responsive content (screen: xs)', (done) => {
+    SkyHostBrowser.get('visual/flyout');
+    SkyHostBrowser.setWindowBreakpoint('xs');
+    element(by.css('#open-responsive-flyout-lg')).click();
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: 'flyout-responsive-lg-screen-xs'
+    });
+    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+  });
 });

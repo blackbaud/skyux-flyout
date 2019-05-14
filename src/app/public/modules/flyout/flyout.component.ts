@@ -34,6 +34,7 @@ import {
 import 'rxjs/add/operator/takeUntil';
 
 import {
+  SkyMediaBreakpoints,
   SkyMediaQueryService
 } from '@skyux/core';
 
@@ -180,8 +181,9 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
   @HostListener('window:resize', ['$event'])
   public onWindowResize(event: any): void {
-    if (this.flyoutMediaQueryService.isWidthXs(event.target.innerWidth)) {
-      this.updateBreakpointAndResponsiveClass(event.target.innerWidth);
+    if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(event.target.innerWidth,
+      SkyMediaBreakpoints.xs)) {
+        this.updateBreakpointAndResponsiveClass(event.target.innerWidth);
     } else {
       this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
     }
@@ -218,7 +220,12 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     this.flyoutWidth = this.config.defaultWidth;
 
-    this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
+    if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(window.innerWidth,
+      SkyMediaBreakpoints.xs)) {
+        this.updateBreakpointAndResponsiveClass(window.innerWidth);
+    } else {
+      this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
+    }
 
     return this.flyoutInstance;
   }
@@ -256,13 +263,19 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public onMouseDown(event: MouseEvent): void {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(window.innerWidth,
+      SkyMediaBreakpoints.xs)) {
+        return;
+    }
+
     this.isDragging = true;
     this.xCoord = event.clientX;
 
     this.adapter.toggleIframePointerEvents(false);
-
-    event.preventDefault();
-    event.stopPropagation();
 
     Observable
       .fromEvent(document, 'mousemove')

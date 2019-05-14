@@ -114,7 +114,7 @@ describe('Flyout media query service', () => {
     it('should return true from isWidthXs when appropriate', inject(
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
-        expect(mediaQueryService.isWidthXs(767)).toBeTruthy();
+        expect(mediaQueryService.isWidthWithinBreakpiont(767, SkyMediaBreakpoints.xs)).toBeTruthy();
 
         mediaQueryService.destroy();
       }
@@ -123,7 +123,7 @@ describe('Flyout media query service', () => {
     it('should return false from isWidthXs when appropriate', inject(
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
-        expect(mediaQueryService.isWidthXs(768)).toBeFalsy();
+        expect(mediaQueryService.isWidthWithinBreakpiont(768, SkyMediaBreakpoints.xs)).toBeFalsy();
 
         mediaQueryService.destroy();
       }
@@ -132,8 +132,8 @@ describe('Flyout media query service', () => {
     it('should return true from isWidthSm when appropriate', inject(
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
-        expect(mediaQueryService.isWidthSm(768)).toBeTruthy();
-        expect(mediaQueryService.isWidthSm(991)).toBeTruthy();
+        expect(mediaQueryService.isWidthWithinBreakpiont(768, SkyMediaBreakpoints.sm)).toBeTruthy();
+        expect(mediaQueryService.isWidthWithinBreakpiont(991, SkyMediaBreakpoints.sm)).toBeTruthy();
 
         mediaQueryService.destroy();
       }
@@ -142,8 +142,8 @@ describe('Flyout media query service', () => {
     it('should return false from isWidthSm when appropriate', inject(
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
-        expect(mediaQueryService.isWidthSm(767)).toBeFalsy();
-        expect(mediaQueryService.isWidthSm(992)).toBeFalsy();
+        expect(mediaQueryService.isWidthWithinBreakpiont(767, SkyMediaBreakpoints.sm)).toBeFalsy();
+        expect(mediaQueryService.isWidthWithinBreakpiont(992, SkyMediaBreakpoints.sm)).toBeFalsy();
 
         mediaQueryService.destroy();
       }
@@ -152,8 +152,9 @@ describe('Flyout media query service', () => {
     it('should return true from isWidthMd when appropriate', inject(
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
-        expect(mediaQueryService.isWidthMd(992)).toBeTruthy();
-        expect(mediaQueryService.isWidthMd(1199)).toBeTruthy();
+        expect(mediaQueryService.isWidthWithinBreakpiont(992, SkyMediaBreakpoints.md)).toBeTruthy();
+        expect(mediaQueryService.isWidthWithinBreakpiont(1199, SkyMediaBreakpoints.md))
+          .toBeTruthy();
 
         mediaQueryService.destroy();
       }
@@ -162,8 +163,8 @@ describe('Flyout media query service', () => {
     it('should return false from isWidthMd when appropriate', inject(
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
-        expect(mediaQueryService.isWidthMd(991)).toBeFalsy();
-        expect(mediaQueryService.isWidthMd(1200)).toBeFalsy();
+        expect(mediaQueryService.isWidthWithinBreakpiont(991, SkyMediaBreakpoints.md)).toBeFalsy();
+        expect(mediaQueryService.isWidthWithinBreakpiont(1200, SkyMediaBreakpoints.md)).toBeFalsy();
 
         mediaQueryService.destroy();
       }
@@ -172,8 +173,10 @@ describe('Flyout media query service', () => {
     it('should return true from isWidthLg when appropriate', inject(
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
-        expect(mediaQueryService.isWidthLg(1200)).toBeTruthy();
-        expect(mediaQueryService.isWidthLg(2000)).toBeTruthy();
+        expect(mediaQueryService.isWidthWithinBreakpiont(1200, SkyMediaBreakpoints.lg))
+          .toBeTruthy();
+        expect(mediaQueryService.isWidthWithinBreakpiont(2000, SkyMediaBreakpoints.lg))
+          .toBeTruthy();
 
         mediaQueryService.destroy();
       }
@@ -182,7 +185,7 @@ describe('Flyout media query service', () => {
     it('should return false from isWidthLg when appropriate', inject(
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
-        expect(mediaQueryService.isWidthLg(1199)).toBeFalsy();
+        expect(mediaQueryService.isWidthWithinBreakpiont(1199, SkyMediaBreakpoints.lg)).toBeFalsy();
 
         mediaQueryService.destroy();
       }
