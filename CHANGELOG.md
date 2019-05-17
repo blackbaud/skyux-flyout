@@ -1,3 +1,7 @@
+# 3.1.0 (2019-05-17)
+
+- Added the ability for the flyout component to trigger child components' responsive styles. [#31](https://github.com/blackbaud/skyux-flyout/pull/31)
+
 # 3.0.3 (2019-04-25)
 
 - Fixed flyout component to remain open when users click internal components. [#30](https://github.com/blackbaud/skyux-flyout/pull/30)
