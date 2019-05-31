@@ -297,6 +297,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public onMouseMove(event: MouseEvent): void {
+    /* Sanity check */
+    /* istanbul ignore if */
     if (!this.isDragging) {
       return;
     }
