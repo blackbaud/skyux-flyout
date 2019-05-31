@@ -176,7 +176,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
   @HostListener('click', ['$event'])
   public onHostClick(event: any): void {
-    event.preventDefault();
     event.stopPropagation();
   }
 
