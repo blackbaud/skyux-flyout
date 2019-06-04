@@ -473,6 +473,8 @@ describe('Flyout component', () => {
   }));
 
   it('should respect minimum and maximum when resizing', fakeAsync(() => {
+    // Spy on window size to bypass the flyout not resizing past the browser size
+    spyOnProperty(window, 'innerWidth', 'get').and.returnValue(5000);
     openFlyout({ maxWidth: 1000, minWidth: 200 });
     const flyoutElement = getFlyoutElement();
 
@@ -493,8 +495,28 @@ describe('Flyout component', () => {
     resizeFlyout(1300, 1400);
 
     expect(flyoutElement.style.width).toBe('200px');
-  })
-  );
+  }));
+
+  it('should only resize to 20px less than the window size', fakeAsync(() => {
+    // Spy on window size to set a strict baseline for this test
+    spyOnProperty(window, 'innerWidth', 'get').and.returnValue(1500);
+    openFlyout({ maxWidth: 5000, minWidth: 0 });
+    const flyoutElement = getFlyoutElement();
+
+    expect(flyoutElement.style.width).toBe('500px');
+
+    resizeFlyout(1000, 20);
+
+    expect(flyoutElement.style.width).toBe('1480px');
+
+    resizeFlyout(20, 19);
+
+    expect(flyoutElement.style.width).toBe('1480px');
+
+    resizeFlyout(20, 2);
+
+    expect(flyoutElement.style.width).toBe('1480px');
+  }));
 
   it('should not resize when handle is not clicked',
     fakeAsync(() => {
@@ -915,6 +937,8 @@ describe('Flyout component', () => {
 
   describe('responsive classes', () => {
     it('should add the xs class when appropriate', fakeAsync(() => {
+      // Spy on window size to bypass the flyout not resizing past the browser size
+      spyOnProperty(window, 'innerWidth', 'get').and.returnValue(5000);
       openFlyout({ maxWidth: 10000, minWidth: 50 });
       fixture.detectChanges();
       tick();
@@ -931,6 +955,8 @@ describe('Flyout component', () => {
     }));
 
     it('should add the xs class when appropriate due to xs screen size', fakeAsync(() => {
+      // Spy on window size to bypass the flyout not resizing past the browser size
+      let windowSizeSpy = spyOnProperty(window, 'innerWidth', 'get').and.returnValue(5000);
       openFlyout({ maxWidth: 10000, minWidth: 50 });
       fixture.detectChanges();
       tick();
@@ -938,7 +964,7 @@ describe('Flyout component', () => {
 
       resizeFlyout(1000, 600);
 
-      spyOnProperty(window, 'innerWidth', 'get').and.returnValue(767);
+      windowSizeSpy.and.returnValue(767);
 
       SkyAppTestUtility.fireDomEvent(window, 'resize');
 
@@ -949,6 +975,8 @@ describe('Flyout component', () => {
     }));
 
     it('should add the sm class when appropriate', fakeAsync(() => {
+      // Spy on window size to bypass the flyout not resizing past the browser size
+      spyOnProperty(window, 'innerWidth', 'get').and.returnValue(5000);
       openFlyout({ maxWidth: 10000, minWidth: 50 });
       fixture.detectChanges();
       tick();
@@ -965,6 +993,8 @@ describe('Flyout component', () => {
     }));
 
     it('should add the md class when appropriate', fakeAsync(() => {
+      // Spy on window size to bypass the flyout not resizing past the browser size
+      spyOnProperty(window, 'innerWidth', 'get').and.returnValue(5000);
       openFlyout({ maxWidth: 10000, minWidth: 50 });
       fixture.detectChanges();
       tick();
@@ -981,6 +1011,8 @@ describe('Flyout component', () => {
     }));
 
     it('should add the lg class when appropriate', fakeAsync(() => {
+      // Spy on window size to bypass the flyout not resizing past the browser size
+      spyOnProperty(window, 'innerWidth', 'get').and.returnValue(5000);
       openFlyout({ maxWidth: 10000, minWidth: 50 });
       fixture.detectChanges();
       tick();

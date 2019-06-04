@@ -183,9 +183,14 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public onWindowResize(event: any): void {
     if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(event.target.innerWidth,
       SkyMediaBreakpoints.xs)) {
-        this.updateBreakpointAndResponsiveClass(event.target.innerWidth);
+      this.updateBreakpointAndResponsiveClass(event.target.innerWidth);
     } else {
       this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
+    }
+
+    if (event.target.innerWidth - this.flyoutWidth < 20) {
+      this.flyoutWidth = event.target.innerWidth - 20;
+      this.xCoord = 20;
     }
   }
 
@@ -222,7 +227,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(window.innerWidth,
       SkyMediaBreakpoints.xs)) {
-        this.updateBreakpointAndResponsiveClass(window.innerWidth);
+      this.updateBreakpointAndResponsiveClass(window.innerWidth);
     } else {
       this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
     }
@@ -269,7 +274,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(window.innerWidth,
       SkyMediaBreakpoints.xs)) {
-        return;
+      return;
     }
 
     this.isDragging = true;
@@ -308,7 +313,9 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     width -= offsetX;
 
-    if (width < this.config.minWidth || width > this.config.maxWidth) {
+    if (width < this.config.minWidth ||
+      width > this.config.maxWidth ||
+      width > window.innerWidth - 20) {
       return;
     }
 
