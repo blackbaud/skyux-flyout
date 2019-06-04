@@ -313,17 +313,21 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     width -= offsetX;
 
-    if (width < this.config.minWidth ||
-      width > this.config.maxWidth ||
-      width > window.innerWidth - 20) {
+    if (width < this.config.minWidth || width > this.config.maxWidth) {
       return;
+    }
+
+    if (window.innerWidth - width < 20) {
+      width = window.innerWidth - 20;
+      this.xCoord = 20;
+    } else {
+      this.xCoord = event.clientX;
     }
 
     this.flyoutWidth = width;
 
     this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
 
-    this.xCoord = event.clientX;
     this.changeDetector.detectChanges();
   }
 
