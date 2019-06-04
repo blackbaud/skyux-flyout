@@ -335,6 +335,16 @@ describe('Flyout component', () => {
     })
   );
 
+  it('should set the flyout size to half the window size when no default width is given',
+    fakeAsync(() => {
+      spyOnProperty(window, 'innerWidth', 'get').and.returnValue(900);
+      openFlyout();
+
+      const flyoutElement = getFlyoutElement();
+      expect(flyoutElement.style.width).toBe('450px');
+    })
+  );
+
   it('should not have the sky-flyout-help-shim class if the help widget is not present',
     fakeAsync(() => {
       openFlyout();
@@ -353,7 +363,7 @@ describe('Flyout component', () => {
   );
 
   it('should resize when handle is dragged', fakeAsync(() => {
-    openFlyout({});
+    openFlyout({ defaultWidth: 500 });
     fixture.detectChanges();
     tick();
     const moveSpy = spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
@@ -373,7 +383,7 @@ describe('Flyout component', () => {
   }));
 
   it('should not resize when handle is dragged at xs screen size', fakeAsync(() => {
-    openFlyout({});
+    openFlyout({ defaultWidth: 500 });
     fixture.detectChanges();
     tick();
     const moveSpy = spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
@@ -395,7 +405,7 @@ describe('Flyout component', () => {
   }));
 
   it('should not resize on mousemove unless the resize handle was clicked', fakeAsync(() => {
-    openFlyout({});
+    openFlyout({ defaultWidth: 500 });
     fixture.detectChanges();
     tick();
     const moveSpy = spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
@@ -419,7 +429,7 @@ describe('Flyout component', () => {
   }));
 
   it('should resize flyout when range input is changed', fakeAsync(() => {
-    openFlyout({});
+    openFlyout({ defaultWidth: 500 });
     const flyoutElement = getFlyoutElement();
     expect(flyoutElement.style.width).toBe('500px');
     let resizeInput: any = flyoutElement.querySelector('.sky-flyout-resize-handle');
@@ -438,7 +448,7 @@ describe('Flyout component', () => {
   }));
 
   it('should have correct aria-labels on resizing range input', fakeAsync(() => {
-    openFlyout({ maxWidth: 1000, minWidth: 200 });
+    openFlyout({ maxWidth: 1000, minWidth: 200, defaultWidth: 500 });
     const flyoutElement = getFlyoutElement();
     let resizeInput: any = flyoutElement.querySelector('.sky-flyout-resize-handle');
 
@@ -473,7 +483,7 @@ describe('Flyout component', () => {
   }));
 
   it('should respect minimum and maximum when resizing', fakeAsync(() => {
-    openFlyout({ maxWidth: 1000, minWidth: 200 });
+    openFlyout({ maxWidth: 1000, minWidth: 200, defaultWidth: 500 });
     const flyoutElement = getFlyoutElement();
 
     expect(flyoutElement.style.width).toBe('500px');
@@ -499,7 +509,7 @@ describe('Flyout component', () => {
   it('should not resize when handle is not clicked',
     fakeAsync(() => {
 
-      openFlyout({});
+      openFlyout({ defaultWidth: 500 });
       const flyoutElement = getFlyoutElement();
 
       expect(flyoutElement.style.width).toBe('500px');
@@ -915,7 +925,7 @@ describe('Flyout component', () => {
 
   describe('responsive classes', () => {
     it('should add the xs class when appropriate', fakeAsync(() => {
-      openFlyout({ maxWidth: 10000, minWidth: 50 });
+      openFlyout({ maxWidth: 10000, minWidth: 50, defaultWidth: 500 });
       fixture.detectChanges();
       tick();
       const flyoutHostElement = getFlyoutHostElement();
@@ -931,7 +941,7 @@ describe('Flyout component', () => {
     }));
 
     it('should add the xs class when appropriate due to xs screen size', fakeAsync(() => {
-      openFlyout({ maxWidth: 10000, minWidth: 50 });
+      openFlyout({ maxWidth: 10000, minWidth: 50, defaultWidth: 500 });
       fixture.detectChanges();
       tick();
       const flyoutHostElement = getFlyoutHostElement();
@@ -949,7 +959,7 @@ describe('Flyout component', () => {
     }));
 
     it('should add the sm class when appropriate', fakeAsync(() => {
-      openFlyout({ maxWidth: 10000, minWidth: 50 });
+      openFlyout({ maxWidth: 10000, minWidth: 50, defaultWidth: 500 });
       fixture.detectChanges();
       tick();
       const flyoutHostElement = getFlyoutHostElement();
@@ -965,7 +975,7 @@ describe('Flyout component', () => {
     }));
 
     it('should add the md class when appropriate', fakeAsync(() => {
-      openFlyout({ maxWidth: 10000, minWidth: 50 });
+      openFlyout({ maxWidth: 10000, minWidth: 50, defaultWidth: 500 });
       fixture.detectChanges();
       tick();
       const flyoutHostElement = getFlyoutHostElement();
@@ -981,7 +991,7 @@ describe('Flyout component', () => {
     }));
 
     it('should add the lg class when appropriate', fakeAsync(() => {
-      openFlyout({ maxWidth: 10000, minWidth: 50 });
+      openFlyout({ maxWidth: 10000, minWidth: 50, defaultWidth: 500 });
       fixture.detectChanges();
       tick();
       const flyoutHostElement = getFlyoutHostElement();
@@ -1016,7 +1026,7 @@ describe('Flyout component', () => {
       const breakpointSpy = spyOn(SkyFlyoutMediaQueryService.prototype, 'setBreakpointForWidth')
         .and.callThrough();
 
-      openFlyout();
+      openFlyout({ defaultWidth: 500 });
 
       spyOnProperty(window, 'innerWidth', 'get').and.returnValue(767);
 
@@ -1031,7 +1041,7 @@ describe('Flyout component', () => {
       .and.callThrough();
     const windowSizeSpy = spyOnProperty(window, 'innerWidth', 'get');
 
-    openFlyout();
+    openFlyout({ defaultWidth: 500 });
 
     windowSizeSpy.and.returnValue(800);
 
@@ -1058,7 +1068,7 @@ describe('Flyout component', () => {
         .and.callThrough();
       spyOnProperty(window, 'innerWidth', 'get').and.returnValue(767);
 
-      openFlyout();
+      openFlyout({ defaultWidth: 500 });
 
       expect(breakpointSpy).toHaveBeenCalledWith(767);
     }));
@@ -1069,7 +1079,7 @@ describe('Flyout component', () => {
       .and.callThrough();
     spyOnProperty(window, 'innerWidth', 'get').and.returnValue(800);
 
-    openFlyout();
+    openFlyout({ defaultWidth: 500 });
 
     expect(breakpointSpy).toHaveBeenCalledWith(500);
   }));
