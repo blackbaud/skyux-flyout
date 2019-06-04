@@ -73,6 +73,7 @@ export class FlyoutVisualComponent implements OnDestroy {
         provide: FlyoutDemoContext,
         useValue: record
       }],
+      defaultWidth: 500,
       showIterator: true,
       iteratorPreviousButtonDisabled: previousButtonDisabled,
       iteratorNextButtonDisabled: nextButtonDisabled
