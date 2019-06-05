@@ -347,7 +347,7 @@ describe('Flyout component', () => {
 
   it('should not have the sky-flyout-help-shim class if the help widget is not present',
     fakeAsync(() => {
-      openFlyout();
+      openFlyout({});
       const headerElement = getFlyoutHeaderElement();
       expect(headerElement.classList.contains('sky-flyout-help-shim')).toBeFalsy();
     })
@@ -356,7 +356,7 @@ describe('Flyout component', () => {
   it('should have the sky-flyout-help-shim class if the help widget is present',
     fakeAsync(() => {
       spyOn(window.document, 'getElementById').and.returnValue({});
-      openFlyout();
+      openFlyout({});
       const headerElement = getFlyoutHeaderElement();
       expect(headerElement.classList.contains('sky-flyout-help-shim')).toBeTruthy();
     })
