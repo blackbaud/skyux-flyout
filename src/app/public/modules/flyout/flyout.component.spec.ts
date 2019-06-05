@@ -200,7 +200,7 @@ describe('Flyout component', () => {
   }));
 
   it('should close when the close button is clicked', fakeAsync(() => {
-    const flyout = openFlyout();
+    const flyout = openFlyout({});
     expect(flyout.isOpen).toBe(true);
 
     closeFlyout();
@@ -208,7 +208,7 @@ describe('Flyout component', () => {
   }));
 
   it('should close when the click event fires outside of the flyout', fakeAsync(() => {
-    const flyout = openFlyout();
+    const flyout = openFlyout({});
     expect(flyout.isOpen).toBe(true);
 
     fixture.nativeElement.click();
@@ -219,7 +219,7 @@ describe('Flyout component', () => {
   }));
 
   it('should NOT close when the click event fires inside the flyout', fakeAsync(() => {
-    const flyout = openFlyout();
+    const flyout = openFlyout({});
     expect(flyout.isOpen).toBe(true);
 
     const flyoutContentElement = getFlyoutElement();
@@ -265,7 +265,7 @@ describe('Flyout component', () => {
   }));
 
   it('should close when the Close message type is received', fakeAsync(() => {
-    const flyout = openFlyout();
+    const flyout = openFlyout({});
     expect(flyout.isOpen).toBe(true);
 
     flyout.close();
@@ -278,7 +278,7 @@ describe('Flyout component', () => {
 
   it('should emit closed event of previously opened flyouts when a new one is opened',
     fakeAsync(() => {
-      const flyout = openFlyout();
+      const flyout = openFlyout({});
 
       let closedCalled = false;
       flyout.closed.subscribe(() => {
@@ -286,7 +286,7 @@ describe('Flyout component', () => {
       });
 
       // Open a new flyout before closing the last one:
-      openFlyout();
+      openFlyout({});
 
       expect(closedCalled).toEqual(true);
     })
@@ -337,7 +337,7 @@ describe('Flyout component', () => {
 
   it('should not have the sky-flyout-help-shim class if the help widget is not present',
     fakeAsync(() => {
-      openFlyout();
+      openFlyout({});
       const headerElement = getFlyoutHeaderElement();
       expect(headerElement.classList.contains('sky-flyout-help-shim')).toBeFalsy();
     })
@@ -346,7 +346,7 @@ describe('Flyout component', () => {
   it('should have the sky-flyout-help-shim class if the help widget is present',
     fakeAsync(() => {
       spyOn(window.document, 'getElementById').and.returnValue({});
-      openFlyout();
+      openFlyout({});
       const headerElement = getFlyoutHeaderElement();
       expect(headerElement.classList.contains('sky-flyout-help-shim')).toBeTruthy();
     })
@@ -554,7 +554,7 @@ describe('Flyout component', () => {
   describe('permalink', () => {
     it('should not show the permalink button if no permalink config peroperties are defined',
       fakeAsync(() => {
-        openFlyout();
+        openFlyout({});
         const permaLinkButton = getPermalinkButtonElement();
         expect(permaLinkButton).toBeFalsy();
       })
@@ -644,7 +644,7 @@ describe('Flyout component', () => {
   describe('primary action', () => {
     it('should not show the primary action button if no action is configured',
       fakeAsync(() => {
-        openFlyout();
+        openFlyout({});
         const primaryActionButton = getPrimaryActionButtonElement();
         expect(primaryActionButton).toBeFalsy();
       })
@@ -776,7 +776,7 @@ describe('Flyout component', () => {
     }
 
     it('should not show iterator buttons if config.showIterator is undefined', fakeAsync(() => {
-      openFlyout();
+      openFlyout({});
       const iteratorButtons = getIteratorButtons();
       expect(iteratorButtons.length).toEqual(0);
     }));
@@ -1033,7 +1033,7 @@ describe('Flyout component', () => {
     it('should call the host listener correctly on resize', fakeAsync(() => {
       const resizeSpy = spyOn(SkyFlyoutComponent.prototype, 'onWindowResize').and.callThrough();
 
-      openFlyout();
+      openFlyout({});
 
       expect(resizeSpy).not.toHaveBeenCalled();
 
@@ -1048,7 +1048,7 @@ describe('Flyout component', () => {
       const breakpointSpy = spyOn(SkyFlyoutMediaQueryService.prototype, 'setBreakpointForWidth')
         .and.callThrough();
 
-      openFlyout();
+      openFlyout({});
 
       spyOnProperty(window, 'innerWidth', 'get').and.returnValue(767);
 
@@ -1063,7 +1063,7 @@ describe('Flyout component', () => {
       .and.callThrough();
     const windowSizeSpy = spyOnProperty(window, 'innerWidth', 'get');
 
-    openFlyout();
+    openFlyout({});
 
     windowSizeSpy.and.returnValue(800);
 
@@ -1090,7 +1090,7 @@ describe('Flyout component', () => {
         .and.callThrough();
       spyOnProperty(window, 'innerWidth', 'get').and.returnValue(767);
 
-      openFlyout();
+      openFlyout({});
 
       expect(breakpointSpy).toHaveBeenCalledWith(767);
     }));
@@ -1101,7 +1101,7 @@ describe('Flyout component', () => {
       .and.callThrough();
     spyOnProperty(window, 'innerWidth', 'get').and.returnValue(800);
 
-    openFlyout();
+    openFlyout({});
 
     expect(breakpointSpy).toHaveBeenCalledWith(500);
   }));
