@@ -155,12 +155,20 @@ describe('Flyout component', () => {
     return document.querySelector('.sky-modal-content') as HTMLElement;
   }
 
+  function closeModal(): void {
+    (document.querySelector('.sky-modal-btn-close') as HTMLElement).click();
+  }
+
   function getFlyoutToastTriggerElement(): HTMLElement {
     return document.querySelector('#toast-trigger') as HTMLElement;
   }
 
   function getToastElement(): HTMLElement {
     return document.querySelector('.sky-toast-content') as HTMLElement;
+  }
+
+  function closeToast(): void {
+    (document.querySelector('.sky-toast-btn-close') as HTMLElement).click();
   }
 
   function getIframe(): HTMLElement {
@@ -245,6 +253,10 @@ describe('Flyout component', () => {
     tick();
 
     expect(flyout.isOpen).toBe(true);
+
+    closeModal();
+    fixture.detectChanges();
+    tick();
   }));
 
   it('should NOT close when the click event fires on a toast element', fakeAsync(() => {
@@ -262,6 +274,10 @@ describe('Flyout component', () => {
     tick();
 
     expect(flyout.isOpen).toBe(true);
+
+    closeToast();
+    fixture.detectChanges();
+    tick();
   }));
 
   it('should close when the Close message type is received', fakeAsync(() => {
@@ -473,8 +489,6 @@ describe('Flyout component', () => {
   }));
 
   it('should respect minimum and maximum when resizing', fakeAsync(() => {
-    // Spy on window size to bypass the flyout not resizing past the browser size
-    spyOnProperty(window, 'innerWidth', 'get').and.returnValue(5000);
     openFlyout({ maxWidth: 1000, minWidth: 200 });
     const flyoutElement = getFlyoutElement();
 
@@ -498,24 +512,18 @@ describe('Flyout component', () => {
   }));
 
   it('should only resize to 20px less than the window size', fakeAsync(() => {
-    // Spy on window size to set a strict baseline for this test
-    spyOnProperty(window, 'innerWidth', 'get').and.returnValue(1500);
     openFlyout({ maxWidth: 5000, minWidth: 0 });
     const flyoutElement = getFlyoutElement();
 
     expect(flyoutElement.style.width).toBe('500px');
 
-    resizeFlyout(1000, 20);
+    resizeFlyout(1000, -20);
 
-    expect(flyoutElement.style.width).toBe('1480px');
+    expect(flyoutElement.style.width).toBe('1502px');
 
-    resizeFlyout(20, 19);
+    resizeFlyout(-2, -5);
 
-    expect(flyoutElement.style.width).toBe('1480px');
-
-    resizeFlyout(20, 2);
-
-    expect(flyoutElement.style.width).toBe('1480px');
+    expect(flyoutElement.style.width).toBe('1502px');
   }));
 
   it('should not resize when handle is not clicked',
@@ -1030,8 +1038,10 @@ describe('Flyout component', () => {
   });
 
   describe('responsive states', () => {
+
     it('should call the host listener correctly on resize', fakeAsync(() => {
       const resizeSpy = spyOn(SkyFlyoutComponent.prototype, 'onWindowResize').and.callThrough();
+      spyOnProperty(window, 'innerWidth', 'get').and.callThrough();
 
       openFlyout({});
 
@@ -1047,10 +1057,11 @@ describe('Flyout component', () => {
     fakeAsync(() => {
       const breakpointSpy = spyOn(SkyFlyoutMediaQueryService.prototype, 'setBreakpointForWidth')
         .and.callThrough();
+      let windowSizeSpy = spyOnProperty(window, 'innerWidth', 'get').and.callThrough();
 
       openFlyout({});
 
-      spyOnProperty(window, 'innerWidth', 'get').and.returnValue(767);
+      windowSizeSpy.and.returnValue(767);
 
       SkyAppTestUtility.fireDomEvent(window, 'resize');
 
