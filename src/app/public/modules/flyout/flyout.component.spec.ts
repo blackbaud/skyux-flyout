@@ -489,26 +489,26 @@ describe('Flyout component', () => {
   }));
 
   it('should respect minimum and maximum when resizing', fakeAsync(() => {
-    openFlyout({ maxWidth: 1000, minWidth: 200 });
+    openFlyout({ maxWidth: 600, minWidth: 400 });
     const flyoutElement = getFlyoutElement();
 
     expect(flyoutElement.style.width).toBe('500px');
 
-    resizeFlyout(1000, 500);
+    resizeFlyout(1000, 900);
 
-    expect(flyoutElement.style.width).toBe('1000px');
+    expect(flyoutElement.style.width).toBe('600px');
 
-    resizeFlyout(500, 200);
+    resizeFlyout(900, 899);
 
-    expect(flyoutElement.style.width).toBe('1000px');
+    expect(flyoutElement.style.width).toBe('600px');
 
-    resizeFlyout(500, 1300);
+    resizeFlyout(900, 1100);
 
-    expect(flyoutElement.style.width).toBe('200px');
+    expect(flyoutElement.style.width).toBe('400px');
 
-    resizeFlyout(1300, 1400);
+    resizeFlyout(1100, 1101);
 
-    expect(flyoutElement.style.width).toBe('200px');
+    expect(flyoutElement.style.width).toBe('400px');
   }));
 
   it('should only resize to 20px less than the window size', fakeAsync(() => {
@@ -517,13 +517,10 @@ describe('Flyout component', () => {
 
     expect(flyoutElement.style.width).toBe('500px');
 
-    resizeFlyout(1000, -20);
+    // This calculation is weird but is to ensure this test works on different screen sizes
+    resizeFlyout(1000, 1500 - window.innerWidth);
 
-    expect(flyoutElement.style.width).toBe('1502px');
-
-    resizeFlyout(-2, -5);
-
-    expect(flyoutElement.style.width).toBe('1502px');
+    expect(flyoutElement.style.width).toBe(window.innerWidth - 20 + 'px');
   }));
 
   it('should not resize when handle is not clicked',
