@@ -112,10 +112,12 @@ export class SkyFlyoutService implements OnDestroy {
       // Flyout should close when user clicks outside of flyout.
       // Since the flyout component stops click propigation, we can watch the document for clicks.
       Observable
-      .fromEvent(document, 'click')
+      .fromEvent(document, 'mouseup')
       .takeUntil(this.idled)
       .subscribe(() => {
-        this.close();
+        if (!this.host.instance.isDragging) {
+          this.close();
+        }
       });
 
       this.removeAfterClosed = false;
