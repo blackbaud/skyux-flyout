@@ -97,6 +97,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
   public flyoutWidth = 0;
   public isDragging = false;
+  public isFullscreen = false;
+
   private xCoord = 0;
   private windowBufferSize = 20;
 
@@ -189,6 +191,12 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
     }
 
+    if ((window.innerWidth - this.windowBufferSize) < this.config.minWidth) {
+      this.isFullscreen = true;
+    } else {
+      this.isFullscreen = false;
+    }
+
     if (event.target.innerWidth - this.flyoutWidth < this.windowBufferSize) {
       this.flyoutWidth = event.target.innerWidth - this.windowBufferSize;
       this.xCoord = this.windowBufferSize;
@@ -231,6 +239,12 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       this.updateBreakpointAndResponsiveClass(window.innerWidth);
     } else {
       this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
+    }
+
+    if ((window.innerWidth - this.windowBufferSize) < this.config.minWidth) {
+      this.isFullscreen = true;
+    } else {
+      this.isFullscreen = false;
     }
 
     return this.flyoutInstance;
