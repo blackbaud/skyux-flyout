@@ -1036,6 +1036,44 @@ describe('Flyout component', () => {
 
   describe('responsive states', () => {
 
+  it('should not have the fullscreen class normally', fakeAsync(() => {
+    openFlyout({ defaultWidth: 500, minWidth: 400 });
+    const flyoutElement = getFlyoutElement();
+    const handleElement = getFlyoutHandleElement();
+    expect(flyoutElement.classList.contains('sky-flyout-fullscreen')).toBeFalsy();
+    expect(handleElement.classList.contains('sky-flyout-fullscreen')).toBeFalsy();
+  }));
+
+  it('should have the fullscreen class appropriately on resize', fakeAsync(() => {
+    openFlyout({ defaultWidth: 500, minWidth: 400 });
+
+    let flyoutElement = getFlyoutElement();
+    let handleElement = getFlyoutHandleElement();
+    expect(flyoutElement.classList.contains('sky-flyout-fullscreen')).toBeFalsy();
+    expect(handleElement.classList.contains('sky-flyout-fullscreen')).toBeFalsy();
+
+    spyOnProperty(window, 'innerWidth', 'get').and.returnValue(400);
+
+    SkyAppTestUtility.fireDomEvent(window, 'resize');
+
+    fixture.detectChanges();
+
+    flyoutElement = getFlyoutElement();
+    handleElement = getFlyoutHandleElement();
+
+    expect(flyoutElement.classList.contains('sky-flyout-fullscreen')).toBeTruthy();
+    expect(handleElement.classList.contains('sky-flyout-fullscreen')).toBeTruthy();
+  }));
+
+  it('should have the fullscreen class appropriately on load', fakeAsync(() => {
+    spyOnProperty(window, 'innerWidth', 'get').and.returnValue(400);
+    openFlyout({ defaultWidth: 500, minWidth: 400 });
+    const flyoutElement = getFlyoutElement();
+    const handleElement = getFlyoutHandleElement();
+    expect(flyoutElement.classList.contains('sky-flyout-fullscreen')).toBeTruthy();
+    expect(handleElement.classList.contains('sky-flyout-fullscreen')).toBeTruthy();
+  }));
+
     it('should call the host listener correctly on resize', fakeAsync(() => {
       const resizeSpy = spyOn(SkyFlyoutComponent.prototype, 'onWindowResize').and.callThrough();
       spyOnProperty(window, 'innerWidth', 'get').and.callThrough();
@@ -1112,43 +1150,5 @@ describe('Flyout component', () => {
     openFlyout({});
 
     expect(breakpointSpy).toHaveBeenCalledWith(500);
-  }));
-
-  it('should not have the fullscreen class normally', fakeAsync(() => {
-    openFlyout({ defaultWidth: 500, minWidth: 400 });
-    const flyoutElement = getFlyoutElement();
-    const handleElement = getFlyoutHandleElement();
-    expect(flyoutElement.classList.contains('sky-flyout-fullscreen')).toBeFalsy();
-    expect(handleElement.classList.contains('sky-flyout-fullscreen')).toBeFalsy();
-  }));
-
-  it('should have the fullscreen class appropriately on load', fakeAsync(() => {
-    spyOnProperty(window, 'innerWidth', 'get').and.returnValue(400);
-    openFlyout({ defaultWidth: 500, minWidth: 400 });
-    const flyoutElement = getFlyoutElement();
-    const handleElement = getFlyoutHandleElement();
-    expect(flyoutElement.classList.contains('sky-flyout-fullscreen')).toBeTruthy();
-    expect(handleElement.classList.contains('sky-flyout-fullscreen')).toBeTruthy();
-  }));
-
-  it('should have the fullscreen class appropriately on resize', fakeAsync(() => {
-    openFlyout({ defaultWidth: 500, minWidth: 400 });
-
-    let flyoutElement = getFlyoutElement();
-    let handleElement = getFlyoutHandleElement();
-    expect(flyoutElement.classList.contains('sky-flyout-fullscreen')).toBeFalsy();
-    expect(handleElement.classList.contains('sky-flyout-fullscreen')).toBeFalsy();
-
-    spyOnProperty(window, 'innerWidth', 'get').and.returnValue(400);
-
-    SkyAppTestUtility.fireDomEvent(window, 'resize');
-
-    fixture.detectChanges();
-
-    flyoutElement = getFlyoutElement();
-    handleElement = getFlyoutHandleElement();
-
-    expect(flyoutElement.classList.contains('sky-flyout-fullscreen')).toBeTruthy();
-    expect(handleElement.classList.contains('sky-flyout-fullscreen')).toBeTruthy();
   }));
 });
