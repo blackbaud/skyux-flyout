@@ -1012,7 +1012,7 @@ describe('Flyout component', () => {
           .and.callThrough();
         let windowSizeSpy = spyOnProperty(window, 'innerWidth', 'get').and.callThrough();
 
-        openFlyout({});
+        openFlyout({ defaultWidth: 500 });
 
         windowSizeSpy.and.returnValue(767);
 
@@ -1027,7 +1027,7 @@ describe('Flyout component', () => {
         .and.callThrough();
       const windowSizeSpy = spyOnProperty(window, 'innerWidth', 'get');
 
-      openFlyout({});
+      openFlyout({ defaultWidth: 500 });
 
       windowSizeSpy.and.returnValue(800);
 
@@ -1054,7 +1054,7 @@ describe('Flyout component', () => {
           .and.callThrough();
         spyOnProperty(window, 'innerWidth', 'get').and.returnValue(767);
 
-        openFlyout({});
+        openFlyout({ defaultWidth: 500 });
 
         expect(breakpointSpy).toHaveBeenCalledWith(767);
       }));
@@ -1065,7 +1065,7 @@ describe('Flyout component', () => {
         .and.callThrough();
       spyOnProperty(window, 'innerWidth', 'get').and.returnValue(800);
 
-      openFlyout({});
+      openFlyout({ defaultWidth: 500 });
 
       expect(breakpointSpy).toHaveBeenCalledWith(500);
     }));
