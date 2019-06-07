@@ -239,6 +239,12 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     this.flyoutWidth = this.config.defaultWidth;
 
+    // Ensure flyout does not load larger than the window and its buffer
+    if (window.innerWidth - this.flyoutWidth < this.windowBufferSize) {
+      this.flyoutWidth = window.innerWidth - this.windowBufferSize;
+      this.xCoord = this.windowBufferSize;
+    }
+
     if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(window.innerWidth,
       SkyMediaBreakpoints.xs)) {
       this.updateBreakpointAndResponsiveClass(window.innerWidth);

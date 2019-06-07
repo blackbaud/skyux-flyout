@@ -376,6 +376,14 @@ describe('Flyout component', () => {
     expect(flyoutElement.style.width).toBe('400px');
   }));
 
+  it('should only load to 20px less than the window size', fakeAsync(() => {
+    const windowSize = window.innerWidth;
+    openFlyout({ maxWidth: 5000, minWidth: 0, defaultWidth: (windowSize + 100) });
+    const flyoutElement = getFlyoutElement();
+
+    expect(flyoutElement.style.width).toBe(window.innerWidth - 20 + 'px');
+  }));
+
   it('should not have the sky-flyout-help-shim class if the help widget is not present',
     fakeAsync(() => {
       openFlyout({});
