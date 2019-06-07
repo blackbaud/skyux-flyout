@@ -522,7 +522,7 @@ describe('Flyout component', () => {
   }));
 
   it('should only resize to 20px less than the window size', fakeAsync(() => {
-    openFlyout({ maxWidth: 5000, minWidth: 0 });
+    openFlyout({ maxWidth: 5000, minWidth: 0, defaultWidth: 500 });
     const flyoutElement = getFlyoutElement();
 
     expect(flyoutElement.style.width).toBe('500px');
