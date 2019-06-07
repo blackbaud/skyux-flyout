@@ -961,7 +961,7 @@ describe('Flyout component', () => {
     }));
 
     it('should not resize when handle is dragged and fullscreen is active', fakeAsync(() => {
-      openFlyout({ defaultWidth: 500 });
+      openFlyout({ defaultWidth: 500, minWidth: 400 });
       fixture.detectChanges();
       tick();
       const moveSpy = spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
@@ -977,6 +977,8 @@ describe('Flyout component', () => {
       spyOnProperty(window, 'innerWidth', 'get').and.returnValue(400);
 
       SkyAppTestUtility.fireDomEvent(window, 'resize');
+
+      fixture.detectChanges();
 
       resizeFlyout(1100, 1000);
 
