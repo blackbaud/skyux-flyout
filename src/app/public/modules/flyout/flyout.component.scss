@@ -18,6 +18,10 @@
   &.sky-flyout-fullscreen {
     min-width: 100%;
     max-width: 100%;
+
+    .sky-flyout-resize-handle {
+      cursor: initial;
+    }
   }
 
   &.sky-flyout-hidden {
@@ -85,10 +89,6 @@
     border: 0 none;
     background: none;
     display: none;
-  }
-
-  &.sky-flyout-fullscreen {
-    cursor: initial;
   }
 }
 
