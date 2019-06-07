@@ -180,6 +180,11 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     event.stopPropagation();
   }
 
+  @HostListener('mouseup', ['$event'])
+  public onHostMouseup(event: any): void {
+    event.stopPropagation();
+  }
+
   @HostListener('window:resize', ['$event'])
   public onWindowResize(event: any): void {
     if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(event.target.innerWidth,
@@ -292,8 +297,14 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         this.onMouseMove(moveEvent);
       });
 
+    // In order to properly capture these events we must stop propogation of mouseup events
+    // that fire on the flyout element. However, because of this we must watch for mouseup events
+    // on both the flyout and on the document when the mouseup is off the flyout element.
+    const flyoutMouseupEvent = Observable.fromEvent(this.elementRef.nativeElement, 'mouseup');
+    const documentMouseupEvent = Observable.fromEvent(document, 'mouseup');
+
     Observable
-      .fromEvent(document, 'mouseup')
+      .merge(flyoutMouseupEvent, documentMouseupEvent)
       .takeWhile(() => {
         return this.isDragging;
       })
