@@ -353,11 +353,12 @@ describe('Flyout component', () => {
 
   it('should set the flyout size to half the window size when no default width is given',
     fakeAsync(() => {
-      spyOnProperty(window, 'innerWidth', 'get').and.returnValue(900);
       openFlyout();
 
+      const windowSize = window.innerWidth;
+
       const flyoutElement = getFlyoutElement();
-      expect(flyoutElement.style.width).toBe('450px');
+      expect(flyoutElement.style.width).toBe((windowSize / 2) + 'px');
     })
   );
 
@@ -396,28 +397,6 @@ describe('Flyout component', () => {
 
     expect(moveSpy).toHaveBeenCalled();
     expect(mouseUpSpy).toHaveBeenCalled();
-  }));
-
-  it('should not resize when handle is dragged at xs screen size', fakeAsync(() => {
-    openFlyout({ defaultWidth: 500 });
-    fixture.detectChanges();
-    tick();
-    const moveSpy = spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
-    const mouseUpSpy = spyOn(SkyFlyoutComponent.prototype, 'onHandleRelease').and.callThrough();
-    const flyoutElement = getFlyoutElement();
-
-    expect(flyoutElement.style.width).toBe('500px');
-
-    resizeFlyout(1000, 1100);
-
-    expect(flyoutElement.style.width).toBe('400px');
-
-    spyOnProperty(window, 'innerWidth', 'get').and.returnValue(767);
-
-    resizeFlyout(1100, 1000);
-
-    expect(moveSpy).toHaveBeenCalledTimes(1);
-    expect(mouseUpSpy).toHaveBeenCalledTimes(1);
   }));
 
   it('should not resize on mousemove unless the resize handle was clicked', fakeAsync(() => {
@@ -979,6 +958,30 @@ describe('Flyout component', () => {
 
       expect(flyoutElement.classList.contains('sky-flyout-fullscreen')).toBeTruthy();
       expect(handleElement.classList.contains('sky-flyout-fullscreen')).toBeTruthy();
+    }));
+
+    it('should not resize when handle is dragged and fullscreen is active', fakeAsync(() => {
+      openFlyout({ defaultWidth: 500 });
+      fixture.detectChanges();
+      tick();
+      const moveSpy = spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
+      const mouseUpSpy = spyOn(SkyFlyoutComponent.prototype, 'onHandleRelease').and.callThrough();
+      const flyoutElement = getFlyoutElement();
+
+      expect(flyoutElement.style.width).toBe('500px');
+
+      resizeFlyout(1000, 1100);
+
+      expect(flyoutElement.style.width).toBe('400px');
+
+      spyOnProperty(window, 'innerWidth', 'get').and.returnValue(400);
+
+      SkyAppTestUtility.fireDomEvent(window, 'resize');
+
+      resizeFlyout(1100, 1000);
+
+      expect(moveSpy).toHaveBeenCalledTimes(1);
+      expect(mouseUpSpy).toHaveBeenCalledTimes(1);
     }));
 
     it('should have the fullscreen class appropriately on load', fakeAsync(() => {

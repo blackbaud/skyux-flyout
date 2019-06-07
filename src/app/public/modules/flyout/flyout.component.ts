@@ -287,8 +287,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(window.innerWidth,
-      SkyMediaBreakpoints.xs)) {
+    if (this.isFullscreen) {
       return;
     }
 
