@@ -98,6 +98,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public flyoutWidth = 0;
   public isDragging = false;
   private xCoord = 0;
+  private windowBufferSize = 20;
 
   public get messageStream(): Subject<SkyFlyoutMessage> {
     return this._messageStream;
@@ -183,9 +184,14 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public onWindowResize(event: any): void {
     if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(event.target.innerWidth,
       SkyMediaBreakpoints.xs)) {
-        this.updateBreakpointAndResponsiveClass(event.target.innerWidth);
+      this.updateBreakpointAndResponsiveClass(event.target.innerWidth);
     } else {
       this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
+    }
+
+    if (event.target.innerWidth - this.flyoutWidth < this.windowBufferSize) {
+      this.flyoutWidth = event.target.innerWidth - this.windowBufferSize;
+      this.xCoord = this.windowBufferSize;
     }
   }
 
@@ -231,7 +237,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(window.innerWidth,
       SkyMediaBreakpoints.xs)) {
-        this.updateBreakpointAndResponsiveClass(window.innerWidth);
+      this.updateBreakpointAndResponsiveClass(window.innerWidth);
     } else {
       this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
     }
@@ -278,7 +284,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(window.innerWidth,
       SkyMediaBreakpoints.xs)) {
-        return;
+      return;
     }
 
     this.isDragging = true;
@@ -321,11 +327,17 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       return;
     }
 
+    if (window.innerWidth - width < this.windowBufferSize) {
+      width = window.innerWidth - this.windowBufferSize;
+      this.xCoord = this.windowBufferSize;
+    } else {
+      this.xCoord = event.clientX;
+    }
+
     this.flyoutWidth = width;
 
     this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
 
-    this.xCoord = event.clientX;
     this.changeDetector.detectChanges();
   }
 
