@@ -142,7 +142,7 @@ describe('Flyout', () => {
   it('should match previous screenshot when the flyout contains responsive content (flyout: lg)',
     (done) => {
       SkyHostBrowser.get('visual/flyout');
-      SkyHostBrowser.setWindowBreakpoint('lg');
+      SkyHostBrowser.setWindowDimensions(1250, 800);
       element(by.css('#open-responsive-flyout-lg')).click();
       expect('body').toMatchBaselineScreenshot(done, {
         screenshotName: 'flyout-responsive-lg'
