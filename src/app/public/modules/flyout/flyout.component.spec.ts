@@ -113,7 +113,7 @@ describe('Flyout component', () => {
     makeEvent('mouseup', {});
     fixture.detectChanges();
     tick();
-    
+
     SkyAppTestUtility.fireDomEvent(document, 'click');
     fixture.detectChanges();
     tick();
