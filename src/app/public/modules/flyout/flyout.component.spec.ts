@@ -411,13 +411,43 @@ describe('Flyout component', () => {
       spyOn(SkyUIConfigService.prototype, 'getConfig')
         .and.returnValue(Observable.of({ flyoutWidth: 557 }));
 
-      openFlyout({ settingsKey: 'testKey' });
+      openFlyout({ settingsKey: 'testKey', minWidth: 320, maxWidth: 1000 });
 
       fixture.detectChanges();
       tick();
 
       const flyoutElement = getFlyoutElement();
       expect(flyoutElement.style.width).toBe('557px');
+    })
+  );
+
+  it('should set the flyout size to the min width if value returned from the UI config service is too small',
+    fakeAsync(() => {
+      spyOn(SkyUIConfigService.prototype, 'getConfig')
+        .and.returnValue(Observable.of({ flyoutWidth: 200 }));
+
+      openFlyout({ settingsKey: 'testKey', minWidth: 320, maxWidth: 1000 });
+
+      fixture.detectChanges();
+      tick();
+
+      const flyoutElement = getFlyoutElement();
+      expect(flyoutElement.style.width).toBe('320px');
+    })
+  );
+
+  it('should set the flyout size to the max width if value returned from the UI config service is too big',
+    fakeAsync(() => {
+      spyOn(SkyUIConfigService.prototype, 'getConfig')
+        .and.returnValue(Observable.of({ flyoutWidth: 1200 }));
+
+      openFlyout({ settingsKey: 'testKey', minWidth: 320, maxWidth: 800 });
+
+      fixture.detectChanges();
+      tick();
+
+      const flyoutElement = getFlyoutElement();
+      expect(flyoutElement.style.width).toBe('800px');
     })
   );
 
@@ -512,8 +542,6 @@ describe('Flyout component', () => {
     openFlyout({ defaultWidth: 500, settingsKey: 'testKey' });
     fixture.detectChanges();
     tick();
-    spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
-    spyOn(SkyFlyoutComponent.prototype, 'onHandleRelease').and.callThrough();
     const uiSettingsSaveSpy = spyOn(SkyUIConfigService.prototype, 'setConfig').and.callThrough();
 
     expect(uiSettingsSaveSpy).not.toHaveBeenCalled();
@@ -535,8 +563,6 @@ describe('Flyout component', () => {
     openFlyout({ defaultWidth: 500, settingsKey: 'testKey' });
     fixture.detectChanges();
     tick();
-    spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
-    spyOn(SkyFlyoutComponent.prototype, 'onHandleRelease').and.callThrough();
     spyOn(SkyUIConfigService.prototype, 'setConfig')
       .and.returnValue(Observable.throw({ message: 'Test error' }));
 
