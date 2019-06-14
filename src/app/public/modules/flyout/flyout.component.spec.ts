@@ -1131,22 +1131,23 @@ describe('Flyout component', () => {
     }));
 
     it('should resize 20px less than the window size when needed', fakeAsync(() => {
-      const originalWindowSize = window.innerWidth;
-      openFlyout({ maxWidth: 5000, minWidth: 0, defaultWidth: (originalWindowSize + 100) });
+      spyOnProperty(window, 'innerWidth', 'get').and.returnValue(1500);
+      openFlyout({ maxWidth: 5000, minWidth: 0, defaultWidth: 1600 });
       const flyoutElement = getFlyoutElement();
 
-      expect(flyoutElement.style.width).toBe(originalWindowSize - 20 + 'px');
+      expect(flyoutElement.style.width).toBe('1480px');
 
-      spyOnProperty(window, 'innerWidth', 'get').and.returnValue(originalWindowSize - 100);
+      spyOnProperty(window, 'innerWidth', 'get').and.returnValue(1400);
 
       SkyAppTestUtility.fireDomEvent(window, 'resize');
 
       fixture.detectChanges();
 
-      expect(flyoutElement.style.width).toBe(originalWindowSize - 120 + 'px');
+      expect(flyoutElement.style.width).toBe('1380px');
     }));
 
     it('should send the new sticky settings when resize caused flyout to resize to 20px less than the window size', fakeAsync(() => {
+      let windowSizeSpy = spyOnProperty(window, 'innerWidth', 'get').and.returnValue(1500);
       const uiSettingsSaveSpy = spyOn(SkyUIConfigService.prototype, 'setConfig').and.callThrough();
 
       openFlyout({ maxWidth: 5000, minWidth: 0, defaultWidth: 800, settingsKey: 'testKey' });
@@ -1155,7 +1156,7 @@ describe('Flyout component', () => {
       expect(flyoutElement.style.width).toBe('800px');
       expect(uiSettingsSaveSpy).not.toHaveBeenCalled();
 
-      spyOnProperty(window, 'innerWidth', 'get').and.returnValue(600);
+      windowSizeSpy.and.returnValue(600);
 
       SkyAppTestUtility.fireDomEvent(window, 'resize');
 
