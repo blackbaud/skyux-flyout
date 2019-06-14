@@ -1131,13 +1131,13 @@ describe('Flyout component', () => {
     }));
 
     it('should resize 20px less than the window size when needed', fakeAsync(() => {
-      spyOnProperty(window, 'innerWidth', 'get').and.returnValue(1500);
+      let windowSizeSpy = spyOnProperty(window, 'innerWidth', 'get').and.returnValue(1500);
       openFlyout({ maxWidth: 5000, minWidth: 0, defaultWidth: 1600 });
       const flyoutElement = getFlyoutElement();
 
       expect(flyoutElement.style.width).toBe('1480px');
 
-      spyOnProperty(window, 'innerWidth', 'get').and.returnValue(1400);
+      windowSizeSpy.and.returnValue(1400);
 
       SkyAppTestUtility.fireDomEvent(window, 'resize');
 
