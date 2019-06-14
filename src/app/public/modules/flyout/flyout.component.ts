@@ -471,13 +471,15 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         {
           flyoutWidth: this.flyoutWidth
         }
-      ).subscribe(
-        () => { },
-        (err) => {
-          console.warn('Could not save flyout data.');
-          console.warn(err);
-        }
-      );
+      )
+        .take(1)
+        .subscribe(
+          () => { },
+          (err) => {
+            console.warn('Could not save flyout data.');
+            console.warn(err);
+          }
+        );
     }
   }
 
