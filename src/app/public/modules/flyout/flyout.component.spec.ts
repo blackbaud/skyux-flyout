@@ -529,6 +529,26 @@ describe('Flyout component', () => {
     expect(uiSettingsSaveSpy).toHaveBeenCalledWith('testKey', { flyoutWidth: 500 });
   }));
 
+  it('should handle errors when setting config', fakeAsync(() => {
+    const warnSpy = spyOn(console, 'warn');
+
+    openFlyout({ defaultWidth: 500, settingsKey: 'testKey' });
+    fixture.detectChanges();
+    tick();
+    spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
+    spyOn(SkyFlyoutComponent.prototype, 'onHandleRelease').and.callThrough();
+    spyOn(SkyUIConfigService.prototype, 'setConfig')
+      .and.returnValue(Observable.throw({ message: 'Test error' }));
+
+    resizeFlyout(1000, 1100);
+
+    expect(warnSpy).toHaveBeenCalledWith('Could not save flyout data.');
+    expect(warnSpy).toHaveBeenCalledWith({
+      message: 'Test error'
+    });
+  })
+  );
+
   it('should not resize on mousemove unless the resize handle was clicked', fakeAsync(() => {
     openFlyout({ defaultWidth: 500 });
     fixture.detectChanges();
