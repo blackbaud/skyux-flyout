@@ -35,7 +35,8 @@ import 'rxjs/add/operator/takeUntil';
 
 import {
   SkyMediaBreakpoints,
-  SkyMediaQueryService
+  SkyMediaQueryService,
+  SkyUIConfigService
 } from '@skyux/core';
 
 import {
@@ -158,7 +159,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     private resolver: ComponentFactoryResolver,
     private resourcesService: SkyLibResourcesService,
     private flyoutMediaQueryService: SkyFlyoutMediaQueryService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private uiConfigService: SkyUIConfigService
   ) {
     // All commands flow through the message stream.
     this.messageStream
@@ -196,6 +198,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     if (event.target.innerWidth - this.flyoutWidth < this.windowBufferSize) {
       this.flyoutWidth = event.target.innerWidth - this.windowBufferSize;
       this.xCoord = this.windowBufferSize;
+      this.setUserData();
     }
   }
 
@@ -237,12 +240,26 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       type: SkyFlyoutMessageType.Open
     });
 
-    this.flyoutWidth = this.config.defaultWidth;
+    if (this.config.settingsKey) {
+      this.uiConfigService.getConfig(this.config.settingsKey)
+        .take(1)
+        .subscribe((value: any) => {
+          if (value && value.flyoutWidth) {
+            this.flyoutWidth = value.flyoutWidth;
+          } else {
+            // Bad data, or config is the default config.
+            this.flyoutWidth = this.config.defaultWidth;
+          }
+        });
+    } else {
+      this.flyoutWidth = this.config.defaultWidth;
+    }
 
     // Ensure flyout does not load larger than the window and its buffer
     if (window.innerWidth - this.flyoutWidth < this.windowBufferSize) {
       this.flyoutWidth = window.innerWidth - this.windowBufferSize;
       this.xCoord = this.windowBufferSize;
+      this.setUserData();
     }
 
     if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(window.innerWidth,
@@ -355,6 +372,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public onHandleRelease(event: MouseEvent): void {
     this.isDragging = false;
     this.adapter.toggleIframePointerEvents(true);
+    this.setUserData();
     this.changeDetector.detectChanges();
   }
 
@@ -436,6 +454,23 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       this.isFullscreen = true;
     } else {
       this.isFullscreen = false;
+    }
+  }
+
+  private setUserData() {
+    if (this.config.settingsKey) {
+      this.uiConfigService.setConfig(
+        this.config.settingsKey,
+        {
+          flyoutWidth: this.flyoutWidth
+        }
+      ).subscribe(
+        () => { },
+        (err) => {
+          console.warn('Could not save flyout data.');
+          console.warn(err);
+        }
+      );
     }
   }
 
