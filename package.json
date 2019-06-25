@@ -28,16 +28,9 @@
     "@angular/core": ">=4.3.6",
     "@angular/forms": ">=4.3.6",
     "@angular/router": ">=4.3.6",
-    "@skyux-sdk/builder": "^3.7.0",
-    "@skyux/core": "^3.6.0",
-    "@skyux/flyout": "^3.2.0",
-    "@skyux/i18n": "^3.6.1",
-    "@skyux/indicators": "^3.0.3",
-    "@skyux/lists": "^3.3.0",
-    "@skyux/modals": "^3.0.4",
-    "@skyux/popovers": "^3.1.1",
-    "@skyux/router": "^3.1.1",
-    "@skyux/toast": "^3.0.4"
+    "@skyux/core": "^3.5.1",
+    "@skyux/i18n": "^3.5.0",
+    "@skyux/indicators": "^3.0.0"
   },
   "dependencies": {},
   "devDependencies": {
