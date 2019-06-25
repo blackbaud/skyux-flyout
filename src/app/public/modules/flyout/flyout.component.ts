@@ -8,6 +8,7 @@ import {
   Injector,
   OnDestroy,
   OnInit,
+  ReflectiveInjector,
   Type,
   ViewChild,
   ViewContainerRef
@@ -220,11 +221,17 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.config.iteratorPreviousButtonDisabled = this.config.iteratorPreviousButtonDisabled || false;
 
     const factory = this.resolver.resolveComponentFactory(component);
-    const hostInjector = Injector.create({
-      providers: this.config.providers,
-      parent: this.injector
-    });
-    const componentRef = this.target.createComponent(factory, undefined, hostInjector);
+
+    /* tslint:disable:deprecation */
+    /**
+     * NOTE: We need to update this to use the new Injector.create(options) method
+     * after Angular 4 support is dropped.
+     */
+    const providers = ReflectiveInjector.resolve(this.config.providers);
+    const injector = ReflectiveInjector.fromResolvedProviders(providers, this.injector);
+    /* tslint:enable:deprecation */
+
+    const componentRef = this.target.createComponent(factory, undefined, injector);
 
     this.flyoutInstance = this.createFlyoutInstance<T>(componentRef.instance);
 

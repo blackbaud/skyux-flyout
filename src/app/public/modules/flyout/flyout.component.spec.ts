@@ -20,9 +20,10 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  Observable,
-  throwError
+  Observable
 } from 'rxjs';
+
+import 'rxjs/add/observable/throw';
 
 import {
   SkyFlyoutConfig
@@ -564,8 +565,14 @@ describe('Flyout component', () => {
     openFlyout({ defaultWidth: 500, settingsKey: 'testKey' });
     fixture.detectChanges();
     tick();
+
+    /* tslint:disable:deprecation */
+    /**
+     * NOTE: We need to update this to use the new throwError Observable creation function
+     */
     spyOn(SkyUIConfigService.prototype, 'setConfig')
-      .and.returnValue(throwError({ message: 'Test error' }));
+      .and.returnValue(Observable.throw({ message: 'Test error' }));
+    /* tslint:enable:deprecation */
 
     resizeFlyout(1000, 1100);
 
