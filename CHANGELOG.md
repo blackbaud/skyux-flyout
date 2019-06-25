@@ -1,7 +1,7 @@
 # 3.2.1 (2019-06-25)
 
-- Fixed the flyout component to property import all `Observable` operators. [#56](https://github.com/blackbaud/skyux-flyout/pull/56)
-- Fixed the flyout component to properly import the `BrowserAnimationsModule` [#56](https://github.com/blackbaud/skyux-flyout/pull/56)
+- Fixed the flyout component to properly import all `Observable` operators. [#56](https://github.com/blackbaud/skyux-flyout/pull/56)
+- Fixed the flyout component to properly import `BrowserAnimationsModule`. [#56](https://github.com/blackbaud/skyux-flyout/pull/56)
 
 # 3.2.0 (2019-06-14)
 
