@@ -8,7 +8,6 @@ import {
   Injector,
   OnDestroy,
   OnInit,
-  ReflectiveInjector,
   Type,
   ViewChild,
   ViewContainerRef
@@ -31,6 +30,7 @@ import {
   Subject
 } from 'rxjs/Subject';
 
+import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/takeUntil';
 
 import {
@@ -220,9 +220,11 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.config.iteratorPreviousButtonDisabled = this.config.iteratorPreviousButtonDisabled || false;
 
     const factory = this.resolver.resolveComponentFactory(component);
-    const providers = ReflectiveInjector.resolve(this.config.providers);
-    const injector = ReflectiveInjector.fromResolvedProviders(providers, this.injector);
-    const componentRef = this.target.createComponent(factory, undefined, injector);
+    const hostInjector = Injector.create({
+      providers: this.config.providers,
+      parent: this.injector
+    });
+    const componentRef = this.target.createComponent(factory, undefined, hostInjector);
 
     this.flyoutInstance = this.createFlyoutInstance<T>(componentRef.instance);
 

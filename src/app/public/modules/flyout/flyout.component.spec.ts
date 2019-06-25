@@ -20,7 +20,8 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  Observable
+  Observable,
+  throwError
 } from 'rxjs';
 
 import {
@@ -511,7 +512,7 @@ describe('Flyout component', () => {
 
   it('should have the sky-flyout-help-shim class if the help widget is present',
     fakeAsync(() => {
-      spyOn(window.document, 'getElementById').and.returnValue({});
+      spyOn(window.document, 'getElementById').and.returnValue({} as HTMLElement);
       openFlyout({});
       const headerElement = getFlyoutHeaderElement();
       expect(headerElement.classList.contains('sky-flyout-help-shim')).toBeTruthy();
@@ -564,7 +565,7 @@ describe('Flyout component', () => {
     fixture.detectChanges();
     tick();
     spyOn(SkyUIConfigService.prototype, 'setConfig')
-      .and.returnValue(Observable.throw({ message: 'Test error' }));
+      .and.returnValue(throwError({ message: 'Test error' }));
 
     resizeFlyout(1000, 1100);
 
