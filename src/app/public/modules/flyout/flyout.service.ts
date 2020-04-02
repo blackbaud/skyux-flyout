@@ -127,7 +127,7 @@ export class SkyFlyoutService implements OnDestroy {
           );
 
           /* istanbul ignore else */
-          if (!flyoutInstance.isDragging && !isChild && !isAbove) {
+          if (!isChild && !isAbove) {
             this.close();
           }
         });

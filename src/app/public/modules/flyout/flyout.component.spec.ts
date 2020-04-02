@@ -309,9 +309,6 @@ describe('Flyout component', () => {
 
     grabDragHandle(1000);
     dragHandle(1100);
-
-    SkyAppTestUtility.fireDomEvent(fixture.nativeElement, 'mousedown');
-    fixture.nativeElement.click();
     fixture.detectChanges();
     tick();
 
