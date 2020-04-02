@@ -7,6 +7,10 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
+  SkyCoreAdapterService
+} from '@skyux/core';
+
+import {
   SkyInfiniteScrollModule
 } from '@skyux/lists';
 
@@ -43,6 +47,9 @@ import {
 } from './visual/flyout/flyout-modal.component';
 
 @NgModule({
+  providers: [
+    SkyCoreAdapterService
+  ],
   exports: [
     NoopAnimationsModule,
     SkyAppLinkModule,
