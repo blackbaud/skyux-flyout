@@ -187,11 +187,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.ngUnsubscribe.complete();
   }
 
-  // @HostListener('click', ['$event'])
-  // public onHostClick(event: any): void {
-  //   event.stopPropagation();
-  // }
-
   @HostListener('window:resize', ['$event'])
   public onWindowResize(event: any): void {
     if (this.flyoutMediaQueryService.isWidthWithinBreakpiont(event.target.innerWidth,
