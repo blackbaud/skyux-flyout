@@ -15,10 +15,6 @@ import {
 } from '@angular/router/testing';
 
 import {
-  SkyCoreAdapterService
-} from '@skyux/core';
-
-import {
   SkyModalModule
 } from '@skyux/modals';
 
@@ -60,9 +56,6 @@ import {
     SkyModalModule,
     SkyToastModule,
     NoopAnimationsModule
-  ],
-  providers: [
-    SkyCoreAdapterService
   ],
   exports: [
     SkyFlyoutTestSampleComponent,
