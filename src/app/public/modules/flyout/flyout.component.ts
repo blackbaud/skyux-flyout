@@ -159,13 +159,22 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   /**
    * @internal
    */
-  @ViewChild('flyoutRef', { read: ElementRef })
+  @ViewChild('flyoutRef', {
+    read: ElementRef,
+    static: true
+  })
   public flyoutRef: ElementRef;
 
-  @ViewChild('target', { read: ViewContainerRef })
+  @ViewChild('target', {
+    read: ViewContainerRef,
+    static: true
+  })
   private target: ViewContainerRef;
 
-  @ViewChild('flyoutHeader')
+  @ViewChild('flyoutHeader', {
+    read: ElementRef,
+    static: true
+  })
   private flyoutHeader: ElementRef;
 
   private flyoutInstance: SkyFlyoutInstance<any>;

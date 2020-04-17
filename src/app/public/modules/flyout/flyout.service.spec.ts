@@ -95,7 +95,7 @@ describe('Flyout service', () => {
   );
 
   it('should expose a method to remove the flyout from the DOM', () => {
-    spyOn(window, 'setTimeout').and.callFake((fun: any) => {
+    spyOn(window as any, 'setTimeout').and.callFake((fun: any) => {
       fun();
       return 0;
     });
@@ -111,7 +111,7 @@ describe('Flyout service', () => {
   );
 
   it('should dispose of any open host if the service is destroyed', () => {
-    spyOn(window, 'setTimeout').and.callFake((fun: any) => {
+    spyOn(window as any, 'setTimeout').and.callFake((fun: any) => {
       fun();
       return 0;
     });
