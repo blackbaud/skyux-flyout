@@ -19,10 +19,10 @@ import {
 } from '@angular/router';
 
 import {
+  SkyAppWindowRef,
   SkyCoreAdapterService,
   SkyDynamicComponentModule,
-  SkyUIConfigService,
-  SkyWindowRefService
+  SkyUIConfigService
 } from '@skyux/core';
 
 import {
@@ -35,7 +35,7 @@ import {
 
 import {
   SkyFlyoutResourcesModule
-} from '../shared';
+} from '../shared/flyout-resources.module';
 
 import {
   SkyFlyoutAdapterService
@@ -63,7 +63,7 @@ import {
     SkyFlyoutAdapterService,
     SkyFlyoutService,
     SkyUIConfigService,
-    SkyWindowRefService
+    SkyAppWindowRef
   ],
   imports: [
     BrowserAnimationsModule,

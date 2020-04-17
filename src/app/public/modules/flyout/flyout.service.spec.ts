@@ -18,8 +18,8 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
-  SkyDynamicComponentService,
-  SkyWindowRefService
+  SkyAppWindowRef,
+  SkyDynamicComponentService
 } from '@skyux/core';
 
 import {
@@ -35,12 +35,12 @@ import {
 } from './fixtures/flyout-hosts.component.fixture';
 
 import {
-  SkyFlyoutService
-} from './flyout.service';
+  SkyFlyoutMessageType
+} from './types/flyout-message-type';
 
 import {
-  SkyFlyoutMessageType
-} from './types';
+  SkyFlyoutService
+} from './flyout.service';
 
 describe('Flyout service', () => {
   let service: SkyFlyoutService;
@@ -54,7 +54,7 @@ describe('Flyout service', () => {
       ],
       providers: [
         SkyFlyoutAdapterService,
-        SkyWindowRefService
+        SkyAppWindowRef
       ]
     });
 

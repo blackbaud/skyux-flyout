@@ -26,12 +26,12 @@ import {
 import 'rxjs/add/observable/throw';
 
 import {
-  SkyFlyoutConfig
-} from './types';
-
-import {
   SkyFlyoutFixturesModule
 } from './fixtures/flyout-fixtures.module';
+
+import {
+  SkyFlyoutConfig
+} from './types/flyout-config';
 
 import {
   SkyFlyoutInstance
