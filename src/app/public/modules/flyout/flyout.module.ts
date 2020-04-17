@@ -59,11 +59,11 @@ import {
     SkyFlyoutIteratorComponent
   ],
   providers: [
+    SkyAppWindowRef,
     SkyCoreAdapterService,
     SkyFlyoutAdapterService,
     SkyFlyoutService,
-    SkyUIConfigService,
-    SkyAppWindowRef
+    SkyUIConfigService
   ],
   imports: [
     BrowserAnimationsModule,

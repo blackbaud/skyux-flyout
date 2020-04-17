@@ -53,8 +53,8 @@ describe('Flyout service', () => {
         SkyFlyoutFixturesModule
       ],
       providers: [
-        SkyFlyoutAdapterService,
-        SkyAppWindowRef
+        SkyAppWindowRef,
+        SkyFlyoutAdapterService
       ]
     });
 
