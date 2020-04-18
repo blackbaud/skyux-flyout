@@ -1,3 +1,14 @@
+# 4.0.0-rc.0 (2020-04-17)
+
+### New features
+
+- Added support for `@angular/core@^9`. [#73](https://github.com/blackbaud/skyux-flyout/pull/73)
+- Updated the pipeline to transpile to the [Angular Package Format](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview). [#73](https://github.com/blackbaud/skyux-flyout/pull/73)
+
+### Breaking changes
+
+- Dropped support for `rxjs@5`. Consumers may install `rxjs-compat@^6` to support older versions of `rxjs`. [#73](https://github.com/blackbaud/skyux-flyout/pull/73)
+
 # 3.2.4 (2020-04-03)
 
 - Fixed the flyout component to allow clicks to propagate to the document. [#70](https://github.com/blackbaud/skyux-flyout/pull/70)
