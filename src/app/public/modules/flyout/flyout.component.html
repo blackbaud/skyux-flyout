@@ -79,6 +79,9 @@
         [queryParams]="permalink.route.extras?.queryParams"
         [queryParamsHandling]="permalink.route.extras?.queryParamsHandling"
         [state]="permalink.route.extras?.state"
+        [replaceUrl]="permalink.route.extras?.replaceUrl"
+        [skipLocationChange]="permalink.route.extras?.skipLocationChange"
+        [preserveFragment]="permalink.route.extras?.preserveFragment"
         (click)="close()"
       >
         {{ permalinkLabel }}
