@@ -57,6 +57,13 @@ import {
   SkyFlyoutMediaQueryService
 } from './flyout-media-query.service';
 
+import {
+  Router,
+  RouterLink,
+  RouterLinkWithHref,
+  RouterModule
+} from '@angular/router';
+
 describe('Flyout component', () => {
   let applicationRef: ApplicationRef;
   let fixture: ComponentFixture<SkyFlyoutTestComponent>;
@@ -160,7 +167,7 @@ describe('Flyout component', () => {
     return document.querySelector('.sky-flyout-btn-permalink') as HTMLElement;
   }
 
-  function getPrimaryActionButtonElement(): HTMLElement {
+  function  getPrimaryActionButtonElement(): HTMLElement {
     return document.querySelector('.sky-flyout-btn-primary-action') as HTMLElement;
   }
 
@@ -196,6 +203,7 @@ describe('Flyout component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        RouterModule,
         SkyFlyoutFixturesModule
       ]
     });
@@ -808,6 +816,30 @@ describe('Flyout component', () => {
         });
         const permalinkButton = getPermalinkButtonElement();
         expect(permalinkButton.getAttribute('href')).toEqual('/?envid=fooId#fooFragment');
+      })
+    );
+
+    it('should include defined state data when navigating',
+      fakeAsync(() => {
+        openFlyout({
+          permalink: {
+            route: {
+              commands: ['/'],
+              extras: {
+                fragment: 'fooFragment',
+                queryParams: {
+                  envid: 'fooId'
+                },
+                state: {
+                  foo: 'bar'
+                }
+              }
+            }
+          }
+        });
+        getPermalinkButtonElement().click();
+        const navigation = TestBed.get(Router).getCurrentNavigation();
+        expect(navigation.extras.state.foo).toEqual('bar');
       })
     );
 
