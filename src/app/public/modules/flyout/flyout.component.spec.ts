@@ -59,8 +59,6 @@ import {
 
 import {
   Router,
-  RouterLink,
-  RouterLinkWithHref,
   RouterModule
 } from '@angular/router';
 
