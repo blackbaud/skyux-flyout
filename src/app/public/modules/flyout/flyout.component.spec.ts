@@ -58,8 +58,7 @@ import {
 } from './flyout-media-query.service';
 
 import {
-  Router,
-  RouterModule
+  Router
 } from '@angular/router';
 
 describe('Flyout component', () => {
@@ -201,7 +200,6 @@ describe('Flyout component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterModule,
         SkyFlyoutFixturesModule
       ]
     });
