@@ -165,7 +165,7 @@ describe('Flyout component', () => {
     return document.querySelector('.sky-flyout-btn-permalink') as HTMLElement;
   }
 
-  function  getPrimaryActionButtonElement(): HTMLElement {
+  function getPrimaryActionButtonElement(): HTMLElement {
     return document.querySelector('.sky-flyout-btn-primary-action') as HTMLElement;
   }
 
