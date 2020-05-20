@@ -14,7 +14,7 @@ import {
 import {
   SkyFlyoutInstance,
   SkyFlyoutService
-} from '../../public';
+} from '../../public/public_api';
 
 import {
   FlyoutDemoComponent
