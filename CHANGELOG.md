@@ -1,3 +1,7 @@
+# 3.3.0 (2020-04-27)
+
+- Added `NavigationExtras.state` support to the flyout component's permalink button. [#78](https://github.com/blackbaud/skyux-flyout/pull/78) (Thanks [@Alex-Vaky](https://github.com/Alex-Vaky)!)
+
 # 4.0.0-rc.0 (2020-04-17)
 
 ### New features

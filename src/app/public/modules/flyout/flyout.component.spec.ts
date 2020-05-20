@@ -56,6 +56,10 @@ import {
   SkyFlyoutMediaQueryService
 } from './flyout-media-query.service';
 
+import {
+  Router
+} from '@angular/router';
+
 describe('Flyout component', () => {
   let applicationRef: ApplicationRef;
   let fixture: ComponentFixture<SkyFlyoutTestComponent>;
@@ -807,6 +811,30 @@ describe('Flyout component', () => {
         });
         const permalinkButton = getPermalinkButtonElement();
         expect(permalinkButton.getAttribute('href')).toEqual('/?envid=fooId#fooFragment');
+      })
+    );
+
+    it('should include defined state data when navigating',
+      fakeAsync(() => {
+        openFlyout({
+          permalink: {
+            route: {
+              commands: ['/'],
+              extras: {
+                fragment: 'fooFragment',
+                queryParams: {
+                  envid: 'fooId'
+                },
+                state: {
+                  foo: 'bar'
+                }
+              }
+            }
+          }
+        });
+        getPermalinkButtonElement().click();
+        const navigation = TestBed.get(Router).getCurrentNavigation();
+        expect(navigation.extras.state.foo).toEqual('bar');
       })
     );
 
