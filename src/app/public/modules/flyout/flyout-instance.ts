@@ -15,19 +15,53 @@ import {
   SkyFlyoutMessageType
 } from './types/flyout-message-type';
 
+/**
+ * The `SkyFlyoutService` launches flyouts and returns a `SkyFlyoutInstance` object to represent
+ * a single displayed flyout.
+ */
 export class SkyFlyoutInstance<T> implements OnDestroy {
+
+  /**
+   * An event that the flyout instance emits when it closes.
+   */
   public closed = new EventEmitter<void>();
+
+  /**
+   * Specifies the instance of the component to display in the flyout.
+   */
   public componentInstance: T;
+
+  /**
+   * Used to communicate with the host component.
+   * @internal
+   */
+  public get hostController(): Subject<SkyFlyoutMessage> {
+    return this._hostController;
+  }
+
+  /**
+   * Indicates if the flyout is open.
+   * @default true
+   */
   public isOpen = true;
 
+  /**
+   * An event that the flyout instance emits when users click the next iterator button.
+   */
   public get iteratorNextButtonClick(): EventEmitter<void> {
     return this._iteratorNextButtonClick;
   }
 
+  /**
+   * An event that the flyout instance emits when users click the previous iterator button.
+   */
   public get iteratorPreviousButtonClick(): EventEmitter<void> {
     return this._iteratorPreviousButtonClick;
   }
 
+  /**
+   * Disables the next iterator button.
+   */
   public set iteratorNextButtonDisabled(newValue: boolean) {
     this._iteratorNextButtonDisabled = newValue;
     if (newValue) {
@@ -45,6 +79,9 @@ export class SkyFlyoutInstance<T> implements OnDestroy {
     return this._iteratorNextButtonDisabled;
   }
 
+  /**
+   * Disables the previous iterator button.
+   */
   public set iteratorPreviousButtonDisabled(newValue: boolean) {
     this._iteratorPreviousButtonDisabled = newValue;
     if (newValue) {
@@ -70,11 +107,6 @@ export class SkyFlyoutInstance<T> implements OnDestroy {
 
   private _iteratorPreviousButtonDisabled = false;
 
-  // Used to communicate with the host component.
-  public get hostController(): Subject<SkyFlyoutMessage> {
-    return this._hostController;
-  }
-
   private _hostController = new Subject<SkyFlyoutMessage>();
 
   constructor() {
@@ -88,6 +120,9 @@ export class SkyFlyoutInstance<T> implements OnDestroy {
     this._iteratorNextButtonClick.complete();
   }
 
+  /**
+   * Closes the flyout instance.
+   */
   public close(): void {
     this.hostController.next({
       type: SkyFlyoutMessageType.Close
