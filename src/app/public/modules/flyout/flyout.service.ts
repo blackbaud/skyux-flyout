@@ -66,10 +66,6 @@ export class SkyFlyoutService implements OnDestroy {
     private router: Router
   ) { }
 
-  /**
-   * Angular's ngOnDestroy lifecycle hook.
-   * @internal
-   */
   public ngOnDestroy(): void {
     this.removeListners();
     if (this.host) {

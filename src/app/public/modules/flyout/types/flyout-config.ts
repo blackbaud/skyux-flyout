@@ -58,7 +58,7 @@ export interface SkyFlyoutConfig {
   permalink?: SkyFlyoutPermalink;
 
   /**
-   * @internal
+   * Displays a configurable button in the flyout header.
    */
   primaryAction?: SkyFlyoutAction;
 
