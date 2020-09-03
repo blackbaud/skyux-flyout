@@ -16,8 +16,7 @@ import {
 } from './types/flyout-message-type';
 
 /**
- * The `SkyFlyoutService` launches flyouts and returns a `SkyFlyoutInstance` object to represent
- * a single displayed flyout.
+ * Represents a single displayed flyout.
  */
 export class SkyFlyoutInstance<T> implements OnDestroy {
 
@@ -40,7 +39,7 @@ export class SkyFlyoutInstance<T> implements OnDestroy {
   }
 
   /**
-   * Indicates if the flyout is open.
+   * A `boolean` value that returns `true` if the flyout is open.
    * @default true
    */
   public isOpen = true;
@@ -61,6 +60,7 @@ export class SkyFlyoutInstance<T> implements OnDestroy {
 
   /**
    * Disables the next iterator button.
+   * @default false
    */
   public set iteratorNextButtonDisabled(newValue: boolean) {
     this._iteratorNextButtonDisabled = newValue;
@@ -81,6 +81,7 @@ export class SkyFlyoutInstance<T> implements OnDestroy {
 
   /**
    * Disables the previous iterator button.
+   * @default false
    */
   public set iteratorPreviousButtonDisabled(newValue: boolean) {
     this._iteratorPreviousButtonDisabled = newValue;
@@ -121,7 +122,7 @@ export class SkyFlyoutInstance<T> implements OnDestroy {
   }
 
   /**
-   * Closes the flyout instance.
+   * Closes the flyout instance and emits its `closed` event.
    */
   public close(): void {
     this.hostController.next({

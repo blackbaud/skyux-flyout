@@ -41,13 +41,13 @@ export interface SkyFlyoutConfig {
 
   /**
    * Specifies the minimum resize width of the flyout container.
-   * Defaults to `320`.
+   * @default 320
    */
   minWidth?: number;
 
   /**
    * Specifies the maximum resize width of the flyout container.
-   * Defaults to the `defaultWidth` value if no value is given.
+   * @default defaultWidth
    */
   maxWidth?: number;
 
@@ -68,21 +68,23 @@ export interface SkyFlyoutConfig {
   providers?: any[];
 
   /**
-   * Indicates whether to display iterator buttons in the flyout header to allow users
+   * Indicates whether to display iterator buttons in the flyout header
    * to access the next and previous records in a record set.
-   * Defaults to `false`.
+   * @default false
    */
   showIterator?: boolean;
 
   /**
    * Disables the previous iterator button in the flyout header that accesses
-   * the previous record in a record set. Defaults to `false`.
+   * the previous record in a record set.
+   * @default false
    */
   iteratorPreviousButtonDisabled?: boolean;
 
   /**
    * Disables the next iterator button in the flyout header that accesses the next record
-   * in a record set. Defaults to `false`.
+   * in a record set.
+   * @default false
    */
   iteratorNextButtonDisabled?: boolean;
 
