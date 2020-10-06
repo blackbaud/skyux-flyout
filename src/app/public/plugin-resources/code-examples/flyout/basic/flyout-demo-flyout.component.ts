@@ -18,7 +18,6 @@ import {
           <li>lists</li>
           <li>records</li>
           <li>analytics</li>
-          <li>other information</li>
         </ul>
     </div>
   `
