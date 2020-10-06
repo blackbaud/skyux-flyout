@@ -16,7 +16,7 @@ import {
       </p>
         <ul>
           <li>lists</li>
-          <li>record views</li>
+          <li>records</li>
           <li>analytics</li>
           <li>other information</li>
         </ul>
