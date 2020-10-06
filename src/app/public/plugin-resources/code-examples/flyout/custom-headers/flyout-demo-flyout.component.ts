@@ -15,7 +15,7 @@ import {
         Flyouts can display large quantities of supplementary information related to a task, including:
       </p>
         <ul>
-          <li><a href="https://developer.blackbaud.com/skyux/components/list">lists</a></li>
+          <li>lists</li>
           <li>record views</li>
           <li>analytics</li>
           <li>other information</li>
