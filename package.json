@@ -57,6 +57,7 @@
     "@skyux/config": "4.0.4",
     "@skyux/core": "4.3.0",
     "@skyux/docs-tools": "4.7.2",
+    "@skyux/errors": "4.0.1",
     "@skyux/flyout": "4.0.0",
     "@skyux/forms": "4.13.2",
     "@skyux/grids": "4.0.6",
