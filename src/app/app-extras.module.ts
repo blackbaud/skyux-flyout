@@ -33,6 +33,10 @@ import {
 } from '@skyux/toast';
 
 import {
+  FlyoutDocsFlyoutComponent
+} from './docs/flyout/flyout-docs-flyout.component';
+
+import {
   SkyFlyoutModule
 } from './public/public_api';
 
@@ -62,6 +66,7 @@ import {
   ],
   entryComponents: [
     FlyoutDemoComponent,
+    FlyoutDocsFlyoutComponent,
     FlyoutResponsiveDemoComponent,
     SkyFlyoutModalDemoComponent
   ],
