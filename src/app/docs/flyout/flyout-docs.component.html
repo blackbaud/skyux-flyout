@@ -69,6 +69,31 @@
 
   <sky-docs-design-guidelines>
     <sky-docs-demo-page-section
+      heading="Accessibility"
+    >
+      <p class="sky-docs-text-block">
+        Follow these guidelines to ensure that people can use flyouts with assistive technology or keyboards.
+      </p>
+        <ul>
+          <li>
+            <p class="sky-docs-text-block">
+              When a flyout opens, place focus on the first focusable item. If the flyout does not include focusable items, then place focus on the flyout container element.
+            </p>
+          </li>
+          <li>
+            <p class="sky-docs-text-block">
+              While a flyout is open, limit focus to elements in the flyout. Do not move focus back to the initiating page behind the flyout. On the last focusable item, the Tab key should return focus to the first focusable item. And on the first focusable item, the Shift+Tab keys should switch focus to the last focusable item.
+            </p>
+          </li>
+          <li>
+            <p class="sky-docs-text-block">
+              When a flyout closes, return focus to the element that had focus before the flyout opened. This is usually the element that opened the flyout.
+            </p>
+          </li>
+        </ul>
+    </sky-docs-demo-page-section>
+
+    <sky-docs-demo-page-section
       heading="Usage"
     >
       <sky-docs-design-guideline
