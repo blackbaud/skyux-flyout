@@ -7,6 +7,7 @@ import {
 } from '@angular/platform-browser/animations';
 
 import {
+  SkyDocsThumbnailModule,
   SkyDocsToolsModule,
   SkyDocsToolsOptions
 } from '@skyux/docs-tools';
@@ -51,6 +52,7 @@ import {
   exports: [
     NoopAnimationsModule,
     SkyAppLinkModule,
+    SkyDocsThumbnailModule,
     SkyDocsToolsModule,
     SkyFlyoutModule,
     SkyDropdownModule,
