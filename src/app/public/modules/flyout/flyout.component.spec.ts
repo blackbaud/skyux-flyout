@@ -155,6 +155,10 @@ describe('Flyout component', () => {
     return document.querySelector('.sky-flyout-header') as HTMLElement;
   }
 
+  function getFlyoutTriggerElement(): HTMLElement {
+    return document.querySelector('#flyout-trigger-button') as HTMLElement;
+  }
+
   function getCloseButtonElement(): HTMLElement {
     return document.querySelector('.sky-flyout-btn-close') as HTMLElement;
   }
@@ -279,6 +283,30 @@ describe('Flyout component', () => {
     expect(flyout.isOpen).toBe(true);
 
     closeModal();
+    fixture.detectChanges();
+    tick();
+  }));
+
+  it('should NOT close when the click event fires on a trigger for another flyout', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+
+    openHostFlyout();
+    expect(getFlyoutHostElement()).not.toBeNull();
+
+    const flyoutTriggerElement = getFlyoutTriggerElement();
+    SkyAppTestUtility.fireDomEvent(flyoutTriggerElement, 'mousedown');
+    flyoutTriggerElement.click();
+
+    fixture.detectChanges();
+    tick();
+
+    fixture.detectChanges();
+    tick();
+
+    expect(getFlyoutHostElement()).not.toBeNull();
+
+    closeFlyout();
     fixture.detectChanges();
     tick();
   }));
@@ -726,12 +754,21 @@ describe('Flyout component', () => {
       numDocumentClicks++;
     });
 
+    fixture.detectChanges();
+    tick();
+
     let numFlyoutClicks = 0;
     flyout.addEventListener('click', () => {
       numFlyoutClicks++;
     });
 
+    fixture.detectChanges();
+    tick();
+
     SkyAppTestUtility.fireDomEvent(flyout, 'click');
+
+    fixture.detectChanges();
+    tick();
 
     expect(numFlyoutClicks).toEqual(1);
     expect(numDocumentClicks).toEqual(1);
@@ -833,8 +870,9 @@ describe('Flyout component', () => {
           }
         });
         getPermalinkButtonElement().click();
-        const navigation = TestBed.get(Router).getCurrentNavigation();
+        const navigation = TestBed.inject(Router).getCurrentNavigation();
         expect(navigation.extras.state.foo).toEqual('bar');
+        tick();
       })
     );
 
