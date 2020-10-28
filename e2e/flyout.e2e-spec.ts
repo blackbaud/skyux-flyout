@@ -6,158 +6,301 @@ import {
 
 import {
   expect,
-  SkyHostBrowser
+  SkyHostBrowser,
+  SkyVisualThemeSelector
 } from '@skyux-sdk/e2e';
+import { SkyHostBrowserBreakpoint } from '@skyux-sdk/e2e/host-browser/host-browser-breakpoint';
 
 describe('Flyout', () => {
-  it('should match previous screenshot', (done) => {
-    SkyHostBrowser.get('visual/flyout');
-    SkyHostBrowser.setWindowBreakpoint('lg');
+  let currentTheme: string;
+  let currentThemeMode: string;
+
+  async function selectTheme(theme: string, mode: string): Promise<void> {
+    currentTheme = theme;
+    currentThemeMode = mode;
+
+    return SkyVisualThemeSelector.selectTheme(theme, mode);
+  }
+
+  function getScreenshotName(name: string): string {
+    if (currentTheme) {
+      name += '-' + currentTheme;
+    }
+
+    if (currentThemeMode) {
+      name += '-' + currentThemeMode;
+    }
+
+    return name;
+  }
+
+  function openDropdown(): void {
+    element(by.css('.sky-flyout .sky-dropdown-button')).click();
+    SkyHostBrowser.moveCursorOffScreen();
+  }
+
+  function validateFlyout(size: SkyHostBrowserBreakpoint, done: DoneFn): void {
+    SkyHostBrowser.setWindowBreakpoint(size);
     element(by.css('.sky-btn-primary')).click();
     expect('body').toMatchBaselineScreenshot(done, {
-      screenshotName: 'flyout-lg'
+      screenshotName: getScreenshotName(`flyout-${size}`)
     });
+  }
+
+  function validateDropdownInFlyout(size: SkyHostBrowserBreakpoint, done: DoneFn): void {
+    SkyHostBrowser.setWindowBreakpoint(size);
+    element(by.css('.sky-btn-primary')).click();
+    browser.sleep(250);
+    openDropdown();
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: getScreenshotName(`flyout-absolute-${size}`)
+    });
+  }
+
+  function validateIteratorButtons(size: SkyHostBrowserBreakpoint, done: DoneFn): void {
+    SkyHostBrowser.setWindowBreakpoint(size);
+    element(by.css('#open-flyout-with-iterators')).click();
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: getScreenshotName(`flyout-iterators-${size}`)
+    });
+  }
+
+  function validateDisabledIteratorButtons(size: SkyHostBrowserBreakpoint, done: DoneFn): void {
+    SkyHostBrowser.setWindowBreakpoint(size);
+    element(by.css('#open-flyout-with-iterators-disabled')).click();
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: getScreenshotName(`flyout-no-iterators-${size}`)
+    });
+  }
+
+  function validateFullScreen(size: SkyHostBrowserBreakpoint, done: DoneFn): void {
+    SkyHostBrowser.setWindowBreakpoint(size);
+    element(by.css('#open-flyout-fullscreen')).click();
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: getScreenshotName(`flyout-fullscreen-${size}`)
+    });
+  }
+
+  function validateResponsive(done: DoneFn): void {
+    SkyHostBrowser.setWindowBreakpoint('xs');
+    element(by.css('#open-responsive-flyout-lg')).click();
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: getScreenshotName('flyout-responsive-lg-screen-xs')
+    });
+  }
+
+  function validateResponsiveContainer(size: SkyHostBrowserBreakpoint, done: DoneFn): void {
+    // Since we're testing the responsive container inside the flyout,
+    // the browser should always run with a large breakpoint.
+    SkyHostBrowser.setWindowBreakpoint('lg');
+    element(by.css(`#open-responsive-flyout-${size}`)).click();
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: getScreenshotName(`flyout-responsive-${size}`)
+    });
+  }
+
+  beforeEach(() => {
+    SkyHostBrowser.get('visual/flyout');
+  });
+
+  afterEach(() => {
     element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+  });
+
+  it('should match previous screenshot', (done) => {
+    validateFlyout('lg', done);
   });
 
   it('should match previous screenshot (screen: xs)', (done) => {
-    SkyHostBrowser.get('visual/flyout');
-    SkyHostBrowser.setWindowBreakpoint('xs');
-    element(by.css('.sky-btn-primary')).click();
-    expect('body').toMatchBaselineScreenshot(done, {
-      screenshotName: 'flyout-xs'
-    });
-    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+    validateFlyout('xs', done);
   });
 
   it('should handle absolutely positioned items inside the flyout', (done) => {
-    SkyHostBrowser.get('visual/flyout');
-    SkyHostBrowser.setWindowBreakpoint('lg');
-    element(by.css('.sky-btn-primary')).click();
-    browser.sleep(250);
-    element(by.css('.sky-flyout .sky-dropdown-button')).click();
-    SkyHostBrowser.moveCursorOffScreen();
-    expect('body').toMatchBaselineScreenshot(done, {
-      screenshotName: 'flyout-absolute-lg'
-    });
-    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+    validateDropdownInFlyout('lg', done);
   });
 
   it('should handle absolutely positioned items inside the flyout (screen: xs)', (done) => {
-    SkyHostBrowser.get('visual/flyout');
-    SkyHostBrowser.setWindowBreakpoint('xs');
-    element(by.css('.sky-btn-primary')).click();
-    browser.sleep(250);
-    element(by.css('.sky-flyout .sky-dropdown-button')).click();
-    SkyHostBrowser.moveCursorOffScreen();
-    expect('body').toMatchBaselineScreenshot(done, {
-      screenshotName: 'flyout-absolute-xs'
-    });
-    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+    validateDropdownInFlyout('xs', done);
   });
 
   it('should match previous screenshot when row iterators are enabled', (done) => {
-    SkyHostBrowser.get('visual/flyout');
-    SkyHostBrowser.setWindowBreakpoint('lg');
-    element(by.css('#open-flyout-with-iterators')).click();
-    expect('body').toMatchBaselineScreenshot(done, {
-      screenshotName: 'flyout-iterators-lg'
-    });
-    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+    validateIteratorButtons('lg', done);
   });
 
   it('should match previous screenshot when row iterators are enabled (screen: xs)', (done) => {
-    SkyHostBrowser.get('visual/flyout');
-    SkyHostBrowser.setWindowBreakpoint('xs');
-    element(by.css('#open-flyout-with-iterators')).click();
-    expect('body').toMatchBaselineScreenshot(done, {
-      screenshotName: 'flyout-iterators-xs'
-    });
-    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+    validateIteratorButtons('xs', done);
   });
 
   it('should match previous screenshot when row iterators are disabled', (done) => {
-    SkyHostBrowser.get('visual/flyout');
-    SkyHostBrowser.setWindowBreakpoint('lg');
-    element(by.css('#open-flyout-with-iterators-disabled')).click();
-    expect('body').toMatchBaselineScreenshot(done, {
-      screenshotName: 'flyout-no-iterators-lg'
-    });
-    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+    validateDisabledIteratorButtons('lg', done);
   });
 
   it('should match previous screenshot when row iterator are disabled (screen: xs)', (done) => {
-    SkyHostBrowser.get('visual/flyout');
-    SkyHostBrowser.setWindowBreakpoint('xs');
-    element(by.css('#open-flyout-with-iterators-disabled')).click();
-    expect('body').toMatchBaselineScreenshot(done, {
-      screenshotName: 'flyout-no-iterators-xs'
-    });
-    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+    validateDisabledIteratorButtons('xs', done);
   });
 
   it('should match previous screenshot when flyout is fullscreen (screen: xs)', (done) => {
-    SkyHostBrowser.get('visual/flyout');
-    SkyHostBrowser.setWindowBreakpoint('xs');
-    element(by.css('#open-flyout-fullscreen')).click();
-    expect('body').toMatchBaselineScreenshot(done, {
-      screenshotName: 'flyout-fullscreen'
-    });
-    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+    validateFullScreen('xs', done);
   });
 
   it('should match previous screenshot when the flyout contains responsive content (flyout: xs)',
     (done) => {
-      SkyHostBrowser.get('visual/flyout');
-      SkyHostBrowser.setWindowBreakpoint('lg');
-      element(by.css('#open-responsive-flyout-xs')).click();
-      expect('body').toMatchBaselineScreenshot(done, {
-        screenshotName: 'flyout-responsive-xs'
-      });
-      element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+      validateResponsiveContainer('xs', done);
     });
 
   it('should match previous screenshot when the flyout contains responsive content (flyout: sm)',
     (done) => {
-      SkyHostBrowser.get('visual/flyout');
-      SkyHostBrowser.setWindowBreakpoint('lg');
-      element(by.css('#open-responsive-flyout-sm')).click();
-      expect('body').toMatchBaselineScreenshot(done, {
-        screenshotName: 'flyout-responsive-sm'
-      });
-      element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+      validateResponsiveContainer('sm', done);
     });
 
   it('should match previous screenshot when the flyout contains responsive content (flyout: md)',
     (done) => {
-      SkyHostBrowser.get('visual/flyout');
-      SkyHostBrowser.setWindowBreakpoint('lg');
-      element(by.css('#open-responsive-flyout-md')).click();
-      expect('body').toMatchBaselineScreenshot(done, {
-        screenshotName: 'flyout-responsive-md'
-      });
-      element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+      validateResponsiveContainer('md', done);
     });
 
   it('should match previous screenshot when the flyout contains responsive content (flyout: lg)',
     (done) => {
-      SkyHostBrowser.get('visual/flyout');
-      SkyHostBrowser.setWindowDimensions(1250, 800);
-      element(by.css('#open-responsive-flyout-lg')).click();
-      expect('body').toMatchBaselineScreenshot(done, {
-        screenshotName: 'flyout-responsive-lg'
-      });
-      element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
-    });
+    validateResponsiveContainer('lg', done);
+  });
 
   it('should match previous screenshot when the flyout contains responsive content (screen: xs)',
     (done) => {
-      SkyHostBrowser.get('visual/flyout');
-      SkyHostBrowser.setWindowBreakpoint('xs');
-      element(by.css('#open-responsive-flyout-lg')).click();
-      expect('body').toMatchBaselineScreenshot(done, {
-        screenshotName: 'flyout-responsive-lg-screen-xs'
-      });
-      element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+    validateResponsive(done);
+  });
+
+  describe('when modern theme', () => {
+    beforeEach(async () => {
+      await selectTheme('modern', 'light');
     });
+
+    it('should match previous screenshot', (done) => {
+      validateFlyout('lg', done);
+    });
+
+    it('should match previous screenshot (screen: xs)', (done) => {
+      validateFlyout('xs', done);
+    });
+
+    it('should handle absolutely positioned items inside the flyout', (done) => {
+      validateDropdownInFlyout('lg', done);
+    });
+
+    it('should handle absolutely positioned items inside the flyout (screen: xs)', (done) => {
+      validateDropdownInFlyout('xs', done);
+    });
+
+    it('should match previous screenshot when row iterators are enabled', (done) => {
+      validateIteratorButtons('lg', done);
+    });
+
+    it('should match previous screenshot when row iterators are enabled (screen: xs)', (done) => {
+      validateIteratorButtons('xs', done);
+    });
+
+    it('should match previous screenshot when row iterators are disabled', (done) => {
+      validateDisabledIteratorButtons('lg', done);
+    });
+
+    it('should match previous screenshot when row iterator are disabled (screen: xs)', (done) => {
+      validateDisabledIteratorButtons('xs', done);
+    });
+
+    it('should match previous screenshot when flyout is fullscreen (screen: xs)', (done) => {
+      validateFullScreen('xs', done);
+    });
+
+    it('should match previous screenshot when the flyout contains responsive content (flyout: xs)',
+      (done) => {
+        validateResponsiveContainer('xs', done);
+      });
+
+    it('should match previous screenshot when the flyout contains responsive content (flyout: sm)',
+      (done) => {
+        validateResponsiveContainer('sm', done);
+      });
+
+    it('should match previous screenshot when the flyout contains responsive content (flyout: md)',
+      (done) => {
+        validateResponsiveContainer('md', done);
+      });
+
+    it('should match previous screenshot when the flyout contains responsive content (flyout: lg)',
+      (done) => {
+      validateResponsiveContainer('lg', done);
+    });
+
+    it('should match previous screenshot when the flyout contains responsive content (screen: xs)',
+      (done) => {
+      validateResponsive(done);
+    });
+
+  });
+
+  describe('when modern theme in dark mode', () => {
+    beforeEach(async () => {
+      await selectTheme('modern', 'dark');
+    });
+
+    it('should match previous screenshot', (done) => {
+      validateFlyout('lg', done);
+    });
+
+    it('should match previous screenshot (screen: xs)', (done) => {
+      validateFlyout('xs', done);
+    });
+
+    it('should handle absolutely positioned items inside the flyout', (done) => {
+      validateDropdownInFlyout('lg', done);
+    });
+
+    it('should handle absolutely positioned items inside the flyout (screen: xs)', (done) => {
+      validateDropdownInFlyout('xs', done);
+    });
+
+    it('should match previous screenshot when row iterators are enabled', (done) => {
+      validateIteratorButtons('lg', done);
+    });
+
+    it('should match previous screenshot when row iterators are enabled (screen: xs)', (done) => {
+      validateIteratorButtons('xs', done);
+    });
+
+    it('should match previous screenshot when row iterators are disabled', (done) => {
+      validateDisabledIteratorButtons('lg', done);
+    });
+
+    it('should match previous screenshot when row iterator are disabled (screen: xs)', (done) => {
+      validateDisabledIteratorButtons('xs', done);
+    });
+
+    it('should match previous screenshot when flyout is fullscreen (screen: xs)', (done) => {
+      validateFullScreen('xs', done);
+    });
+
+    it('should match previous screenshot when the flyout contains responsive content (flyout: xs)',
+      (done) => {
+        validateResponsiveContainer('xs', done);
+      });
+
+    it('should match previous screenshot when the flyout contains responsive content (flyout: sm)',
+      (done) => {
+        validateResponsiveContainer('sm', done);
+      });
+
+    it('should match previous screenshot when the flyout contains responsive content (flyout: md)',
+      (done) => {
+        validateResponsiveContainer('md', done);
+      });
+
+    it('should match previous screenshot when the flyout contains responsive content (flyout: lg)',
+      (done) => {
+      validateResponsiveContainer('lg', done);
+    });
+
+    it('should match previous screenshot when the flyout contains responsive content (screen: xs)',
+      (done) => {
+      validateResponsive(done);
+    });
+
+  });
 });

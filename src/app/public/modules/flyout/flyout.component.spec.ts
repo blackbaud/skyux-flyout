@@ -11,8 +11,8 @@ import {
 } from '@angular/core/testing';
 
 import {
-  SkyUIConfigService
-} from '@skyux/core';
+  Router
+} from '@angular/router';
 
 import {
   expect,
@@ -20,6 +20,19 @@ import {
 } from '@skyux-sdk/testing';
 
 import {
+  SkyUIConfigService
+} from '@skyux/core';
+
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange
+} from '@skyux/theme';
+
+import {
+  BehaviorSubject,
   of as observableOf,
   throwError as observableThrow
 } from 'rxjs';
@@ -56,14 +69,13 @@ import {
   SkyFlyoutMediaQueryService
 } from './flyout-media-query.service';
 
-import {
-  Router
-} from '@angular/router';
-
 describe('Flyout component', () => {
   let applicationRef: ApplicationRef;
   let fixture: ComponentFixture<SkyFlyoutTestComponent>;
   let flyoutService: SkyFlyoutService;
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+  };
 
   //#region helpers
   function openFlyout(config: SkyFlyoutConfig = {}, showIframe?: boolean): SkyFlyoutInstance<any> {
@@ -117,6 +129,15 @@ describe('Flyout component', () => {
     handleElement.dispatchEvent(evt);
   }
 
+  function grabHeaderDragHandle(handleXCord: number): void {
+    const handleElement = getFlyoutHeaderGrabHandle();
+    let evt = document.createEvent('MouseEvents');
+    evt.initMouseEvent('mousedown', false, false, window, 0, 0, 0, handleXCord,
+      0, false, false, false, false, 0, undefined);
+
+    handleElement.dispatchEvent(evt);
+  }
+
   function dragHandle(endingXCord: number): void {
     makeEvent('mousemove', { clientX: endingXCord });
     fixture.detectChanges();
@@ -139,6 +160,12 @@ describe('Flyout component', () => {
     releaseDragHandle();
   }
 
+  function resizeFlyoutWithHeaderGrabHandle(startingXCord: number, endingXCord: number): void {
+    grabHeaderDragHandle(startingXCord);
+    dragHandle(endingXCord);
+    releaseDragHandle();
+  }
+
   function getFlyoutElement(): HTMLElement {
     return document.querySelector('.sky-flyout') as HTMLElement;
   }
@@ -149,6 +176,10 @@ describe('Flyout component', () => {
 
   function getFlyoutHandleElement(): HTMLElement {
     return document.querySelector('.sky-flyout-resize-handle') as HTMLElement;
+  }
+
+  function getFlyoutHeaderGrabHandle(): HTMLElement {
+    return document.querySelector('.sky-flyout-header-grab-handle') as HTMLElement;
   }
 
   function getFlyoutHeaderElement(): HTMLElement {
@@ -197,9 +228,27 @@ describe('Flyout component', () => {
   //#endregion
 
   beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
+        {
+          currentSettings: new SkyThemeSettings(
+            SkyTheme.presets.default,
+            SkyThemeMode.presets.light
+          ),
+          previousSettings: undefined
+        }
+      )
+    };
+
     TestBed.configureTestingModule({
       imports: [
         SkyFlyoutFixturesModule
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc
+        }
       ]
     });
 
@@ -565,6 +614,16 @@ describe('Flyout component', () => {
     resizeFlyout(1100, 1000);
 
     expect(uiSettingsSaveSpy).toHaveBeenCalledWith('testKey', { flyoutWidth: 500 });
+  }));
+
+  it('should not show the header resize grab handle when in default mode', fakeAsync(() => {
+    openFlyout({ defaultWidth: 500 });
+    fixture.detectChanges();
+    tick();
+
+    const grabHandle = getFlyoutHeaderGrabHandle();
+
+    expect(grabHandle).toBeNull();
   }));
 
   it('should handle errors when setting config', fakeAsync(() => {
@@ -1411,5 +1470,49 @@ describe('Flyout component', () => {
       expect(flyoutHostElement.classList.contains('sky-responsive-container-sm')).toBeFalsy();
       expect(flyoutHostElement.classList.contains('sky-responsive-container-md')).toBeFalsy();
     }));
+
+    describe('when in modern theme', () => {
+      beforeEach(() => {
+        mockThemeSvc.settingsChange.next(
+          {
+            currentSettings: new SkyThemeSettings(
+              SkyTheme.presets.modern,
+              SkyThemeMode.presets.light
+            ),
+            previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
+          }
+        );
+      });
+
+      it('should show the header resize grab handle when in modern theme', fakeAsync(() => {
+        openFlyout({ defaultWidth: 500 });
+        fixture.detectChanges();
+        tick();
+
+        const grabHandle = getFlyoutHeaderGrabHandle();
+
+        expect(grabHandle).not.toBeNull();
+      }));
+
+      it('should resize when header grab handle is dragged', fakeAsync(() => {
+        openFlyout({ defaultWidth: 500 });
+        fixture.detectChanges();
+        tick();
+        const moveSpy = spyOn(SkyFlyoutComponent.prototype, 'onMouseMove').and.callThrough();
+        const mouseUpSpy = spyOn(SkyFlyoutComponent.prototype, 'onHandleRelease').and.callThrough();
+        const flyoutElement = getFlyoutElement();
+
+        expect(flyoutElement.style.width).toBe('500px');
+
+        resizeFlyoutWithHeaderGrabHandle(1000, 1100);
+
+        expect(flyoutElement.style.width).toBe('400px');
+
+        resizeFlyout(1100, 1000);
+
+        expect(moveSpy).toHaveBeenCalled();
+        expect(mouseUpSpy).toHaveBeenCalled();
+      }));
+    });
   });
 });

@@ -6,12 +6,17 @@ import {
   Output
 } from '@angular/core';
 
+import {
+  SkyThemeService
+} from '@skyux/theme';
+
 /**
  * @internal
  */
 @Component({
   selector: 'sky-flyout-iterator',
-  templateUrl: './flyout-iterator.component.html'
+  templateUrl: './flyout-iterator.component.html',
+  styleUrls: ['./flyout-iterator.component.scss']
 })
 export class SkyFlyoutIteratorComponent implements OnDestroy {
 
@@ -35,7 +40,9 @@ export class SkyFlyoutIteratorComponent implements OnDestroy {
 
   private _nextButtonClick = new EventEmitter<void>();
 
-  constructor() {}
+  constructor(
+    public themeSvc: SkyThemeService
+  ) {}
 
   public ngOnDestroy(): void {
     this._previousButtonClick.complete();

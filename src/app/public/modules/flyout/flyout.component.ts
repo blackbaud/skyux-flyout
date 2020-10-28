@@ -46,6 +46,10 @@ import {
 } from '@skyux/i18n';
 
 import {
+  SkyThemeService
+} from '@skyux/theme';
+
+import {
   SkyFlyoutAdapterService
 } from './flyout-adapter.service';
 
@@ -193,7 +197,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     private resourcesService: SkyLibResourcesService,
     private flyoutMediaQueryService: SkyFlyoutMediaQueryService,
     private elementRef: ElementRef,
-    private uiConfigService: SkyUIConfigService
+    private uiConfigService: SkyUIConfigService,
+    public themeSvc: SkyThemeService
   ) {
     // All commands flow through the message stream.
     this.messageStream
@@ -319,7 +324,11 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     }
   }
 
-  public onMouseDown(event: MouseEvent): void {
+  public onHeaderGrabHandleMouseDown(event: MouseEvent): void {
+    this.onResizeHandleMouseDown(event);
+  }
+
+  public onResizeHandleMouseDown(event: MouseEvent): void {
 
     event.preventDefault();
     event.stopPropagation();
