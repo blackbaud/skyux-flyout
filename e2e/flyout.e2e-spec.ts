@@ -9,9 +9,14 @@ import {
   SkyHostBrowser,
   SkyVisualThemeSelector
 } from '@skyux-sdk/e2e';
-import { SkyHostBrowserBreakpoint } from '@skyux-sdk/e2e/host-browser/host-browser-breakpoint';
+
+import {
+  SkyHostBrowserBreakpoint
+} from '@skyux-sdk/e2e/host-browser/host-browser-breakpoint';
 
 describe('Flyout', () => {
+
+  //#region helpers
   let currentTheme: string;
   let currentThemeMode: string;
 
@@ -81,14 +86,6 @@ describe('Flyout', () => {
     });
   }
 
-  function validateResponsive(done: DoneFn): void {
-    SkyHostBrowser.setWindowBreakpoint('xs');
-    element(by.css('#open-responsive-flyout-lg')).click();
-    expect('body').toMatchBaselineScreenshot(done, {
-      screenshotName: getScreenshotName('flyout-responsive-lg-screen-xs')
-    });
-  }
-
   function validateResponsiveContainer(size: SkyHostBrowserBreakpoint, done: DoneFn): void {
     // Since we're testing the responsive container inside the flyout,
     // the browser should always run with a large breakpoint.
@@ -99,73 +96,90 @@ describe('Flyout', () => {
     });
   }
 
-  beforeEach(() => {
-    SkyHostBrowser.get('visual/flyout');
+  function closeFlyout(): void {
+    element(by.css('.sky-flyout-btn-close')).click();
+  }
+
+  function runTests(): void {
+    it('should match previous screenshot', (done) => {
+      validateFlyout('lg', done);
+    });
+
+    it('should match previous screenshot (screen: xs)', (done) => {
+      validateFlyout('xs', done);
+    });
+
+    it('should handle absolutely positioned items inside the flyout', (done) => {
+      validateDropdownInFlyout('lg', done);
+    });
+
+    it('should handle absolutely positioned items inside the flyout (screen: xs)', (done) => {
+      validateDropdownInFlyout('xs', done);
+    });
+
+    it('should match previous screenshot when row iterators are enabled', (done) => {
+      validateIteratorButtons('lg', done);
+    });
+
+    it('should match previous screenshot when row iterators are enabled (screen: xs)', (done) => {
+      validateIteratorButtons('xs', done);
+    });
+
+    it('should match previous screenshot when row iterators are disabled', (done) => {
+      validateDisabledIteratorButtons('lg', done);
+    });
+
+    it('should match previous screenshot when row iterator are disabled (screen: xs)', (done) => {
+      validateDisabledIteratorButtons('xs', done);
+    });
+
+    it('should match previous screenshot when flyout is fullscreen (screen: xs)', (done) => {
+      validateFullScreen('xs', done);
+    });
+
+    it('should match previous screenshot when the flyout contains responsive content (flyout: xs)',
+      (done) => {
+        validateResponsiveContainer('xs', done);
+      });
+
+    it('should match previous screenshot when the flyout contains responsive content (flyout: sm)',
+      (done) => {
+        validateResponsiveContainer('sm', done);
+      });
+
+    it('should match previous screenshot when the flyout contains responsive content (flyout: md)',
+      (done) => {
+        validateResponsiveContainer('md', done);
+      });
+
+    it('should match previous screenshot when the flyout contains responsive content (flyout: lg)',
+      (done) => {
+      validateResponsiveContainer('lg', done);
+    });
+  }
+  //#endregion
+
+  beforeEach(async () => {
+    currentTheme = undefined;
+    currentThemeMode = undefined;
+
+    await SkyHostBrowser.get('visual/flyout');
   });
 
   afterEach(() => {
-    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
+    closeFlyout();
   });
 
-  it('should match previous screenshot', (done) => {
-    validateFlyout('lg', done);
-  });
-
-  it('should match previous screenshot (screen: xs)', (done) => {
-    validateFlyout('xs', done);
-  });
-
-  it('should handle absolutely positioned items inside the flyout', (done) => {
-    validateDropdownInFlyout('lg', done);
-  });
-
-  it('should handle absolutely positioned items inside the flyout (screen: xs)', (done) => {
-    validateDropdownInFlyout('xs', done);
-  });
-
-  it('should match previous screenshot when row iterators are enabled', (done) => {
-    validateIteratorButtons('lg', done);
-  });
-
-  it('should match previous screenshot when row iterators are enabled (screen: xs)', (done) => {
-    validateIteratorButtons('xs', done);
-  });
-
-  it('should match previous screenshot when row iterators are disabled', (done) => {
-    validateDisabledIteratorButtons('lg', done);
-  });
-
-  it('should match previous screenshot when row iterator are disabled (screen: xs)', (done) => {
-    validateDisabledIteratorButtons('xs', done);
-  });
-
-  it('should match previous screenshot when flyout is fullscreen (screen: xs)', (done) => {
-    validateFullScreen('xs', done);
-  });
-
-  it('should match previous screenshot when the flyout contains responsive content (flyout: xs)',
-    (done) => {
-      validateResponsiveContainer('xs', done);
-    });
-
-  it('should match previous screenshot when the flyout contains responsive content (flyout: sm)',
-    (done) => {
-      validateResponsiveContainer('sm', done);
-    });
-
-  it('should match previous screenshot when the flyout contains responsive content (flyout: md)',
-    (done) => {
-      validateResponsiveContainer('md', done);
-    });
-
-  it('should match previous screenshot when the flyout contains responsive content (flyout: lg)',
-    (done) => {
-    validateResponsiveContainer('lg', done);
-  });
+  runTests();
 
   it('should match previous screenshot when the flyout contains responsive content (screen: xs)',
-    (done) => {
-    validateResponsive(done);
+  (done) => {
+    SkyHostBrowser.setWindowBreakpoint('xs');
+    element(by.css('#open-responsive-flyout-lg')).click();
+    expect('body').toMatchBaselineScreenshot(done, {
+      screenshotName: 'flyout-responsive-lg-screen-xs'
+    });
+    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
   });
 
   describe('when modern theme', () => {
@@ -173,67 +187,7 @@ describe('Flyout', () => {
       await selectTheme('modern', 'light');
     });
 
-    it('should match previous screenshot', (done) => {
-      validateFlyout('lg', done);
-    });
-
-    it('should match previous screenshot (screen: xs)', (done) => {
-      validateFlyout('xs', done);
-    });
-
-    it('should handle absolutely positioned items inside the flyout', (done) => {
-      validateDropdownInFlyout('lg', done);
-    });
-
-    it('should handle absolutely positioned items inside the flyout (screen: xs)', (done) => {
-      validateDropdownInFlyout('xs', done);
-    });
-
-    it('should match previous screenshot when row iterators are enabled', (done) => {
-      validateIteratorButtons('lg', done);
-    });
-
-    it('should match previous screenshot when row iterators are enabled (screen: xs)', (done) => {
-      validateIteratorButtons('xs', done);
-    });
-
-    it('should match previous screenshot when row iterators are disabled', (done) => {
-      validateDisabledIteratorButtons('lg', done);
-    });
-
-    it('should match previous screenshot when row iterator are disabled (screen: xs)', (done) => {
-      validateDisabledIteratorButtons('xs', done);
-    });
-
-    it('should match previous screenshot when flyout is fullscreen (screen: xs)', (done) => {
-      validateFullScreen('xs', done);
-    });
-
-    it('should match previous screenshot when the flyout contains responsive content (flyout: xs)',
-      (done) => {
-        validateResponsiveContainer('xs', done);
-      });
-
-    it('should match previous screenshot when the flyout contains responsive content (flyout: sm)',
-      (done) => {
-        validateResponsiveContainer('sm', done);
-      });
-
-    it('should match previous screenshot when the flyout contains responsive content (flyout: md)',
-      (done) => {
-        validateResponsiveContainer('md', done);
-      });
-
-    it('should match previous screenshot when the flyout contains responsive content (flyout: lg)',
-      (done) => {
-      validateResponsiveContainer('lg', done);
-    });
-
-    it('should match previous screenshot when the flyout contains responsive content (screen: xs)',
-      (done) => {
-      validateResponsive(done);
-    });
-
+    runTests();
   });
 
   describe('when modern theme in dark mode', () => {
@@ -241,66 +195,6 @@ describe('Flyout', () => {
       await selectTheme('modern', 'dark');
     });
 
-    it('should match previous screenshot', (done) => {
-      validateFlyout('lg', done);
-    });
-
-    it('should match previous screenshot (screen: xs)', (done) => {
-      validateFlyout('xs', done);
-    });
-
-    it('should handle absolutely positioned items inside the flyout', (done) => {
-      validateDropdownInFlyout('lg', done);
-    });
-
-    it('should handle absolutely positioned items inside the flyout (screen: xs)', (done) => {
-      validateDropdownInFlyout('xs', done);
-    });
-
-    it('should match previous screenshot when row iterators are enabled', (done) => {
-      validateIteratorButtons('lg', done);
-    });
-
-    it('should match previous screenshot when row iterators are enabled (screen: xs)', (done) => {
-      validateIteratorButtons('xs', done);
-    });
-
-    it('should match previous screenshot when row iterators are disabled', (done) => {
-      validateDisabledIteratorButtons('lg', done);
-    });
-
-    it('should match previous screenshot when row iterator are disabled (screen: xs)', (done) => {
-      validateDisabledIteratorButtons('xs', done);
-    });
-
-    it('should match previous screenshot when flyout is fullscreen (screen: xs)', (done) => {
-      validateFullScreen('xs', done);
-    });
-
-    it('should match previous screenshot when the flyout contains responsive content (flyout: xs)',
-      (done) => {
-        validateResponsiveContainer('xs', done);
-      });
-
-    it('should match previous screenshot when the flyout contains responsive content (flyout: sm)',
-      (done) => {
-        validateResponsiveContainer('sm', done);
-      });
-
-    it('should match previous screenshot when the flyout contains responsive content (flyout: md)',
-      (done) => {
-        validateResponsiveContainer('md', done);
-      });
-
-    it('should match previous screenshot when the flyout contains responsive content (flyout: lg)',
-      (done) => {
-      validateResponsiveContainer('lg', done);
-    });
-
-    it('should match previous screenshot when the flyout contains responsive content (screen: xs)',
-      (done) => {
-      validateResponsive(done);
-    });
-
+    runTests();
   });
 });
