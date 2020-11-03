@@ -1,5 +1,5 @@
 <div
-  class="sky-flyout sky-shadow"
+  class="sky-flyout"
   tabindex="-1"
   [attr.role]="config?.ariaRole"
   [attr.aria-describedby]="config?.ariaDescribedBy"
@@ -7,7 +7,11 @@
   [id]="flyoutId"
   [ngClass]="{
     'sky-flyout-hidden': !isOpen && !isOpening,
-    'sky-flyout-fullscreen': isFullscreen
+    'sky-flyout-fullscreen': isFullscreen,
+    'sky-shadow':
+      (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'default',
+    'sky-elevation-8':
+      (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
   }"
   (@flyoutState.done)="animationDone($event)"
   [@flyoutState]="getAnimationState()"
