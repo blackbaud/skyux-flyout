@@ -3,13 +3,17 @@
   class="sky-flyout-iterators"
 >
   <button
-    class="sky-btn sky-margin-inline-compact"
+    class="sky-btn"
     [attr.aria-label]="'skyux_flyout_iterator_previous_button' | skyLibResources"
     [disabled]="previousButtonDisabled"
     [ngClass]="{
       'sky-btn-default':
         (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'default',
       'sky-btn-icon-borderless':
+        (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern',
+      'sky-margin-inline-compact':
+        (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'default',
+      'sky-margin-inline-sm':
         (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
     }"
     (click)="onIteratorPreviousClick()"
@@ -35,6 +39,10 @@
       'sky-btn-default':
         (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'default',
       'sky-btn-icon-borderless':
+        (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern',
+      'sky-margin-inline-compact':
+        (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'default',
+      'sky-margin-inline-sm':
         (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
     }"
     (click)="onIteratorNextClick()"

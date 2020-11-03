@@ -45,7 +45,7 @@
     <div class="sky-flyout-header-content">
 
       <button *ngIf="(themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'"
-        class="sky-btn sky-btn-icon-borderless sky-margin-inline-compact sky-flyout-header-grab-handle"
+        class="sky-btn sky-btn-icon-borderless sky-margin-inline-sm sky-flyout-header-grab-handle"
         [attr.aria-label]="'skyux_flyout_resize_handle' | skyLibResources"
         (mousedown)="onHeaderGrabHandleMouseDown($event)"
       >
