@@ -332,7 +332,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.onResizeHandleMouseDown(event);
   }
 
-  public onHeaderGrabHandleKeyDown(event: KeyboardEvent) {
+  public onHeaderGrabHandleKeyDown(event: KeyboardEvent): void {
     switch (event.key.toLowerCase()) {
       case 'arrowleft':
         if (this.flyoutWidth < this.config.maxWidth) {
