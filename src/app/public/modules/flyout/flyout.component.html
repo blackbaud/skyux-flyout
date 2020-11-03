@@ -22,13 +22,13 @@
   <input
     class="sky-flyout-resize-handle"
     role="separator"
-    step="10"
     type="range"
     [attr.aria-controls]="flyoutId"
     [attr.aria-label]="'skyux_flyout_resize_handle' | skyLibResources"
     [attr.aria-valuemax]="config.maxWidth"
     [attr.aria-valuemin]="config.minWidth"
     [attr.aria-valuenow]="flyoutWidth"
+    [attr.step]="widthStep"
     [max]="config.maxWidth"
     [min]="config.minWidth"
     [(ngModel)]="flyoutWidth"
@@ -47,6 +47,7 @@
       <button *ngIf="(themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'"
         class="sky-btn sky-btn-icon-borderless sky-margin-inline-sm sky-flyout-header-grab-handle"
         [attr.aria-label]="'skyux_flyout_resize_handle' | skyLibResources"
+        (keydown)="onHeaderGrabHandleKeyDown($event)"
         (mousedown)="onHeaderGrabHandleMouseDown($event)"
       >
         <sky-icon

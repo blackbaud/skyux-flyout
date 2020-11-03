@@ -168,6 +168,15 @@ describe('Flyout component', () => {
     releaseDragHandle();
   }
 
+  function fireKeyDownOnHeaderGrabHandle(keyName: string): void {
+    const handleElement = getFlyoutHeaderGrabHandle();
+    SkyAppTestUtility.fireDomEvent(handleElement, 'keydown', {
+      keyboardEventInit: { key: keyName }
+    });
+    fixture.detectChanges();
+    tick();
+  }
+
   function getFlyoutElement(): HTMLElement {
     return document.querySelector('.sky-flyout') as HTMLElement;
   }
@@ -1552,6 +1561,45 @@ describe('Flyout component', () => {
 
         expect(moveSpy).toHaveBeenCalled();
         expect(mouseUpSpy).toHaveBeenCalled();
+      }));
+
+      it('should resize when arrow keys are pressed on the header grab handle', fakeAsync(() => {
+        openFlyout({ defaultWidth: 500, maxWidth: 600 });
+        fixture.detectChanges();
+        tick();
+        const flyoutElement = getFlyoutElement();
+
+        fireKeyDownOnHeaderGrabHandle('arrowLeft');
+
+        expect(flyoutElement.style.width).toBe('510px');
+
+        fireKeyDownOnHeaderGrabHandle('arrowRight');
+
+        expect(flyoutElement.style.width).toBe('500px');
+      }));
+
+      it('should prevent width from going over the max when left arrow key is pressed on the header grab handle', fakeAsync(() => {
+        openFlyout({ defaultWidth: 490, maxWidth: 505 });
+        fixture.detectChanges();
+        tick();
+        const flyoutElement = getFlyoutElement();
+
+        fireKeyDownOnHeaderGrabHandle('arrowLeft');
+        fireKeyDownOnHeaderGrabHandle('arrowLeft');
+
+        expect(flyoutElement.style.width).toBe('505px');
+      }));
+
+      it('should prevent width from going under the min when right arrow key is pressed on the header grab handle', fakeAsync(() => {
+        openFlyout({ defaultWidth: 510, minWidth: 495 });
+        fixture.detectChanges();
+        tick();
+        const flyoutElement = getFlyoutElement();
+
+        fireKeyDownOnHeaderGrabHandle('arrowRight');
+        fireKeyDownOnHeaderGrabHandle('arrowRight');
+
+        expect(flyoutElement.style.width).toBe('495px');
       }));
     });
   });

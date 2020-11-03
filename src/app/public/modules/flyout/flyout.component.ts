@@ -165,6 +165,11 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   /**
    * @internal
    */
+  public widthStep: number = 10;
+
+  /**
+   * @internal
+   */
   @ViewChild('flyoutRef', {
     read: ElementRef,
     static: true
@@ -325,6 +330,26 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
   public onHeaderGrabHandleMouseDown(event: MouseEvent): void {
     this.onResizeHandleMouseDown(event);
+  }
+
+  public onHeaderGrabHandleKeyDown(event: KeyboardEvent) {
+    switch (event.key.toLowerCase()) {
+      case 'arrowleft':
+        if (this.flyoutWidth < this.config.maxWidth) {
+          this.flyoutWidth = Math.min(this.flyoutWidth + this.widthStep, this.config.maxWidth);
+        }
+        break;
+
+      case 'arrowright':
+        if (this.flyoutWidth > this.config.minWidth) {
+          this.flyoutWidth = Math.max(this.flyoutWidth - this.widthStep, this.config.minWidth);
+        }
+        break;
+
+      /* istanbul ignore next */
+      default:
+        break;
+    }
   }
 
   public onResizeHandleMouseDown(event: MouseEvent): void {
