@@ -179,7 +179,6 @@ describe('Flyout', () => {
     expect('body').toMatchBaselineScreenshot(done, {
       screenshotName: 'flyout-responsive-lg-screen-xs'
     });
-    element(by.css('.sky-flyout .sky-flyout-btn-close')).click();
   });
 
   describe('when modern theme', () => {
