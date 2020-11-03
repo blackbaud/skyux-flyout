@@ -25,7 +25,6 @@ import {
 
 import {
   fromEvent,
-  merge as observableMerge,
   Subject
 } from 'rxjs';
 
@@ -394,10 +393,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public onHandleRelease(event: MouseEvent): void {
-    const windowClickEvent = fromEvent(document, 'click');
-    const flyoutClickEvent = fromEvent(this.elementRef.nativeElement, 'click');
-
-    observableMerge(windowClickEvent, flyoutClickEvent)
+    fromEvent(document, 'click')
       .pipe(take(1))
       .subscribe(() => {
         this.isDragging = false;
