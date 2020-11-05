@@ -7,13 +7,9 @@
     [attr.aria-label]="'skyux_flyout_iterator_previous_button' | skyLibResources"
     [disabled]="previousButtonDisabled"
     [ngClass]="{
-      'sky-btn-default':
+      'sky-btn-default sky-margin-inline-compact':
         (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'default',
-      'sky-btn-icon-borderless':
-        (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern',
-      'sky-margin-inline-compact':
-        (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'default',
-      'sky-margin-inline-sm':
+      'sky-btn-icon-borderless sky-margin-inline-sm':
         (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
     }"
     (click)="onIteratorPreviousClick()"
@@ -36,13 +32,9 @@
     [attr.aria-label]="'skyux_flyout_iterator_next_button' | skyLibResources"
     [disabled]="nextButtonDisabled"
     [ngClass]="{
-      'sky-btn-default':
+      'sky-btn-default sky-margin-inline-compact':
         (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'default',
-      'sky-btn-icon-borderless':
-        (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern',
-      'sky-margin-inline-compact':
-        (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'default',
-      'sky-margin-inline-sm':
+      'sky-btn-icon-borderless sky-margin-inline-sm':
         (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
     }"
     (click)="onIteratorNextClick()"
