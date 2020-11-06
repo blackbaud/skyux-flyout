@@ -9,6 +9,8 @@ import {
 import {
   SkyThemeService
 } from '@skyux/theme';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 /**
  * @internal
@@ -31,20 +33,32 @@ export class SkyFlyoutIteratorComponent implements OnDestroy {
     return this._previousButtonClick;
   }
 
-  private _previousButtonClick = new EventEmitter<void>();
-
   @Output()
   public get nextButtonClick(): EventEmitter<void> {
     return this._nextButtonClick;
   }
 
+  public themeName: string;
+
+  private ngUnsubscribe = new Subject();
+
   private _nextButtonClick = new EventEmitter<void>();
+
+  private _previousButtonClick = new EventEmitter<void>();
 
   constructor(
     public themeSvc: SkyThemeService
-  ) {}
+  ) {
+    this.themeSvc.settingsChange.pipe(
+        takeUntil(this.ngUnsubscribe)
+      ).subscribe(settings => {
+        this.themeName = settings.currentSettings?.theme?.name;
+    });
+  }
 
   public ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
     this._previousButtonClick.complete();
     this._nextButtonClick.complete();
   }

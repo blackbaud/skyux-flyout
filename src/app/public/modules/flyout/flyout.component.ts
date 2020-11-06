@@ -334,7 +334,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
   public onHeaderGrabHandleKeyDown(event: KeyboardEvent): void {
     if (event.key) {
-      const direction = event.key.replace('arrow', '');
+      const direction = event.key.toLowerCase().replace('arrow', '');
       switch (direction) {
         case 'left':
           if (this.flyoutWidth < this.config.maxWidth) {
