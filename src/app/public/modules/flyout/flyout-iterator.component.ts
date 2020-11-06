@@ -9,8 +9,14 @@ import {
 import {
   SkyThemeService
 } from '@skyux/theme';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+
+import {
+  takeUntil
+} from 'rxjs/operators';
+
+import {
+  Subject
+} from 'rxjs';
 
 /**
  * @internal
