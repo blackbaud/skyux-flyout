@@ -53,11 +53,11 @@ export class SkyFlyoutIteratorComponent implements OnDestroy {
   private _previousButtonClick = new EventEmitter<void>();
 
   constructor(
-    public themeSvc: SkyThemeService
+    themeSvc: SkyThemeService
   ) {
-    this.themeSvc.settingsChange.pipe(
-        takeUntil(this.ngUnsubscribe)
-      ).subscribe(settings => {
+    themeSvc.settingsChange
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(settings => {
         this.themeName = settings.currentSettings?.theme?.name;
     });
   }

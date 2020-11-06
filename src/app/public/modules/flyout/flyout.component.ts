@@ -162,6 +162,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     return this.getString('skyux_flyout_primary_action_button');
   }
 
+  public themeName: string;
+
   /**
    * @internal
    */
@@ -189,6 +191,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   private flyoutHeader: ElementRef;
 
   private flyoutInstance: SkyFlyoutInstance<any>;
+
   private ngUnsubscribe = new Subject();
 
   private _messageStream = new Subject<SkyFlyoutMessage>();
@@ -202,7 +205,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     private flyoutMediaQueryService: SkyFlyoutMediaQueryService,
     private elementRef: ElementRef,
     private uiConfigService: SkyUIConfigService,
-    public themeSvc: SkyThemeService
+    themeSvc: SkyThemeService
   ) {
     // All commands flow through the message stream.
     this.messageStream
@@ -210,6 +213,12 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       .subscribe((message: SkyFlyoutMessage) => {
         this.handleIncomingMessages(message);
       });
+
+    themeSvc.settingsChange
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(settings => {
+        this.themeName = settings.currentSettings?.theme?.name;
+    });
   }
 
   public ngOnInit(): void {

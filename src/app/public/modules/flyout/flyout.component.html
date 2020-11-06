@@ -8,10 +8,8 @@
   [ngClass]="{
     'sky-flyout-hidden': !isOpen && !isOpening,
     'sky-flyout-fullscreen': isFullscreen,
-    'sky-shadow':
-      (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'default',
-    'sky-elevation-8':
-      (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
+    'sky-shadow': themeName === 'default',
+    'sky-elevation-8': themeName === 'modern'
   }"
   (@flyoutState.done)="animationDone($event)"
   [@flyoutState]="getAnimationState()"
@@ -37,14 +35,13 @@
   <div
     class="sky-flyout-header"
     [ngClass]="{
-      'sky-padding-squish-large':
-        (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'default'
+      'sky-padding-squish-large': themeName === 'default'
     }"
     #flyoutHeader
   >
     <div class="sky-flyout-header-content">
 
-      <button *ngIf="(themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'"
+      <button *ngIf="themeName === 'modern'"
         class="sky-btn sky-btn-icon-borderless sky-margin-inline-sm sky-flyout-header-grab-handle"
         [attr.aria-label]="'skyux_flyout_resize_handle' | skyLibResources"
         (keydown)="onHeaderGrabHandleKeyDown($event)"
@@ -76,10 +73,8 @@
         type="button"
         [attr.aria-label]="'skyux_flyout_close' | skyLibResources"
         [ngClass]="{
-          'sky-btn-default':
-            (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'default',
-          'sky-btn-icon-borderless':
-            (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
+          'sky-btn-default': themeName === 'default',
+          'sky-btn-icon-borderless': themeName === 'modern'
         }"
         (click)="close()"
       >
@@ -110,10 +105,8 @@
         class="sky-btn sky-flyout-btn-permalink sky-margin-inline-default"
         [href]="permalink.url"
         [ngClass]="{
-          'sky-btn-default':
-            (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'default',
-          'sky-btn-borderless':
-            (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
+          'sky-btn-default': themeName === 'default',
+          'sky-btn-borderless': themeName === 'modern'
         }"
         (click)="close()"
       >
@@ -126,10 +119,8 @@
         [routerLink]="permalink.route.commands"
         [fragment]="permalink.route.extras?.fragment"
         [ngClass]="{
-          'sky-btn-default':
-            (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'default',
-          'sky-btn-borderless':
-            (themeSvc?.settingsChange | async)?.currentSettings.theme.name === 'modern'
+          'sky-btn-default': themeName === 'default',
+          'sky-btn-borderless': themeName === 'modern'
         }"
         [queryParams]="permalink.route.extras?.queryParams"
         [queryParamsHandling]="permalink.route.extras?.queryParamsHandling"
