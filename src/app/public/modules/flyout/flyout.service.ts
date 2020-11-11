@@ -146,6 +146,13 @@ export class SkyFlyoutService implements OnDestroy {
             return;
           }
 
+          // Ignore click events on elements that no longer exist in the DOM.
+          // An example of this is an element that is removed immediately after being clicked by the user.
+          const targetElement = event.target as HTMLElement;
+          if (!document.body.contains(targetElement)) {
+            return;
+          }
+
           const isAbove = event.target === document ? false : this.coreAdapter.isTargetAboveElement(
             event.target,
             flyoutInstance.flyoutRef.nativeElement
