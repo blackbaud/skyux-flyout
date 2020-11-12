@@ -54,7 +54,6 @@ import {
  */
 @Injectable()
 export class SkyFlyoutService implements OnDestroy {
-  private clickOnFlyout: boolean = false;
   private host: ComponentRef<SkyFlyoutComponent>;
   private removeAfterClosed = false;
   private isOpening: boolean = false;
@@ -146,24 +145,19 @@ export class SkyFlyoutService implements OnDestroy {
             return;
           }
 
+          if (flyoutInstance.flyoutRef.nativeElement.contains(event.target)) {
+            return;
+          }
+
           const isAbove = event.target === document ? false : this.coreAdapter.isTargetAboveElement(
             event.target,
             flyoutInstance.flyoutRef.nativeElement
           );
 
           /* istanbul ignore else */
-          if (!this.clickOnFlyout && !isAbove) {
+          if (!isAbove) {
             this.close();
           }
-        });
-
-      fromEvent(flyoutInstance.flyoutRef.nativeElement, 'mouseup')
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe((event: MouseEvent) => {
-          this.clickOnFlyout = true;
-          this.windowRef.nativeWindow.setTimeout(() => {
-            this.clickOnFlyout = false;
-          });
         });
 
       this.removeAfterClosed = false;
