@@ -15,9 +15,6 @@ import {
   templateUrl: './flyout-modal-form.component.html'
 })
 export class SkyFlyoutModalFixtureFormComponent {
-
-  public showDeleteMeButton = true;
-
   public title = 'Hello world';
 
   constructor(
