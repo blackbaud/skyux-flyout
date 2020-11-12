@@ -306,7 +306,7 @@ describe('Flyout component', () => {
     const flyout = openFlyout({});
     expect(flyout.isOpen).toBe(true);
 
-    SkyAppTestUtility.fireDomEvent(fixture.nativeElement, 'mousedown');
+    SkyAppTestUtility.fireDomEvent(fixture.nativeElement, 'mouseup');
     fixture.nativeElement.click();
     fixture.detectChanges();
     tick();

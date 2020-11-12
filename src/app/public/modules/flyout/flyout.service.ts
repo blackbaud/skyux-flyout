@@ -139,17 +139,10 @@ export class SkyFlyoutService implements OnDestroy {
       /**
        * Flyout should close when user clicks outside of flyout.
        */
-      fromEvent(document, 'click')
+      fromEvent(document, 'mouseup')
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((event: MouseEvent) => {
           if (this.host.instance.isDragging) {
-            return;
-          }
-
-          // Ignore click events on elements that no longer exist in the DOM.
-          // An example of this is an element that is removed immediately after being clicked by the user.
-          const targetElement = event.target as HTMLElement;
-          if (!document.body.contains(targetElement)) {
             return;
           }
 
@@ -164,7 +157,7 @@ export class SkyFlyoutService implements OnDestroy {
           }
         });
 
-      fromEvent(flyoutInstance.flyoutRef.nativeElement, 'click')
+      fromEvent(flyoutInstance.flyoutRef.nativeElement, 'mouseup')
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((event: MouseEvent) => {
           this.clickOnFlyout = true;
