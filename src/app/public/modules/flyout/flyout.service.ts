@@ -135,12 +135,20 @@ export class SkyFlyoutService implements OnDestroy {
     if (this.host) {
       const flyoutInstance = this.host.instance;
 
+      let doClose = false;
+
       /**
-       * Flyout should close when user clicks outside of flyout.
+       * Handles when to close a flyout.
+       * Note: We're using `mouseup` in order to capture the parent of certain targets that will be
+       * deleted immediately after being clicked. If we use `click`, the event is fired after the
+       * element is removed from the DOM making it impossible to check the parent's z-index
+       * relative to the flyout's container.
        */
       fromEvent(document, 'mouseup')
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((event: MouseEvent) => {
+          doClose = false;
+
           if (this.host.instance.isDragging) {
             return;
           }
@@ -156,6 +164,20 @@ export class SkyFlyoutService implements OnDestroy {
 
           /* istanbul ignore else */
           if (!isAbove) {
+            doClose = true;
+          }
+        });
+
+      /**
+       * Check if we should close the flyout specifically on a `click` event so that we can keep
+       * it open when consumers fire another `click` event on a trigger button. Since the consumer
+       * will likely use a `click` event to open the flyout, we want to wait for that event to fire
+       * before determining if the flyout should be closed.
+       */
+      fromEvent(document, 'click')
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(() => {
+          if (doClose) {
             this.close();
           }
         });
