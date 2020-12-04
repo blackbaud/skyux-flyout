@@ -70,7 +70,7 @@
     "@skyux/list-builder-common": "4.0.1",
     "@skyux/list-builder-view-checklist": "4.0.1",
     "@skyux/list-builder-view-grids": "4.0.2",
-    "@skyux/lists": "4.4.0",
+    "@skyux/lists": "4.5.0",
     "@skyux/lookup": "4.8.1",
     "@skyux/modals": "4.5.1",
     "@skyux/omnibar-interop": "4.0.1",
