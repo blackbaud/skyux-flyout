@@ -33,13 +33,11 @@
     }"
     (click)="onIteratorNextClick()"
   >
-    <sky-icon
-      class="sky-flyout-iterator-down-theme-default"
+    <sky-icon *skyThemeIf="'default'"
       icon="chevron-down"
     >
     </sky-icon>
-    <sky-icon
-      class="sky-flyout-iterator-down-theme-modern"
+    <sky-icon *skyThemeIf="'modern'"
       icon="chevron-down"
       iconType="skyux"
       size="lg"
