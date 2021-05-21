@@ -1,3 +1,7 @@
+# 5.0.0-alpha.0 (2021-05-21)
+
+- Removed `BrowserAnimationsModule` from the `imports` section of `SkyFlyoutModule` to support lazy-loading. Consumers of `SkyFlyoutModule` must now import `BrowserAnimationsModule` into their application's root module. [#114](https://github.com/blackbaud/skyux-flyout/pull/114)
+
 # 4.1.1 (2021-03-22)
 
 - Replaced theme conditionals in templates with the new `skyThemeIf` directive. [#110](https://github.com/blackbaud/skyux-flyout/pull/110)
