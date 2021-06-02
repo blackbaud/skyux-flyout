@@ -38,20 +38,12 @@ import {
 } from '../shared/flyout-resources.module';
 
 import {
-  SkyFlyoutAdapterService
-} from './flyout-adapter.service';
-
-import {
   SkyFlyoutComponent
 } from './flyout.component';
 
 import {
   SkyFlyoutIteratorComponent
 } from './flyout-iterator.component';
-
-import {
-  SkyFlyoutService
-} from './flyout.service';
 
 @NgModule({
   declarations: [
@@ -61,8 +53,6 @@ import {
   providers: [
     SkyAppWindowRef,
     SkyCoreAdapterService,
-    SkyFlyoutAdapterService,
-    SkyFlyoutService,
     SkyUIConfigService
   ],
   imports: [
