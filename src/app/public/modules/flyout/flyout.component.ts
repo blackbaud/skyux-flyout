@@ -89,6 +89,7 @@ let nextId = 0;
   templateUrl: './flyout.component.html',
   styleUrls: ['./flyout.component.scss'],
   providers: [
+    SkyFlyoutAdapterService,
     SkyFlyoutMediaQueryService,
     { provide: SkyMediaQueryService, useExisting: SkyFlyoutMediaQueryService }
   ],

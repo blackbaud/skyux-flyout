@@ -52,7 +52,9 @@ import {
  * This service dynamically generates the flyout component and appends it directly to the
  * document's `body` element. The `SkyFlyoutInstance` class watches for and triggers flyout events.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class SkyFlyoutService implements OnDestroy {
   private host: ComponentRef<SkyFlyoutComponent>;
   private removeAfterClosed = false;
