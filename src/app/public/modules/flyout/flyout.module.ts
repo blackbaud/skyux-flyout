@@ -70,18 +70,18 @@ import {
     SkyFlyoutService,
     SkyUIConfigService
   ],
-    imports: [
-        BrowserAnimationsModule,
-        CommonModule,
-        FormsModule,
-        RouterModule,
-        SkyI18nModule,
-        SkyIconModule,
-        SkyFlyoutResourcesModule,
-        SkyDynamicComponentModule,
-        SkyThemeModule,
-        SkyHrefModule
-    ],
+  imports: [
+    BrowserAnimationsModule,
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    SkyI18nModule,
+    SkyIconModule,
+    SkyFlyoutResourcesModule,
+    SkyDynamicComponentModule,
+    SkyThemeModule,
+    SkyHrefModule
+  ],
   exports: [
     SkyFlyoutComponent
   ],
