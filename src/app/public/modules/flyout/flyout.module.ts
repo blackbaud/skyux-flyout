@@ -32,7 +32,10 @@ import {
 import {
   SkyI18nModule
 } from '@skyux/i18n';
-import { SkyHrefModule } from '@skyux/router';
+
+import {
+  SkyHrefModule
+} from '@skyux/router';
 
 import {
   SkyThemeModule
