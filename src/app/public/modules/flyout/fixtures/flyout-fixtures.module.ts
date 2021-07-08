@@ -23,6 +23,10 @@ import {
 } from '@skyux/toast';
 
 import {
+  SkyFlyoutForRootCompatModule
+} from '../../shared/flyout-for-root-compat.module';
+
+import {
   SkyFlyoutModule
 } from '../flyout.module';
 
@@ -52,6 +56,7 @@ import {
   imports: [
     CommonModule,
     RouterTestingModule,
+    SkyFlyoutForRootCompatModule,
     SkyFlyoutModule,
     SkyModalModule,
     SkyToastModule,
