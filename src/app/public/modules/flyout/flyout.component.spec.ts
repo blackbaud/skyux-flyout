@@ -11,9 +11,12 @@ import {
 } from '@angular/core/testing';
 
 import {
+  RouterTestingModule
+} from '@angular/router/testing';
+
+import {
   Router
 } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 
 import {
   expect,
