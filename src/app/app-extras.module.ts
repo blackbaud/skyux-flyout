@@ -37,6 +37,10 @@ import {
 } from './docs/flyout/flyout-docs-flyout.component';
 
 import {
+  SkyFlyoutForRootCompatModule
+} from './public/modules/shared/flyout-for-root-compat.module';
+
+import {
   SkyFlyoutModule
 } from './public/public_api';
 
@@ -53,6 +57,9 @@ import {
 } from './visual/flyout/flyout-modal.component';
 
 @NgModule({
+  imports: [
+    SkyFlyoutForRootCompatModule
+  ],
   exports: [
     SkyAppLinkModule,
     SkyDocsThumbnailModule,
