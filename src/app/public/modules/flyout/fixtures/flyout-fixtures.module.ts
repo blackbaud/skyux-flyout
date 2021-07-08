@@ -19,12 +19,12 @@ import {
 } from '@skyux/modals';
 
 import {
-  SkyThemeService
-} from '@skyux/theme';
-
-import {
   SkyToastModule
 } from '@skyux/toast';
+
+import {
+  SkyFlyoutForRootCompatModule
+} from '../../shared/flyout-for-root-compat.module';
 
 import {
   SkyFlyoutModule
@@ -56,6 +56,7 @@ import {
   imports: [
     CommonModule,
     RouterTestingModule,
+    SkyFlyoutForRootCompatModule,
     SkyFlyoutModule,
     SkyModalModule,
     SkyToastModule,
@@ -70,9 +71,6 @@ import {
     SkyFlyoutTestSampleComponent,
     SkyFlyoutHostsTestComponent,
     SkyFlyoutModalFixtureFormComponent
-  ],
-  providers: [
-    SkyThemeService
   ]
 })
 export class SkyFlyoutFixturesModule { }

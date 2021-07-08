@@ -15,19 +15,16 @@ import {
 } from '@angular/router';
 
 import {
-  SkyAppWindowRef,
-  SkyCoreAdapterService,
-  SkyDynamicComponentModule,
-  SkyUIConfigService
-} from '@skyux/core';
-
-import {
   SkyIconModule
 } from '@skyux/indicators';
 
 import {
   SkyI18nModule
 } from '@skyux/i18n';
+
+import {
+  SkyHrefModule
+} from '@skyux/router';
 
 import {
   SkyThemeModule
@@ -50,11 +47,6 @@ import {
     SkyFlyoutComponent,
     SkyFlyoutIteratorComponent
   ],
-  providers: [
-    SkyAppWindowRef,
-    SkyCoreAdapterService,
-    SkyUIConfigService
-  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -62,8 +54,8 @@ import {
     SkyI18nModule,
     SkyIconModule,
     SkyFlyoutResourcesModule,
-    SkyDynamicComponentModule,
-    SkyThemeModule
+    SkyThemeModule,
+    SkyHrefModule
   ],
   exports: [
     SkyFlyoutComponent
