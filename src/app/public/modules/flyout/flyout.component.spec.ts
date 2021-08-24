@@ -17,6 +17,7 @@ import {
 import {
   Router
 } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import {
   expect,
