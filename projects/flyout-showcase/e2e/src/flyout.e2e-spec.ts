@@ -97,7 +97,10 @@ describe('Flyout', () => {
   }
 
   async function closeFlyout(): Promise<void> {
-    await element(by.css('.sky-flyout-btn-close')).click();
+    const closeButton = element(by.css('.sky-flyout-btn-close'));
+    if (closeButton) {
+      await closeButton.click();
+    }
   }
 
   function runTests(): void {
