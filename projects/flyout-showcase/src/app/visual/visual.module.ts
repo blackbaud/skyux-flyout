@@ -11,7 +11,7 @@ import { FlyoutModalDemoComponent } from './flyout/flyout-modal.component';
 import { SkyInfiniteScrollModule } from '@skyux/lists';
 import { FlyoutDemoComponent } from './flyout/flyout-demo.component';
 import { RouterModule } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -22,9 +22,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FlyoutVisualComponent,
     VisualComponent
   ],
+  //  Using NoopAnimationsModule for e2e tests.
+  //  Replace this with BrowserAnimationsModule to see animations.
   imports: [
-    BrowserAnimationsModule,
     CommonModule,
+    NoopAnimationsModule,
     RouterModule,
     SkyDocsToolsModule,
     SkyDropdownModule,
