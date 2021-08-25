@@ -24,7 +24,7 @@ import {
 } from '../flyout.service';
 
 @Component({
-  selector: 'sky-test-cmp-flyout',
+  selector: 'sky-test-flyout-internal',
   templateUrl: './flyout-hosts.component.fixture.html',
   providers: [SkyFlyoutService]
 })

@@ -1,3 +1,4 @@
+import { Directive } from '@angular/core';
 import {
   EventEmitter,
   OnDestroy
@@ -18,6 +19,7 @@ import {
 /**
  * Represents a single displayed flyout.
  */
+@Directive()
 export class SkyFlyoutInstance<T> implements OnDestroy {
 
   /**

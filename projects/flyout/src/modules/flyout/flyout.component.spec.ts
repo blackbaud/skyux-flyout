@@ -17,7 +17,6 @@ import {
 import {
   Router
 } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 
 import {
   expect,
@@ -27,6 +26,10 @@ import {
 import {
   SkyUIConfigService
 } from '@skyux/core';
+
+import {
+  SkyModalService
+} from '@skyux/modals'
 
 import {
   SkyTheme,
@@ -291,6 +294,8 @@ describe('Flyout component', () => {
   ));
 
   afterEach(fakeAsync(() => {
+    const modalService = TestBed.get(SkyModalService);
+    modalService.dispose();
     flyoutService.close();
     applicationRef.tick();
     tick();
