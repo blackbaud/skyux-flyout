@@ -134,6 +134,7 @@ export class SkyFlyoutService implements OnDestroy {
   }
 
   private addListeners<T>(flyout: SkyFlyoutInstance<T>): void {
+    /* istanbul ignore else */
     if (this.host) {
       const flyoutInstance = this.host.instance;
 

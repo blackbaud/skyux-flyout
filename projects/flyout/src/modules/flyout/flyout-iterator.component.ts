@@ -50,12 +50,14 @@ export class SkyFlyoutIteratorComponent implements OnDestroy {
   }
 
   public onIteratorPreviousClick(): void {
+    /* istanbul ignore else */
     if (!this.previousButtonDisabled) {
       this._previousButtonClick.emit();
     }
   }
 
   public onIteratorNextClick(): void {
+    /* istanbul ignore else */
     if (!this.nextButtonDisabled) {
       this._nextButtonClick.emit();
     }
