@@ -1,3 +1,7 @@
+# 5.0.0-beta.1 (2021-08-26)
+
+- Migrated to Angular CLI. [#119](https://github.com/blackbaud/skyux-flyout/pull/119)
+
 # 5.0.0-beta.0 (2021-07-08)
 
 - Initial beta release.
