@@ -8,7 +8,7 @@ import {
 
 import {
   SkyFlyoutModule
-} from '@skyux/flyout';
+} from 'projects/flyout/src/public-api';
 
 import {
   FlyoutDemoComponent

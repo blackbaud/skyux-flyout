@@ -7,7 +7,7 @@ import {
   SkyFlyoutConfig,
   SkyFlyoutInstance,
   SkyFlyoutService
-} from '@skyux/flyout';
+} from 'projects/flyout/src/public-api';
 
 import {
   ListItemModel
