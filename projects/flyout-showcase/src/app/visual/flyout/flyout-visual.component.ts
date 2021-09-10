@@ -4,11 +4,6 @@ import {
 } from '@angular/core';
 
 import {
-  SkyThemeService,
-  SkyThemeSettings
-} from '@skyux/theme';
-
-import {
   Subject
 } from 'rxjs';
 
@@ -49,8 +44,7 @@ export class FlyoutVisualComponent implements OnDestroy {
   private ngUnsubscribe = new Subject();
 
   constructor(
-    private flyoutService: SkyFlyoutService,
-    private themeSvc: SkyThemeService
+    private flyoutService: SkyFlyoutService
   ) { }
 
   public ngOnDestroy(): void {
@@ -137,9 +131,5 @@ export class FlyoutVisualComponent implements OnDestroy {
 
   public toggleButtons() {
     this.showButtons = !this.showButtons;
-  }
-
-  public themeSettingsChange(themeSettings: SkyThemeSettings): void {
-    this.themeSvc.setTheme(themeSettings);
   }
 }

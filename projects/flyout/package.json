@@ -9,7 +9,9 @@
     "@angular/router": "^12.2.0",
     "@skyux/core": "^5.0.0-beta.0",
     "@skyux/i18n": "^5.0.0-beta.0",
-    "@skyux/indicators": "^5.0.0-beta.0"
+    "@skyux/indicators": "^5.0.0-beta.0",
+    "@skyux/router": "^5.0.0-beta.0",
+    "@skyux/theme": "^5.0.0-beta.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
