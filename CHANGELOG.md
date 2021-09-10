@@ -1,3 +1,7 @@
+# 5.0.0-beta.2 (2021-09-10)
+
+- Updated peer dependencies. [#122](https://github.com/blackbaud/skyux-flyout/pull/122)
+
 # 5.0.0-beta.1 (2021-08-26)
 
 - Migrated to Angular CLI. [#119](https://github.com/blackbaud/skyux-flyout/pull/119)
