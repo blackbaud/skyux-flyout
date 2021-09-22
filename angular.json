@@ -29,7 +29,9 @@
           "options": {
             "main": "projects/flyout/src/test.ts",
             "tsConfig": "projects/flyout/tsconfig.spec.json",
-            "karmaConfig": "projects/flyout/karma.conf.js"
+            "karmaConfig": "projects/flyout/karma.conf.js",
+            "codeCoverage": true,
+            "codeCoverageExclude": ["projects/flyout/src/test.ts"]
           }
         },
         "lint": {
