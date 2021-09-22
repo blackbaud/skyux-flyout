@@ -1,3 +1,7 @@
+# 5.0.0-beta.3 (2021-09-22)
+
+- Updated peer dependencies. [#124](https://github.com/blackbaud/skyux-flyout/pull/124)
+
 # 5.0.0-beta.2 (2021-09-10)
 
 - Updated peer dependencies. [#122](https://github.com/blackbaud/skyux-flyout/pull/122)
