@@ -64,12 +64,12 @@ describe('Flyout instance', () => {
     });
   });
 
-  it('should complete subscribes on destroy', () => {
+  it('should complete iterator emitters when the flyout closes', () => {
     const flyout = new SkyFlyoutInstance();
     const previousSpy = spyOn(flyout.iteratorPreviousButtonClick, 'complete').and.callThrough();
     const nextSpy = spyOn(flyout.iteratorNextButtonClick, 'complete').and.callThrough();
 
-    flyout.ngOnDestroy();
+    flyout.close();
     expect(previousSpy).toHaveBeenCalled();
     expect(nextSpy).toHaveBeenCalled();
   });

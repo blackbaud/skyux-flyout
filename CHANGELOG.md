@@ -1,3 +1,7 @@
+# 5.0.0-beta.4 (2021-09-23)
+
+- Fixed `SkyFlyoutInstance` to be declared properly. [#125](https://github.com/blackbaud/skyux-flyout/pull/125)
+
 # 5.0.0-beta.3 (2021-09-22)
 
 - Updated peer dependencies. [#124](https://github.com/blackbaud/skyux-flyout/pull/124)
