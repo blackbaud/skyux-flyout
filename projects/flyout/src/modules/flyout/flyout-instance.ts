@@ -1,7 +1,5 @@
-import { Directive } from '@angular/core';
 import {
   EventEmitter,
-  OnDestroy
 } from '@angular/core';
 
 import {
@@ -19,8 +17,7 @@ import {
 /**
  * Represents a single displayed flyout.
  */
-@Directive()
-export class SkyFlyoutInstance<T> implements OnDestroy {
+export class SkyFlyoutInstance<T> {
 
   /**
    * An event that the flyout instance emits when it closes.
@@ -116,11 +113,6 @@ export class SkyFlyoutInstance<T> implements OnDestroy {
     this.closed.subscribe(() => {
       this.isOpen = false;
     });
-  }
-
-  public ngOnDestroy(): void {
-    this._iteratorPreviousButtonClick.complete();
-    this._iteratorNextButtonClick.complete();
   }
 
   /**
