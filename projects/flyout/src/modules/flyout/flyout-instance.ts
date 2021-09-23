@@ -123,6 +123,9 @@ export class SkyFlyoutInstance<T> {
       type: SkyFlyoutMessageType.Close
     });
 
+    this._iteratorPreviousButtonClick.complete();
+    this._iteratorNextButtonClick.complete();
+
     this.hostController.complete();
   }
 }
