@@ -1,5 +1,5 @@
 import {
-  EventEmitter,
+  EventEmitter
 } from '@angular/core';
 
 import {
