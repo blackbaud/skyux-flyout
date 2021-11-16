@@ -1,4 +1,4 @@
-# 5.0.1 (2021-11-15)
+# 5.0.1 (2021-11-16)
 
 - Fixed the flyout component to properly display resource strings for lazy-loaded modules. [#128](https://github.com/blackbaud/skyux-flyout/pull/128)
 
