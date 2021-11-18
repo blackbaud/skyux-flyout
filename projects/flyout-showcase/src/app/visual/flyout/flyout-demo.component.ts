@@ -1,36 +1,22 @@
-import {
-  Component, OnInit, ChangeDetectorRef
-} from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
-import {
-  Router
-} from '@angular/router';
+import { Router } from '@angular/router';
 
-import {
-  SkyModalService
-} from '@skyux/modals';
+import { SkyModalService } from '@skyux/modals';
 
-import {
-  SkyToastService,
-  SkyToastType
-} from '@skyux/toast';
+import { SkyToastService, SkyToastType } from '@skyux/toast';
 
-import {
-  FlyoutModalDemoComponent
-} from './flyout-modal.component';
+import { FlyoutModalDemoComponent } from './flyout-modal.component';
 
-import {
-  FlyoutDemoContext
-} from './flyout-demo-context';
+import { FlyoutDemoContext } from './flyout-demo-context';
 import { SkyFlyoutService } from 'projects/flyout/src/public-api';
 
 @Component({
   selector: 'app-flyout-demo',
   templateUrl: './flyout-demo.component.html',
-  providers: [SkyFlyoutService]
+  providers: [SkyFlyoutService],
 })
 export class FlyoutDemoComponent implements OnInit {
-
   public infiniteScrollData: any[] = [];
 
   public enableInfiniteScroll = true;
@@ -43,7 +29,7 @@ export class FlyoutDemoComponent implements OnInit {
     private toastService: SkyToastService,
     private router: Router,
     private changeDetector: ChangeDetectorRef
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.addData(false);
@@ -54,12 +40,9 @@ export class FlyoutDemoComponent implements OnInit {
   }
 
   public openMessage(): void {
-    this.toastService.openMessage(
-      `This is a sample toast message.`,
-      {
-        type: SkyToastType.Info
-      }
-    );
+    this.toastService.openMessage(`This is a sample toast message.`, {
+      type: SkyToastType.Info,
+    });
   }
 
   public goToPage(): void {
@@ -79,19 +62,21 @@ export class FlyoutDemoComponent implements OnInit {
 
     for (let i = 0; i < 8; i++) {
       data.push({
-        name: `Item #${++this.nextId}`
+        name: `Item #${++this.nextId}`,
       });
     }
 
     // Simulate async request.
     return new Promise((resolve: any) => {
-      setTimeout(() => {
-        resolve({
-          data,
-          hasMore: (this.nextId < 24)
-        });
-      }, delay ? 1000 : 0);
+      setTimeout(
+        () => {
+          resolve({
+            data,
+            hasMore: this.nextId < 24,
+          });
+        },
+        delay ? 1000 : 0
+      );
     });
   }
-
 }
