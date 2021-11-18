@@ -1,21 +1,10 @@
-import {
-  element,
-  browser,
-  by
-} from 'protractor';
+import { element, browser, by } from 'protractor';
 
-import {
-  expect,
-  SkyHostBrowser,
-  SkyVisualThemeSelector
-} from '@skyux-sdk/e2e';
+import { expect, SkyHostBrowser, SkyVisualThemeSelector } from '@skyux-sdk/e2e';
 
-import {
-  SkyHostBrowserBreakpoint
-} from '@skyux-sdk/e2e/host-browser/host-browser-breakpoint';
+import { SkyHostBrowserBreakpoint } from '@skyux-sdk/e2e/host-browser/host-browser-breakpoint';
 
 describe('Flyout', () => {
-
   //#region helpers
   let currentTheme: string;
   let currentThemeMode: string;
@@ -44,55 +33,73 @@ describe('Flyout', () => {
     await SkyHostBrowser.moveCursorOffScreen();
   }
 
-  async function validateFlyout(size: SkyHostBrowserBreakpoint, done: DoneFn): Promise<void> {
+  async function validateFlyout(
+    size: SkyHostBrowserBreakpoint,
+    done: DoneFn
+  ): Promise<void> {
     await SkyHostBrowser.setWindowBreakpoint(size);
     element(by.css('.sky-btn-primary')).click();
     expect('body').toMatchBaselineScreenshot(done, {
-      screenshotName: getScreenshotName(`flyout-${size}`)
+      screenshotName: getScreenshotName(`flyout-${size}`),
     });
   }
 
-  async function validateDropdownInFlyout(size: SkyHostBrowserBreakpoint, done: DoneFn): Promise<void> {
+  async function validateDropdownInFlyout(
+    size: SkyHostBrowserBreakpoint,
+    done: DoneFn
+  ): Promise<void> {
     await SkyHostBrowser.setWindowBreakpoint(size);
     await element(by.css('.sky-btn-primary')).click();
     await browser.sleep(250);
     await openDropdown();
     expect('body').toMatchBaselineScreenshot(done, {
-      screenshotName: getScreenshotName(`flyout-absolute-${size}`)
+      screenshotName: getScreenshotName(`flyout-absolute-${size}`),
     });
   }
 
-  async function validateIteratorButtons(size: SkyHostBrowserBreakpoint, done: DoneFn): Promise<void> {
+  async function validateIteratorButtons(
+    size: SkyHostBrowserBreakpoint,
+    done: DoneFn
+  ): Promise<void> {
     await SkyHostBrowser.setWindowBreakpoint(size);
     await element(by.css('#open-flyout-with-iterators')).click();
     expect('body').toMatchBaselineScreenshot(done, {
-      screenshotName: getScreenshotName(`flyout-iterators-${size}`)
+      screenshotName: getScreenshotName(`flyout-iterators-${size}`),
     });
   }
 
-  async function validateDisabledIteratorButtons(size: SkyHostBrowserBreakpoint, done: DoneFn): Promise<void> {
+  async function validateDisabledIteratorButtons(
+    size: SkyHostBrowserBreakpoint,
+    done: DoneFn
+  ): Promise<void> {
     await SkyHostBrowser.setWindowBreakpoint(size);
     await element(by.css('#open-flyout-with-iterators-disabled')).click();
     expect('body').toMatchBaselineScreenshot(done, {
-      screenshotName: getScreenshotName(`flyout-no-iterators-${size}`)
+      screenshotName: getScreenshotName(`flyout-no-iterators-${size}`),
     });
   }
 
-  async function validateFullScreen(size: SkyHostBrowserBreakpoint, done: DoneFn): Promise<void> {
+  async function validateFullScreen(
+    size: SkyHostBrowserBreakpoint,
+    done: DoneFn
+  ): Promise<void> {
     await SkyHostBrowser.setWindowBreakpoint(size);
     await element(by.css('#open-flyout-fullscreen')).click();
     expect('body').toMatchBaselineScreenshot(done, {
-      screenshotName: getScreenshotName(`flyout-fullscreen-${size}`)
+      screenshotName: getScreenshotName(`flyout-fullscreen-${size}`),
     });
   }
 
-  async function validateResponsiveContainer(size: SkyHostBrowserBreakpoint, done: DoneFn): Promise<void> {
+  async function validateResponsiveContainer(
+    size: SkyHostBrowserBreakpoint,
+    done: DoneFn
+  ): Promise<void> {
     // Since we're testing the responsive container inside the flyout,
     // the browser should always run with a large breakpoint.
     await SkyHostBrowser.setWindowBreakpoint('lg');
     await element(by.css(`#open-responsive-flyout-${size}`)).click();
     expect('body').toMatchBaselineScreenshot(done, {
-      screenshotName: getScreenshotName(`flyout-responsive-${size}`)
+      screenshotName: getScreenshotName(`flyout-responsive-${size}`),
     });
   }
 
@@ -140,24 +147,20 @@ describe('Flyout', () => {
       await validateFullScreen('xs', done);
     });
 
-    it('should match previous screenshot when the flyout contains responsive content (flyout: xs)',
-      async (done) => {
-        await validateResponsiveContainer('xs', done);
-      });
+    it('should match previous screenshot when the flyout contains responsive content (flyout: xs)', async (done) => {
+      await validateResponsiveContainer('xs', done);
+    });
 
-    it('should match previous screenshot when the flyout contains responsive content (flyout: sm)',
-      async (done) => {
-        await validateResponsiveContainer('sm', done);
-      });
+    it('should match previous screenshot when the flyout contains responsive content (flyout: sm)', async (done) => {
+      await validateResponsiveContainer('sm', done);
+    });
 
-    it('should match previous screenshot when the flyout contains responsive content (flyout: md)',
-      async (done) => {
-        await validateResponsiveContainer('md', done);
-      });
+    it('should match previous screenshot when the flyout contains responsive content (flyout: md)', async (done) => {
+      await validateResponsiveContainer('md', done);
+    });
 
-    it('should match previous screenshot when the flyout contains responsive content (flyout: lg)',
-      async (done) => {
-        await validateResponsiveContainer('lg', done);
+    it('should match previous screenshot when the flyout contains responsive content (flyout: lg)', async (done) => {
+      await validateResponsiveContainer('lg', done);
     });
   }
   //#endregion
@@ -175,12 +178,11 @@ describe('Flyout', () => {
 
   runTests();
 
-  it('should match previous screenshot when the flyout contains responsive content (screen: xs)',
-  async (done) => {
+  it('should match previous screenshot when the flyout contains responsive content (screen: xs)', async (done) => {
     await SkyHostBrowser.setWindowBreakpoint('xs');
     await element(by.css('#open-responsive-flyout-lg')).click();
     expect('body').toMatchBaselineScreenshot(done, {
-      screenshotName: 'flyout-responsive-lg-screen-xs'
+      screenshotName: 'flyout-responsive-lg-screen-xs',
     });
   });
 

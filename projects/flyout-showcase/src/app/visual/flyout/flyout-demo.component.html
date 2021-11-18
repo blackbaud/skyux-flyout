@@ -1,44 +1,26 @@
-<h1>
-  {{ context.name }}: {{ context.id }}
-</h1>
+<h1>{{ context.name }}: {{ context.id }}</h1>
 
 <sky-dropdown buttonType="context-menu">
   <sky-dropdown-menu>
     <sky-dropdown-item>
-      <button type="button">
-        Option 1
-      </button>
+      <button type="button">Option 1</button>
     </sky-dropdown-item>
     <sky-dropdown-item>
-      <button type="button">
-        Option 2
-      </button>
+      <button type="button">Option 2</button>
     </sky-dropdown-item>
   </sky-dropdown-menu>
 </sky-dropdown>
 
 <p>
-  <button
-    class="sky-btn sky-btn-default"
-    type="button"
-    (click)="openModal()"
-  >
+  <button class="sky-btn sky-btn-default" type="button" (click)="openModal()">
     Open modal
   </button>
 
-  <button
-    class="sky-btn sky-btn-default"
-    type="button"
-    (click)="openMessage()"
-  >
+  <button class="sky-btn sky-btn-default" type="button" (click)="openMessage()">
     Open toast
   </button>
 
-  <button
-    class="sky-btn sky-btn-default"
-    type="button"
-    (click)="goToPage()"
-  >
+  <button class="sky-btn sky-btn-default" type="button" (click)="goToPage()">
     Navigate to new page
   </button>
 </p>
@@ -50,8 +32,5 @@
     {{ item.name }}
   </li>
 </ul>
-<sky-infinite-scroll
-  [enabled]="enableInfiniteScroll"
-  (scrollEnd)="addData()"
->
+<sky-infinite-scroll [enabled]="enableInfiniteScroll" (scrollEnd)="addData()">
 </sky-infinite-scroll>

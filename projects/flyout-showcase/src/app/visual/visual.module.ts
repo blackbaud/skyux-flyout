@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FlyoutVisualComponent } from './flyout/flyout-visual.component';
 import { FlyoutResponsiveDemoContentComponent } from './flyout/flyout-responsive-demo-content.component';
 import { VisualComponent } from './visual.component';
-import { SkyDropdownModule } from '@skyux/popovers'
+import { SkyDropdownModule } from '@skyux/popovers';
 import { FlyoutResponsiveDemoComponent } from './flyout/flyout-responsive-demo.component';
 import { SkyModalModule } from '@skyux/modals';
 import { FlyoutModalDemoComponent } from './flyout/flyout-modal.component';
@@ -20,7 +20,7 @@ import { SkyE2eThemeSelectorModule } from '@skyux/e2e-client';
     FlyoutResponsiveDemoContentComponent,
     FlyoutResponsiveDemoComponent,
     FlyoutVisualComponent,
-    VisualComponent
+    VisualComponent,
   ],
   //  Using NoopAnimationsModule for e2e tests.
   //  Replace this with BrowserAnimationsModule to see animations.
@@ -31,7 +31,7 @@ import { SkyE2eThemeSelectorModule } from '@skyux/e2e-client';
     SkyDropdownModule,
     SkyInfiniteScrollModule,
     SkyModalModule,
-    SkyE2eThemeSelectorModule
-  ]
+    SkyE2eThemeSelectorModule,
+  ],
 })
-export class VisualModule { }
+export class VisualModule {}
