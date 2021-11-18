@@ -1,6 +1,6 @@
 # 5.0.2 (2021-11-18)
 
-- Added support for prettier code formatting and updated the builder to support StackBlitz. [#130](https://github.com/blackbaud/skyux-flyout/pull/130)
+- Added support for Prettier code formatting and updated the builder to support StackBlitz. [#130](https://github.com/blackbaud/skyux-flyout/pull/130)
 
 # 5.0.1 (2021-11-16)
 
