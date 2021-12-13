@@ -100,8 +100,12 @@ describe('Flyout', () => {
     });
   }
 
-  function closeFlyout(): void {
-    element(by.css('.sky-flyout-btn-close')).click();
+  async function closeFlyout(): Promise<void> {
+    const isPresent = await element(by.css('.sky-flydout-btn-close')).isPresent();
+
+    if (isPresent) {
+      element(by.css('.sky-flydout-btn-close')).click();
+    }
   }
 
   function runTests(): void {
@@ -174,8 +178,8 @@ describe('Flyout', () => {
     await SkyHostBrowser.get('visual/flyout');
   });
 
-  afterEach(() => {
-    closeFlyout();
+  afterEach(async () => {
+    await closeFlyout();
   });
 
   runTests();
