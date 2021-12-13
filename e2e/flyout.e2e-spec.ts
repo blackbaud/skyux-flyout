@@ -143,6 +143,10 @@ describe('Flyout', () => {
 
     it('should match previous screenshot when the flyout contains responsive content (flyout: xs)',
       (done) => {
+        if (ThemePlatformHelper.shouldSkipVisualTests()) {
+          return done();
+        }
+
         validateResponsiveContainer('xs', done);
       });
 
