@@ -14,6 +14,10 @@ import {
   SkyHostBrowserBreakpoint
 } from '@skyux-sdk/e2e/host-browser/host-browser-breakpoint';
 
+import {
+  ThemePlatformHelper
+} from './utils/theme-platform-utils';
+
 describe('Flyout', () => {
 
   //#region helpers
@@ -96,8 +100,12 @@ describe('Flyout', () => {
     });
   }
 
-  function closeFlyout(): void {
-    element(by.css('.sky-flyout-btn-close')).click();
+  async function closeFlyout(): Promise<void> {
+    const isPresent = await element(by.css('.sky-flydout-btn-close')).isPresent();
+
+    if (isPresent) {
+      element(by.css('.sky-flydout-btn-close')).click();
+    }
   }
 
   function runTests(): void {
@@ -139,6 +147,10 @@ describe('Flyout', () => {
 
     it('should match previous screenshot when the flyout contains responsive content (flyout: xs)',
       (done) => {
+        if (ThemePlatformHelper.shouldSkipVisualTests()) {
+          return done();
+        }
+
         validateResponsiveContainer('xs', done);
       });
 
@@ -166,14 +178,18 @@ describe('Flyout', () => {
     await SkyHostBrowser.get('visual/flyout');
   });
 
-  afterEach(() => {
-    closeFlyout();
+  afterEach(async () => {
+    await closeFlyout();
   });
 
   runTests();
 
   it('should match previous screenshot when the flyout contains responsive content (screen: xs)',
   (done) => {
+    if (ThemePlatformHelper.shouldSkipVisualTests()) {
+      return done();
+    }
+
     SkyHostBrowser.setWindowBreakpoint('xs');
     element(by.css('#open-responsive-flyout-lg')).click();
     expect('body').toMatchBaselineScreenshot(done, {
