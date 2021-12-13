@@ -14,6 +14,10 @@ import {
   SkyHostBrowserBreakpoint
 } from '@skyux-sdk/e2e/host-browser/host-browser-breakpoint';
 
+import {
+  ThemePlatformHelper
+} from './utils/theme-platform-utils';
+
 describe('Flyout', () => {
 
   //#region helpers
@@ -174,6 +178,10 @@ describe('Flyout', () => {
 
   it('should match previous screenshot when the flyout contains responsive content (screen: xs)',
   (done) => {
+    if (ThemePlatformHelper.shouldSkipVisualTests()) {
+      return done();
+    }
+
     SkyHostBrowser.setWindowBreakpoint('xs');
     element(by.css('#open-responsive-flyout-lg')).click();
     expect('body').toMatchBaselineScreenshot(done, {
