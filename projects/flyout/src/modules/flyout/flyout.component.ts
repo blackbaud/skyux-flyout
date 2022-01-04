@@ -546,7 +546,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       const keyPressed = event.key.toLowerCase().replace('arrow', '');
       switch (keyPressed) {
         case 'enter':
-        case 'space':
+        case ' ':
           this.resizeKeyControlActive = !this.resizeKeyControlActive;
           break;
         case 'tab':
