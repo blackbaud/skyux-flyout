@@ -405,8 +405,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
           return this.isDragging;
         })
       )
-      .subscribe(() => {
-        this.onHandleRelease();
+      .subscribe((mouseUpEvent: any) => {
+        this.onHandleRelease(mouseUpEvent);
       });
   }
 
@@ -440,7 +440,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.changeDetector.markForCheck();
   }
 
-  public onHandleRelease(): void {
+  public onHandleRelease(event: MouseEvent): void {
     fromEvent(document, 'click')
       .pipe(take(1))
       .subscribe(() => {
