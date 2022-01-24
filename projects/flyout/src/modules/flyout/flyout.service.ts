@@ -41,7 +41,7 @@ export class SkyFlyoutService implements OnDestroy {
     private windowRef: SkyAppWindowRef,
     private dynamicComponentService: SkyDynamicComponentService,
     private router: Router
-  ) {}
+  ) { }
 
   public ngOnDestroy(): void {
     this.removeListners();
@@ -53,11 +53,14 @@ export class SkyFlyoutService implements OnDestroy {
   /**
    * Closes the flyout. This method also removes the flyout's HTML elements from the DOM.
    */
-  public close(): void {
+  public close(ignoreBeforeClose = false): void {
     if (this.host && !this.isOpening) {
       this.removeAfterClosed = true;
       this.host.instance.messageStream.next({
         type: SkyFlyoutMessageType.Close,
+        data: {
+          ignoreBeforeClose: ignoreBeforeClose
+        }
       });
     }
   }
@@ -143,9 +146,9 @@ export class SkyFlyoutService implements OnDestroy {
             event.target === document
               ? false
               : this.coreAdapter.isTargetAboveElement(
-                  event.target,
-                  flyoutInstance.flyoutRef.nativeElement
-                );
+                event.target,
+                flyoutInstance.flyoutRef.nativeElement
+              );
 
           /* istanbul ignore else */
           if (!isAbove) {

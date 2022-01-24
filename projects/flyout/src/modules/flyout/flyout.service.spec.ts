@@ -70,6 +70,9 @@ describe('Flyout service', () => {
     applicationRef.tick();
     expect(spy).toHaveBeenCalledWith({
       type: SkyFlyoutMessageType.Close,
+      data: {
+        ignoreBeforeClose: false
+      }
     });
   });
 

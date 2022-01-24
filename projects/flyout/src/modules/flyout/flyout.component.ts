@@ -8,7 +8,6 @@ import {
   Injector,
   OnDestroy,
   OnInit,
-  ReflectiveInjector,
   Type,
   ViewChild,
   ViewContainerRef,
@@ -28,6 +27,7 @@ import { fromEvent, Subject } from 'rxjs';
 import { take, takeUntil, takeWhile } from 'rxjs/operators';
 
 import {
+  SkyCoreAdapterService,
   SkyMediaBreakpoints,
   SkyMediaQueryService,
   SkyUIConfigService,
@@ -50,6 +50,7 @@ import { SkyFlyoutMessage } from './types/flyout-message';
 import { SkyFlyoutMessageType } from './types/flyout-message-type';
 
 import { SkyFlyoutPermalink } from './types/flyout-permalink';
+import { SkyFlyoutBeforeCloseHandler } from './types/flyout-before-close-handler';
 
 const FLYOUT_OPEN_STATE = 'flyoutOpen';
 const FLYOUT_CLOSED_STATE = 'flyoutClosed';
@@ -176,7 +177,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     private resourcesService: SkyLibResourcesService,
     private flyoutMediaQueryService: SkyFlyoutMediaQueryService,
     private elementRef: ElementRef,
-    private uiConfigService: SkyUIConfigService
+    private uiConfigService: SkyUIConfigService,
+    private coreAdapter: SkyCoreAdapterService
   ) {
     // All commands flow through the message stream.
     this.messageStream
@@ -193,6 +195,16 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  @HostListener('document:keyup', ['$event'])
+  public onDocumentKeyUp(event: KeyboardEvent) {
+    /* istanbul ignore else */
+    /* sanity check */
+    if (event.key == 'Escape') { // Escape key up
+      event.preventDefault();
+      this.close();
+    }
   }
 
   @HostListener('window:resize', ['$event'])
@@ -242,17 +254,10 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     const factory = this.resolver.resolveComponentFactory(component);
 
-    /* tslint:disable:deprecation */
-    /**
-     * NOTE: We need to update this to use the new Injector.create(options) method
-     * after Angular 4 support is dropped.
-     */
-    const providers = ReflectiveInjector.resolve(this.config.providers);
-    const injector = ReflectiveInjector.fromResolvedProviders(
-      providers,
-      this.injector
-    );
-    /* tslint:enable:deprecation */
+    const injector = Injector.create({
+      parent: this.injector,
+      providers: this.config.providers
+    });
 
     const componentRef = this.target.createComponent(
       factory,
@@ -284,6 +289,21 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       this.flyoutWidth = this.config.defaultWidth;
       this.checkInitialSize();
     }
+
+    setTimeout(() => {
+      const contentArea = this.elementRef.nativeElement.querySelector('.sky-flyout-content');
+      const autofocusElement = contentArea.querySelector('[autofocus]');
+      if (!autofocusElement) {
+        const focusableChildren = this.coreAdapter.getFocusableChildren(contentArea);
+        if (focusableChildren.length > 0) {
+          focusableChildren[0].focus();
+        } else {
+          this.elementRef.nativeElement.querySelector('.sky-flyout-btn-close').focus();
+        }
+      } else {
+        autofocusElement.focus();
+      }
+    });
 
     return this.flyoutInstance;
   }
@@ -385,8 +405,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
           return this.isDragging;
         })
       )
-      .subscribe((mouseUpEvent: any) => {
-        this.onHandleRelease(mouseUpEvent);
+      .subscribe(() => {
+        this.onHandleRelease();
       });
   }
 
@@ -420,7 +440,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.changeDetector.markForCheck();
   }
 
-  public onHandleRelease(event: MouseEvent): void {
+  public onHandleRelease(): void {
     fromEvent(document, 'click')
       .pipe(take(1))
       .subscribe(() => {
@@ -462,8 +482,15 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         break;
 
       case SkyFlyoutMessageType.Close:
-        this.isOpen = true;
-        this.isOpening = false;
+        if ((<Subject<any>>this.flyoutInstance.beforeClose).observers.length === 0 || message.data?.ignoreBeforeClose) {
+          this.isOpen = true;
+          this.isOpening = false;
+        } else {
+          (<Subject<any>>this.flyoutInstance.beforeClose).next(new SkyFlyoutBeforeCloseHandler(() => {
+            this.isOpen = true;
+            this.isOpening = false;
+          }));
+        }
         break;
 
       case SkyFlyoutMessageType.EnableIteratorNextButton:
@@ -519,7 +546,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         })
         .pipe(take(1))
         .subscribe(
-          () => {},
+          () => { },
           (err) => {
             console.warn('Could not save flyout data.');
             console.warn(err);

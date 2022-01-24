@@ -555,6 +555,16 @@ describe('Flyout component', () => {
     expect(flyoutElement.style.width).toBe(expectedDefault + 'px');
   }));
 
+  it('should have a default aria role when none is given', fakeAsync(() => {
+    const expectedRole = 'dialog';
+
+    openFlyout();
+
+    const flyoutElement = getFlyoutElement();
+
+    expect(flyoutElement.getAttribute('role')).toBe(expectedRole);
+  }));
+
   it('should set the flyout size to half the window size when no default width is given', fakeAsync(() => {
     openFlyout();
 
@@ -1057,7 +1067,7 @@ describe('Flyout component', () => {
 
       openFlyout({
         primaryAction: {
-          callback: () => {},
+          callback: () => { },
         },
       });
 
@@ -1071,7 +1081,7 @@ describe('Flyout component', () => {
 
       openFlyout({
         primaryAction: {
-          callback: () => {},
+          callback: () => { },
           label: expectedLabel,
         },
       });
@@ -1106,7 +1116,7 @@ describe('Flyout component', () => {
     it('should close the flyout after invoking the primary action if configured to do so', fakeAsync(() => {
       const flyoutInstance = openFlyout({
         primaryAction: {
-          callback: () => {},
+          callback: () => { },
           closeAfterInvoking: true,
         },
       });
@@ -1125,7 +1135,7 @@ describe('Flyout component', () => {
     it('should not close the flyout after invoking the primary action if not configured to do so', fakeAsync(() => {
       const flyoutInstance = openFlyout({
         primaryAction: {
-          callback: () => {},
+          callback: () => { },
           closeAfterInvoking: false,
         },
       });
@@ -1144,7 +1154,7 @@ describe('Flyout component', () => {
     it('should not close the flyout after invoking the primary action if configuration is not set', fakeAsync(() => {
       const flyoutInstance = openFlyout({
         primaryAction: {
-          callback: () => {},
+          callback: () => { },
         },
       });
 

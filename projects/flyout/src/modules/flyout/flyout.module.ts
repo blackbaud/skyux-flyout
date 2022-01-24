@@ -19,6 +19,7 @@ import { SkyFlyoutResourcesModule } from '../shared/flyout-resources.module';
 import { SkyFlyoutComponent } from './flyout.component';
 
 import { SkyFlyoutIteratorComponent } from './flyout-iterator.component';
+import { SkyFocusTrapModule } from '../focus-trap/focus-trap.module';
 
 @NgModule({
   declarations: [SkyFlyoutComponent, SkyFlyoutIteratorComponent],
@@ -31,8 +32,9 @@ import { SkyFlyoutIteratorComponent } from './flyout-iterator.component';
     SkyFlyoutResourcesModule,
     SkyThemeModule,
     SkyHrefModule,
+    SkyFocusTrapModule,
   ],
   exports: [SkyFlyoutComponent],
   entryComponents: [SkyFlyoutComponent],
 })
-export class SkyFlyoutModule {}
+export class SkyFlyoutModule { }

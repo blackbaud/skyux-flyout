@@ -1,9 +1,13 @@
 <div
   class="sky-flyout"
   tabindex="-1"
-  [attr.role]="config?.ariaRole"
+  [attr.role]="config?.ariaRole ? config.ariaRole : 'dialog'"
   [attr.aria-describedby]="config?.ariaDescribedBy"
+  [attr.aria-label]="config?.ariaLabel"
   [attr.aria-labelledby]="config?.ariaLabelledBy"
+  [attr.aria-modal]="
+    config?.ariaRole === 'dialog' || !config?.ariaRole ? true : false
+  "
   [id]="flyoutId"
   [ngClass]="{
     'sky-flyout-hidden': !isOpen && !isOpening,
@@ -17,6 +21,7 @@
   [@flyoutState]="getAnimationState()"
   [style.width.px]="flyoutWidth"
   #flyoutRef
+  skyFocusTrap
 >
   <input
     class="sky-flyout-resize-handle"
