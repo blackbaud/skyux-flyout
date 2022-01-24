@@ -1,22 +1,24 @@
-import {
-  Injectable,
-  ElementRef
-} from '@angular/core';
+import { Injectable, ElementRef } from '@angular/core';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyFocusTrapAdapterService {
-
-  public isFocusInFirstItem(event: KeyboardEvent, list: Array<HTMLElement>): boolean {
+  public isFocusInFirstItem(
+    event: KeyboardEvent,
+    list: Array<HTMLElement>
+  ): boolean {
     /* istanbul ignore next */
     /* sanity check */
     let eventTarget = event.target || event.srcElement;
     return list.length > 0 && eventTarget === list[0];
   }
 
-  public isFocusInLastItem(event: KeyboardEvent, list: Array<HTMLElement>): boolean {
+  public isFocusInLastItem(
+    event: KeyboardEvent,
+    list: Array<HTMLElement>
+  ): boolean {
     /* istanbul ignore next */
     /* sanity check */
     let eventTarget = event.target || event.srcElement;

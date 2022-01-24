@@ -201,7 +201,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public onDocumentKeyUp(event: KeyboardEvent) {
     /* istanbul ignore else */
     /* sanity check */
-    if (event.key == 'Escape') { // Escape key up
+    if (event.key == 'Escape') {
+      // Escape key up
       event.preventDefault();
       this.close();
     }
@@ -256,7 +257,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     const injector = Injector.create({
       parent: this.injector,
-      providers: this.config.providers
+      providers: this.config.providers,
     });
 
     const componentRef = this.target.createComponent(
@@ -291,14 +292,19 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     }
 
     setTimeout(() => {
-      const contentArea = this.elementRef.nativeElement.querySelector('.sky-flyout-content');
+      const contentArea = this.elementRef.nativeElement.querySelector(
+        '.sky-flyout-content'
+      );
       const autofocusElement = contentArea.querySelector('[autofocus]');
       if (!autofocusElement) {
-        const focusableChildren = this.coreAdapter.getFocusableChildren(contentArea);
+        const focusableChildren =
+          this.coreAdapter.getFocusableChildren(contentArea);
         if (focusableChildren.length > 0) {
           focusableChildren[0].focus();
         } else {
-          this.elementRef.nativeElement.querySelector('.sky-flyout-btn-close').focus();
+          this.elementRef.nativeElement
+            .querySelector('.sky-flyout-btn-close')
+            .focus();
         }
       } else {
         autofocusElement.focus();
@@ -482,14 +488,20 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         break;
 
       case SkyFlyoutMessageType.Close:
-        if ((<Subject<any>>this.flyoutInstance.beforeClose).observers.length === 0 || message.data?.ignoreBeforeClose) {
+        if (
+          (<Subject<any>>this.flyoutInstance.beforeClose).observers.length ===
+            0 ||
+          message.data?.ignoreBeforeClose
+        ) {
           this.isOpen = true;
           this.isOpening = false;
         } else {
-          (<Subject<any>>this.flyoutInstance.beforeClose).next(new SkyFlyoutBeforeCloseHandler(() => {
-            this.isOpen = true;
-            this.isOpening = false;
-          }));
+          (<Subject<any>>this.flyoutInstance.beforeClose).next(
+            new SkyFlyoutBeforeCloseHandler(() => {
+              this.isOpen = true;
+              this.isOpening = false;
+            })
+          );
         }
         break;
 
@@ -546,7 +558,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         })
         .pipe(take(1))
         .subscribe(
-          () => { },
+          () => {},
           (err) => {
             console.warn('Could not save flyout data.');
             console.warn(err);

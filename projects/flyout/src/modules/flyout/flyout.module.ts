@@ -37,4 +37,4 @@ import { SkyFocusTrapModule } from '../focus-trap/focus-trap.module';
   exports: [SkyFlyoutComponent],
   entryComponents: [SkyFlyoutComponent],
 })
-export class SkyFlyoutModule { }
+export class SkyFlyoutModule {}

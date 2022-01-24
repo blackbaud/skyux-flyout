@@ -26,8 +26,8 @@ describe('Flyout instance', () => {
     expect(spy).toHaveBeenCalledWith({
       type: SkyFlyoutMessageType.Close,
       data: {
-        ignoreBeforeClose: false
-      }
+        ignoreBeforeClose: false,
+      },
     });
   });
 

@@ -6,4 +6,4 @@ import { SkyFocusTrapDirective } from './focus-trap.directive';
   declarations: [SkyFocusTrapDirective],
   exports: [SkyFocusTrapDirective],
 })
-export class SkyFocusTrapModule { }
+export class SkyFocusTrapModule {}

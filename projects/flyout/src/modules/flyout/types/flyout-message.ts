@@ -7,5 +7,5 @@ export interface SkyFlyoutMessage {
   type: SkyFlyoutMessageType;
   data?: {
     ignoreBeforeClose?: boolean;
-  }
+  };
 }

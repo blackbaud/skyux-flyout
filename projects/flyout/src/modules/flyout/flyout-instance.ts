@@ -12,7 +12,6 @@ import { SkyFlyoutMessageType } from './types/flyout-message-type';
  * Represents a single displayed flyout.
  */
 export class SkyFlyoutInstance<T> {
-
   /**
    * An event that the modal instance emits when it is about to close.
    * It emits a `SkyModalBeforeCloseHandler` object with a `closeModal` method
@@ -127,7 +126,7 @@ export class SkyFlyoutInstance<T> {
   public close(ignoreBeforeClose = false): void {
     this.hostController.next({
       type: SkyFlyoutMessageType.Close,
-      data: { ignoreBeforeClose: ignoreBeforeClose }
+      data: { ignoreBeforeClose: ignoreBeforeClose },
     });
 
     this._iteratorPreviousButtonClick.complete();
@@ -135,5 +134,4 @@ export class SkyFlyoutInstance<T> {
 
     this.hostController.complete();
   }
-
 }

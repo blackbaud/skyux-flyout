@@ -1067,7 +1067,7 @@ describe('Flyout component', () => {
 
       openFlyout({
         primaryAction: {
-          callback: () => { },
+          callback: () => {},
         },
       });
 
@@ -1081,7 +1081,7 @@ describe('Flyout component', () => {
 
       openFlyout({
         primaryAction: {
-          callback: () => { },
+          callback: () => {},
           label: expectedLabel,
         },
       });
@@ -1116,7 +1116,7 @@ describe('Flyout component', () => {
     it('should close the flyout after invoking the primary action if configured to do so', fakeAsync(() => {
       const flyoutInstance = openFlyout({
         primaryAction: {
-          callback: () => { },
+          callback: () => {},
           closeAfterInvoking: true,
         },
       });
@@ -1135,7 +1135,7 @@ describe('Flyout component', () => {
     it('should not close the flyout after invoking the primary action if not configured to do so', fakeAsync(() => {
       const flyoutInstance = openFlyout({
         primaryAction: {
-          callback: () => { },
+          callback: () => {},
           closeAfterInvoking: false,
         },
       });
@@ -1154,7 +1154,7 @@ describe('Flyout component', () => {
     it('should not close the flyout after invoking the primary action if configuration is not set', fakeAsync(() => {
       const flyoutInstance = openFlyout({
         primaryAction: {
-          callback: () => { },
+          callback: () => {},
         },
       });
 

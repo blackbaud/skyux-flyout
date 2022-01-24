@@ -41,7 +41,7 @@ export class SkyFlyoutService implements OnDestroy {
     private windowRef: SkyAppWindowRef,
     private dynamicComponentService: SkyDynamicComponentService,
     private router: Router
-  ) { }
+  ) {}
 
   public ngOnDestroy(): void {
     this.removeListners();
@@ -59,8 +59,8 @@ export class SkyFlyoutService implements OnDestroy {
       this.host.instance.messageStream.next({
         type: SkyFlyoutMessageType.Close,
         data: {
-          ignoreBeforeClose: ignoreBeforeClose
-        }
+          ignoreBeforeClose: ignoreBeforeClose,
+        },
       });
     }
   }
@@ -146,9 +146,9 @@ export class SkyFlyoutService implements OnDestroy {
             event.target === document
               ? false
               : this.coreAdapter.isTargetAboveElement(
-                event.target,
-                flyoutInstance.flyoutRef.nativeElement
-              );
+                  event.target,
+                  flyoutInstance.flyoutRef.nativeElement
+                );
 
           /* istanbul ignore else */
           if (!isAbove) {
