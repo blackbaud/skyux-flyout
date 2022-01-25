@@ -12,6 +12,7 @@ import { SkyAppWindowRef, SkyMediaBreakpoints } from '@skyux/core';
  */
 @Injectable()
 export class SkyFlyoutAdapterService {
+  private docRef: any;
   private renderer: Renderer2;
 
   constructor(
@@ -19,6 +20,7 @@ export class SkyFlyoutAdapterService {
     private windowRef: SkyAppWindowRef
   ) {
     this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
+    this.docRef = this.windowRef.nativeWindow.document;
   }
 
   public adjustHeaderForHelp(header: ElementRef): void {
@@ -28,6 +30,10 @@ export class SkyFlyoutAdapterService {
     if (helpWidget) {
       this.renderer.addClass(header.nativeElement, 'sky-flyout-help-shim');
     }
+  }
+
+  public getActiveElement(): HTMLElement {
+    return <HTMLElement>this.docRef.activeElement;
   }
 
   public setResponsiveClass(

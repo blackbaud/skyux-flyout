@@ -29,7 +29,10 @@ export class SkyFocusTrapDirective {
         (this.adapter.isFocusInFirstItem(event, focusElementList) ||
           this.adapter.isElementFocused(event, this.elRef))
       ) {
-        focusChanged = this.adapter.focusElementByIndex(focusElementList, -1);
+        focusChanged = this.adapter.focusElementByIndex(
+          focusElementList,
+          focusElementList.length - 1
+        );
       } else if (
         !event.shiftKey &&
         this.adapter.isFocusInLastItem(event, focusElementList)

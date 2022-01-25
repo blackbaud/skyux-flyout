@@ -33,10 +33,13 @@ export class SkyFocusTrapAdapterService {
   }
 
   focusElementByIndex(list: HTMLElement[], index: number): boolean {
+    /* istanbul ignore else */
+    /* sanity check */
     if (list.length > 0 && index < list.length) {
       list[index].focus();
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 }
