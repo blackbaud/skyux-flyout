@@ -339,6 +339,20 @@ describe('Flyout component', () => {
     expect(flyout.isOpen).toBe(false);
   }));
 
+  it('should close when the escape button is pressed', fakeAsync(() => {
+    const flyout = openFlyout({});
+    expect(flyout.isOpen).toBe(true);
+
+    SkyAppTestUtility.fireDomEvent(fixture.nativeElement, 'keyup', {
+      keyboardEventInit: {
+        key: 'Escape',
+      },
+    });
+    fixture.detectChanges();
+    tick();
+    expect(flyout.isOpen).toBe(false);
+  }));
+
   it('should close when the click event fires outside of the flyout', fakeAsync(() => {
     const flyout = openFlyout({});
     expect(flyout.isOpen).toBe(true);
@@ -533,13 +547,13 @@ describe('Flyout component', () => {
   }));
 
   it('should accept configuration options for aria-labelledBy, aria-describedby, role, and width', fakeAsync(() => {
-    const expectedLabel = 'customlabelledby';
+    const expectedLabelledBy = 'customlabelledby';
     const expectedDescribed = 'customdescribedby';
     const expectedRole = 'customrole';
     const expectedDefault = 500;
 
     openFlyout({
-      ariaLabelledBy: expectedLabel,
+      ariaLabelledBy: expectedLabelledBy,
       ariaDescribedBy: expectedDescribed,
       ariaRole: expectedRole,
       defaultWidth: expectedDefault,
@@ -547,12 +561,26 @@ describe('Flyout component', () => {
 
     const flyoutElement = getFlyoutElement();
 
-    expect(flyoutElement.getAttribute('aria-labelledby')).toBe(expectedLabel);
+    expect(flyoutElement.getAttribute('aria-labelledby')).toBe(
+      expectedLabelledBy
+    );
     expect(flyoutElement.getAttribute('aria-describedby')).toBe(
       expectedDescribed
     );
     expect(flyoutElement.getAttribute('role')).toBe(expectedRole);
     expect(flyoutElement.style.width).toBe(expectedDefault + 'px');
+  }));
+
+  it('should accept configuration options for aria-label', fakeAsync(() => {
+    const expectedLabel = 'customLabel';
+
+    openFlyout({
+      ariaLabel: expectedLabel,
+    });
+
+    const flyoutElement = getFlyoutElement();
+
+    expect(flyoutElement.getAttribute('aria-label')).toBe(expectedLabel);
   }));
 
   it('should have a default aria role when none is given', fakeAsync(() => {
@@ -563,6 +591,26 @@ describe('Flyout component', () => {
     const flyoutElement = getFlyoutElement();
 
     expect(flyoutElement.getAttribute('role')).toBe(expectedRole);
+  }));
+
+  it('should set aria-modal on the flyout when the role is `dialog`', fakeAsync(() => {
+    openFlyout({
+      ariaRole: 'dialog',
+    });
+
+    const flyoutElement = getFlyoutElement();
+
+    expect(flyoutElement.getAttribute('aria-modal')).toBe('true');
+  }));
+
+  it('should not set aria-modal on the flyout when the role is not `dialog`', fakeAsync(() => {
+    openFlyout({
+      ariaRole: 'customRole',
+    });
+
+    const flyoutElement = getFlyoutElement();
+
+    expect(flyoutElement.getAttribute('aria-modal')).toBe('false');
   }));
 
   it('should set the flyout size to half the window size when no default width is given', fakeAsync(() => {
