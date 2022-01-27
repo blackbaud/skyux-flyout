@@ -1,0 +1,16 @@
+{{ data?.name }}
+<iframe
+  src="https://developer.blackbaud.com/skyux/"
+  *ngIf="data?.showIframe"
+></iframe>
+<button id="normal-button" type="button" *ngIf="data?.showNormalButton">
+  Normal Button
+</button>
+<button
+  id="autofocus-button"
+  type="button"
+  *ngIf="data?.showAutofocusButton"
+  autofocus
+>
+  Autofocus Button
+</button>

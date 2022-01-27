@@ -151,8 +151,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   })
   public flyoutRef: ElementRef;
 
-  private triggerElement: HTMLElement;
-
   @ViewChild('target', {
     read: ViewContainerRef,
     static: true,
@@ -293,26 +291,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       this.checkInitialSize();
     }
 
-    setTimeout(() => {
-      const contentArea = this.elementRef.nativeElement.querySelector(
-        '.sky-flyout-content'
-      );
-      const autofocusElement = contentArea.querySelector('[autofocus]');
-      if (!autofocusElement) {
-        const focusableChildren =
-          this.coreAdapter.getFocusableChildren(contentArea);
-        if (focusableChildren.length > 0) {
-          focusableChildren[0].focus();
-        } else {
-          this.elementRef.nativeElement
-            .querySelector('.sky-flyout-btn-close')
-            .focus();
-        }
-      } else {
-        autofocusElement.focus();
-      }
-    });
-
     return this.flyoutInstance;
   }
 
@@ -339,6 +317,24 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public animationDone(event: AnimationEvent): void {
     if (event.toState === FLYOUT_OPEN_STATE) {
       this.isOpen = true;
+
+      const contentArea = this.elementRef.nativeElement.querySelector(
+        '.sky-flyout-content'
+      );
+      const autofocusElement = contentArea.querySelector('[autofocus]');
+      if (!autofocusElement) {
+        const focusableChildren =
+          this.coreAdapter.getFocusableChildren(contentArea);
+        if (focusableChildren.length > 0) {
+          focusableChildren[0].focus();
+        } else {
+          this.elementRef.nativeElement
+            .querySelector('.sky-flyout-btn-close')
+            .focus();
+        }
+      } else {
+        autofocusElement.focus();
+      }
     }
 
     if (event.toState === FLYOUT_CLOSED_STATE) {
@@ -483,7 +479,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     /* tslint:disable-next-line:switch-default */
     switch (message.type) {
       case SkyFlyoutMessageType.Open:
-        this.triggerElement = this.adapter.getActiveElement();
         if (!this.isOpen) {
           this.isOpen = false;
           this.isOpening = true;
@@ -498,21 +493,11 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         ) {
           this.isOpen = true;
           this.isOpening = false;
-          /* istanbul ignore else */
-          /* sanity check */
-          if (this.triggerElement && this.triggerElement.focus) {
-            this.triggerElement.focus();
-          }
         } else {
           (<Subject<any>>this.flyoutInstance.beforeClose).next(
             new SkyFlyoutBeforeCloseHandler(() => {
               this.isOpen = true;
               this.isOpening = false;
-              /* istanbul ignore else */
-              /* sanity check */
-              if (this.triggerElement && this.triggerElement.focus) {
-                this.triggerElement.focus();
-              }
             })
           );
         }

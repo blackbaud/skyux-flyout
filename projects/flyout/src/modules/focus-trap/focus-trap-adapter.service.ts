@@ -1,10 +1,21 @@
 import { Injectable, ElementRef } from '@angular/core';
+import { SkyAppWindowRef } from '@skyux/core';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyFocusTrapAdapterService {
+  private docRef: any;
+
+  constructor(private windowRef: SkyAppWindowRef) {
+    this.docRef = this.windowRef.nativeWindow.document;
+  }
+
+  public getActiveElement(): HTMLElement {
+    return <HTMLElement>this.docRef.activeElement;
+  }
+
   public isFocusInFirstItem(
     event: KeyboardEvent,
     list: Array<HTMLElement>

@@ -6,7 +6,7 @@ import { FocusTrapDirectiveFixtureComponent } from './fixtures/focus-trap.direct
 import { SkyFocusTrapModule } from './focus-trap.module';
 
 describe('Focus trap directive', () => {
-  let cmp: ComponentFixture<FocusTrapDirectiveFixtureComponent>;
+  let fixture: ComponentFixture<FocusTrapDirectiveFixtureComponent>;
   let el: HTMLElement;
 
   beforeEach(() => {
@@ -15,8 +15,9 @@ describe('Focus trap directive', () => {
       declarations: [FocusTrapDirectiveFixtureComponent],
     });
 
-    cmp = TestBed.createComponent(FocusTrapDirectiveFixtureComponent);
-    el = cmp.nativeElement;
+    fixture = TestBed.createComponent(FocusTrapDirectiveFixtureComponent);
+    el = fixture.nativeElement;
+    fixture.detectChanges();
   });
 
   it('should allow tabbing between elements when they are not in the focus trap', () => {
@@ -120,5 +121,31 @@ describe('Focus trap directive', () => {
 
     expect(preventSpy).toHaveBeenCalled();
     expect(propogationSpy).toHaveBeenCalled();
+  });
+
+  it('should return focus to the element that had focus when the focus trap was created when the trap is destroyed', () => {
+    fixture.componentInstance.hideFocusTrap = true;
+
+    fixture.detectChanges();
+
+    let button1: HTMLElement = el.querySelector('#button-1');
+    button1.focus();
+
+    expect(document.activeElement).toBe(button1);
+
+    fixture.detectChanges();
+    fixture.componentInstance.hideFocusTrap = false;
+    fixture.detectChanges();
+
+    let trappedButton1: HTMLElement = el.querySelector('#trapped-button-1');
+    trappedButton1.focus();
+
+    expect(document.activeElement).toBe(trappedButton1);
+
+    fixture.detectChanges();
+    fixture.componentInstance.hideFocusTrap = true;
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(button1);
   });
 });

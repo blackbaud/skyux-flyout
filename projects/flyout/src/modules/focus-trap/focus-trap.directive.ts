@@ -1,4 +1,10 @@
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+} from '@angular/core';
 import { SkyCoreAdapterService } from '@skyux/core';
 
 import { SkyFocusTrapAdapterService } from './focus-trap-adapter.service';
@@ -7,12 +13,26 @@ import { SkyFocusTrapAdapterService } from './focus-trap-adapter.service';
   selector: '[skyFocusTrap]',
   providers: [SkyFocusTrapAdapterService],
 })
-export class SkyFocusTrapDirective {
+export class SkyFocusTrapDirective implements AfterViewInit, OnDestroy {
+  private previouslyFocusedElement;
+
   constructor(
     private adapter: SkyFocusTrapAdapterService,
     private coreAdapter: SkyCoreAdapterService,
     private elRef: ElementRef
   ) {}
+
+  public ngAfterViewInit(): void {
+    this.previouslyFocusedElement = this.adapter.getActiveElement();
+  }
+
+  public ngOnDestroy(): void {
+    /* istanbul ignore else */
+    /* sanity check */
+    if (this.previouslyFocusedElement && this.previouslyFocusedElement.focus) {
+      this.previouslyFocusedElement.focus();
+    }
+  }
 
   @HostListener('document:keydown', ['$event'])
   public onDocumentKeyDown(event: KeyboardEvent) {

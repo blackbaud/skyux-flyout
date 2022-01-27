@@ -47,6 +47,8 @@ import { SkyFlyoutTestSampleContext } from './fixtures/flyout-sample-context.fix
 import { SkyFlyoutComponent } from './flyout.component';
 
 import { SkyFlyoutMediaQueryService } from './flyout-media-query.service';
+import { take } from 'rxjs/operators';
+import { SkyFlyoutBeforeCloseHandler } from './types/flyout-before-close-handler';
 
 describe('Flyout component', () => {
   let applicationRef: ApplicationRef;
@@ -61,14 +63,14 @@ describe('Flyout component', () => {
   //#region helpers
   function openFlyout(
     config: SkyFlyoutConfig = {},
-    showIframe?: boolean
+    context?: SkyFlyoutTestSampleContext
   ): SkyFlyoutInstance<any> {
     config = Object.assign(
       {
         providers: [
           {
             provide: SkyFlyoutTestSampleContext,
-            useValue: { name: 'Sam', showIframe: showIframe },
+            useValue: context ? context : { name: 'Sam' },
           },
         ],
       },
@@ -513,6 +515,67 @@ describe('Flyout component', () => {
     expect(flyout.isOpen).toBe(false);
   }));
 
+  it('should stop close event when beforeClose is subscribed to', fakeAsync(() => {
+    let handlerFunction: Function;
+
+    const flyout = openFlyout({});
+    expect(flyout.isOpen).toBe(true);
+
+    flyout.beforeClose.subscribe((handler) => {
+      handlerFunction = handler.closeFlyout;
+    });
+
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    flyout.close();
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(flyout.isOpen).toBe(true);
+
+    SkyAppTestUtility.fireDomEvent(document, 'keyup', {
+      keyboardEventInit: {
+        key: 'Escape',
+      },
+    });
+
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(flyout.isOpen).toBe(true);
+
+    handlerFunction();
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(flyout.isOpen).toBe(false);
+  }));
+
+  it('should close the flyout anyway if ignoreBeforeClose is passed in', fakeAsync(() => {
+    const flyout = openFlyout({});
+    expect(flyout.isOpen).toBe(true);
+
+    flyout.beforeClose.subscribe(() => {
+      return;
+    });
+
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    flyout.close(true);
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(flyout.isOpen).toBe(false);
+  }));
+
   it('should emit closed event of previously opened flyouts when a new one is opened', fakeAsync(() => {
     const flyout = openFlyout({});
 
@@ -752,6 +815,39 @@ describe('Flyout component', () => {
     ).toBeTruthy();
   }));
 
+  it('should automatically focus the first focusable element in the content area when the flyout opens', fakeAsync(() => {
+    (<HTMLElement>document.querySelector('#flyout-trigger-button')).focus();
+
+    openFlyout({}, { name: 'Sam', showNormalButton: true });
+
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(document.activeElement).toBe(
+      document.querySelector('#normal-button')
+    );
+  }));
+
+  it('should automatically focus the an element with autofoucus in the content area when the flyout opens if one exists', fakeAsync(() => {
+    (<HTMLElement>document.querySelector('#flyout-trigger-button')).focus();
+
+    const context: SkyFlyoutTestSampleContext = {
+      name: 'Sam',
+      showAutofocusButton: true,
+      showNormalButton: true,
+    };
+    openFlyout({}, context);
+
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(document.activeElement).toBe(
+      document.querySelector('#autofocus-button')
+    );
+  }));
+
   it('should resize when handle is dragged', fakeAsync(() => {
     openFlyout({ defaultWidth: 500 });
     fixture.detectChanges();
@@ -908,7 +1004,7 @@ describe('Flyout component', () => {
   }));
 
   it('should set iframe styles correctly during dragging', fakeAsync(() => {
-    openFlyout({}, true);
+    openFlyout({}, { name: 'Sam', showIframe: true });
     const iframe = getIframe();
 
     expect(iframe.style.pointerEvents).toBeFalsy();
