@@ -21,7 +21,8 @@
   [@flyoutState]="getAnimationState()"
   [style.width.px]="flyoutWidth"
   #flyoutRef
-  skyFocusTrap
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
 >
   <input
     class="sky-flyout-resize-handle"

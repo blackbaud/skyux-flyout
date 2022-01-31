@@ -1,3 +1,5 @@
+import { A11yModule } from '@angular/cdk/a11y';
+
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -19,11 +21,11 @@ import { SkyFlyoutResourcesModule } from '../shared/flyout-resources.module';
 import { SkyFlyoutComponent } from './flyout.component';
 
 import { SkyFlyoutIteratorComponent } from './flyout-iterator.component';
-import { SkyFocusTrapModule } from '../focus-trap/focus-trap.module';
 
 @NgModule({
   declarations: [SkyFlyoutComponent, SkyFlyoutIteratorComponent],
   imports: [
+    A11yModule,
     CommonModule,
     FormsModule,
     RouterModule,
@@ -32,7 +34,6 @@ import { SkyFocusTrapModule } from '../focus-trap/focus-trap.module';
     SkyFlyoutResourcesModule,
     SkyThemeModule,
     SkyHrefModule,
-    SkyFocusTrapModule,
   ],
   exports: [SkyFlyoutComponent],
   entryComponents: [SkyFlyoutComponent],
