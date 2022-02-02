@@ -76,6 +76,27 @@ describe('Flyout service', () => {
     });
   });
 
+  it('should respect close method arguments', () => {
+    spyOn(window as any, 'setTimeout').and.callFake((fun: any) => {
+      fun();
+      return 0;
+    });
+    service.open(SkyFlyoutHostsTestComponent);
+    applicationRef.tick();
+    const spy = spyOn(
+      service['host'].instance.messageStream,
+      'next'
+    ).and.callThrough();
+    service.close({ ignoreBeforeClose: true });
+    applicationRef.tick();
+    expect(spy).toHaveBeenCalledWith({
+      type: SkyFlyoutMessageType.Close,
+      data: {
+        ignoreBeforeClose: true,
+      },
+    });
+  });
+
   it('should dispose of any open host if the service is destroyed', () => {
     spyOn(window as any, 'setTimeout').and.callFake((fun: any) => {
       fun();
