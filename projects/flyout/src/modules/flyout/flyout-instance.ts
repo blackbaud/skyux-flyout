@@ -3,6 +3,7 @@ import { EventEmitter } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
 import { SkyFlyoutBeforeCloseHandler } from './types/flyout-before-close-handler';
+import { SkyFlyoutCloseArgs } from './types/flyout-close-args';
 
 import { SkyFlyoutMessage } from './types/flyout-message';
 
@@ -14,9 +15,8 @@ import { SkyFlyoutMessageType } from './types/flyout-message-type';
 export class SkyFlyoutInstance<T> {
   /**
    * An event that the modal instance emits when it is about to close.
-   * It emits a `SkyModalBeforeCloseHandler` object with a `closeModal` method
-   * that closes the modal. If a subscription exists for this event,
-   * the modal does not close until the subscriber calls the `closeModal` method.
+   * If a subscription exists for this event,
+   * the modal does not close until the subscriber calls the handler's `closeModal` method.
    */
   public get beforeClose(): Observable<SkyFlyoutBeforeCloseHandler> {
     return this._beforeClose;
@@ -122,11 +122,12 @@ export class SkyFlyoutInstance<T> {
 
   /**
    * Closes the flyout instance and emits its `closed` event.
+   * @param args Arguments used when closing the flyout.
    */
-  public close(ignoreBeforeClose = false): void {
+  public close(args?: SkyFlyoutCloseArgs): void {
     this.hostController.next({
       type: SkyFlyoutMessageType.Close,
-      data: { ignoreBeforeClose: ignoreBeforeClose },
+      data: { ignoreBeforeClose: args ? args.ignoreBeforeClose : false },
     });
 
     this._iteratorPreviousButtonClick.complete();

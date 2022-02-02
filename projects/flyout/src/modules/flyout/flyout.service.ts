@@ -21,6 +21,7 @@ import { SkyFlyoutConfig } from './types/flyout-config';
 import { SkyFlyoutMessage } from './types/flyout-message';
 
 import { SkyFlyoutMessageType } from './types/flyout-message-type';
+import { SkyFlyoutCloseArgs } from './types/flyout-close-args';
 
 /**
  * Launches flyouts and provides a common look and feel.
@@ -52,14 +53,15 @@ export class SkyFlyoutService implements OnDestroy {
 
   /**
    * Closes the flyout. This method also removes the flyout's HTML elements from the DOM.
+   * @param args Arguments used when closing the flyout.
    */
-  public close(ignoreBeforeClose = false): void {
+  public close(args?: SkyFlyoutCloseArgs): void {
     if (this.host && !this.isOpening) {
       this.removeAfterClosed = true;
       this.host.instance.messageStream.next({
         type: SkyFlyoutMessageType.Close,
         data: {
-          ignoreBeforeClose: ignoreBeforeClose,
+          ignoreBeforeClose: args ? args.ignoreBeforeClose : false,
         },
       });
     }

@@ -6,7 +6,7 @@
 </div>
 
 <div id="screenshot-flyout" style="height: 500px">
-  <ng-container *ngIf="true">
+  <ng-container *ngIf="showButtons">
     <div *ngFor="let user of users" class="sky-flyout-demo-item">
       <button
         class="sky-btn sky-btn-primary"
@@ -91,7 +91,7 @@
       </button>
     </div>
   </ng-container>
-  <!-- <ng-container *ngIf="!showButtons">
+  <ng-container *ngIf="!showButtons">
     <div class="sky-flyout-demo-item">
       <button
         class="sky-btn sky-btn-primary"
@@ -101,5 +101,5 @@
         Show Buttons
       </button>
     </div>
-  </ng-container> -->
+  </ng-container>
 </div>

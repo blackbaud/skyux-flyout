@@ -568,7 +568,7 @@ describe('Flyout component', () => {
     fixture.detectChanges();
     tick();
 
-    flyout.close(true);
+    flyout.close({ ignoreBeforeClose: true });
     tick();
     fixture.detectChanges();
     tick();
