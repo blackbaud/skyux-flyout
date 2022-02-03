@@ -30,6 +30,10 @@ export class SkyFlyoutAdapterService {
     }
   }
 
+  public getAutofocusElement(parent: ElementRef): HTMLElement {
+    return parent.nativeElement.querySelector('[autofocus]');
+  }
+
   public setResponsiveClass(
     element: ElementRef,
     breakpoint: SkyMediaBreakpoints

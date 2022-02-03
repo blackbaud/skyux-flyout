@@ -158,6 +158,18 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   })
   private target: ViewContainerRef;
 
+  @ViewChild('flyoutCloseButton', {
+    read: ElementRef,
+    static: true,
+  })
+  private flyoutCloseButton: ElementRef;
+
+  @ViewChild('flyoutContent', {
+    read: ElementRef,
+    static: true,
+  })
+  private flyoutContent: ElementRef;
+
   @ViewChild('flyoutHeader', {
     read: ElementRef,
     static: true,
@@ -319,19 +331,17 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     if (event.toState === FLYOUT_OPEN_STATE) {
       this.isOpen = true;
 
-      const contentArea = this.elementRef.nativeElement.querySelector(
-        '.sky-flyout-content'
+      const autofocusElement = this.adapter.getAutofocusElement(
+        this.flyoutContent
       );
-      const autofocusElement = contentArea.querySelector('[autofocus]');
       if (!autofocusElement) {
-        const focusableChildren =
-          this.coreAdapter.getFocusableChildren(contentArea);
+        const focusableChildren = this.coreAdapter.getFocusableChildren(
+          this.flyoutContent.nativeElement
+        );
         if (focusableChildren.length > 0) {
           focusableChildren[0].focus();
         } else {
-          this.elementRef.nativeElement
-            .querySelector('.sky-flyout-btn-close')
-            .focus();
+          this.flyoutCloseButton.nativeElement.focus();
         }
       } else {
         autofocusElement.focus();

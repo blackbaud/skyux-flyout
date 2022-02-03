@@ -82,6 +82,7 @@
           'sky-btn-icon-borderless': 'modern'
         }"
         (click)="close()"
+        #flyoutCloseButton
       >
         <sky-icon *skyThemeIf="'default'" icon="close"> </sky-icon>
         <sky-icon
@@ -94,7 +95,7 @@
       </button>
     </div>
   </div>
-  <div class="sky-flyout-content">
+  <div class="sky-flyout-content" #flyoutContent>
     <div #target></div>
   </div>
 </div>
