@@ -1,3 +1,7 @@
+# 5.0.4 (2022-02-04)
+
+- cc. [#136](https://github.com/blackbaud/skyux-flyout/pull/136)
+
 # 5.0.3 (2022-01-04)
 
 - Fixed the resize handle on the flyout component to use the enter and space keys to activate and release the control. [#133](https://github.com/blackbaud/skyux-flyout/pull/133)
