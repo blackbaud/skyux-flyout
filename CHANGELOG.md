@@ -1,6 +1,6 @@
 # 5.0.4 (2022-02-04)
 
-- cc. [#136](https://github.com/blackbaud/skyux-flyout/pull/136)
+- Removed an outdated reference to entry components. [#136](https://github.com/blackbaud/skyux-flyout/pull/136)
 
 # 5.0.3 (2022-01-04)
 
