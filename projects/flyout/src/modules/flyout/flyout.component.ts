@@ -91,6 +91,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public isOpening = false;
 
   public flyoutWidth = 0;
+  public instanceReady = false;
   public isDragging = false;
   public isFullscreen = false;
   public resizeKeyControlActive = false;
@@ -281,6 +282,11 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     this.flyoutInstance = this.createFlyoutInstance<T>(componentRef.instance);
 
+    // This is used to ensure we do not render the flyout until we have attached the component.
+    // This allows the aria-labelledby to function correctly.
+    this.instanceReady = true;
+    this.changeDetector.markForCheck();
+
     // Open the flyout immediately.
     this.messageStream.next({
       type: SkyFlyoutMessageType.Open,
@@ -324,7 +330,9 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public getAnimationState(): string {
-    return this.isOpening ? FLYOUT_OPEN_STATE : FLYOUT_CLOSED_STATE;
+    return this.instanceReady && this.isOpening
+      ? FLYOUT_OPEN_STATE
+      : FLYOUT_CLOSED_STATE;
   }
 
   public animationDone(event: AnimationEvent): void {

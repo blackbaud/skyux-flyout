@@ -8,6 +8,7 @@
   [attr.aria-modal]="
     config?.ariaRole === 'dialog' || !config?.ariaRole ? true : false
   "
+  [attr.hidden]="!isReady ? true : undefined"
   [id]="flyoutId"
   [ngClass]="{
     'sky-flyout-hidden': !isOpen && !isOpening,
