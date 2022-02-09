@@ -11,6 +11,8 @@ import {
   Type,
   ViewChild,
   ViewContainerRef,
+  NgZone,
+  AfterViewInit,
 } from '@angular/core';
 
 import {
@@ -83,8 +85,10 @@ let nextId = 0;
   // Allow automatic change detection for child components.
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class SkyFlyoutComponent implements OnDestroy, OnInit {
+export class SkyFlyoutComponent implements AfterViewInit, OnDestroy, OnInit {
   public config: SkyFlyoutConfig;
+  public enableTrapFocus: boolean;
+  public enableTrapFocusAutoCapture: boolean;
   public flyoutId: string = `sky-flyout-${++nextId}`;
   public flyoutState = FLYOUT_CLOSED_STATE;
   public isOpen = false;
@@ -192,7 +196,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     private flyoutMediaQueryService: SkyFlyoutMediaQueryService,
     private elementRef: ElementRef,
     private uiConfigService: SkyUIConfigService,
-    private coreAdapter: SkyCoreAdapterService
+    private coreAdapter: SkyCoreAdapterService,
+    readonly _ngZone: NgZone
   ) {
     // All commands flow through the message stream.
     this.messageStream
@@ -204,6 +209,22 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
   public ngOnInit(): void {
     this.adapter.adjustHeaderForHelp(this.flyoutHeader);
+  }
+
+  public ngAfterViewInit(): void {
+    // Waiting for zone to be stable will avoid ExpressionChangeAfterCheckedError.
+    this._executeOnStable(() => {
+      const autofocusElement = this.adapter.getAutofocusElement(
+        this.flyoutContent
+      );
+      // If autofocus element exists, add selector to allow CDK to initialize with it first selected.
+      // https://github.com/angular/components/blob/24180d188f434d60ab1f6222a84b06dbc7695ac2/src/cdk/a11y/focus-trap/focus-trap.ts#L207
+      if (autofocusElement) {
+        autofocusElement.setAttribute('cdk-focus-initial', '');
+      }
+      this.enableTrapFocusAutoCapture = true;
+      this.enableTrapFocus = true;
+    });
   }
 
   public ngOnDestroy(): void {
@@ -338,22 +359,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public animationDone(event: AnimationEvent): void {
     if (event.toState === FLYOUT_OPEN_STATE) {
       this.isOpen = true;
-
-      const autofocusElement = this.adapter.getAutofocusElement(
-        this.flyoutContent
-      );
-      if (!autofocusElement) {
-        const focusableChildren = this.coreAdapter.getFocusableChildren(
-          this.flyoutContent.nativeElement
-        );
-        if (focusableChildren.length > 0) {
-          focusableChildren[0].focus();
-        } else {
-          this.flyoutCloseButton.nativeElement.focus();
-        }
-      } else {
-        autofocusElement.focus();
-      }
     }
 
     if (event.toState === FLYOUT_CLOSED_STATE) {
@@ -637,6 +642,15 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         default:
           break;
       }
+    }
+  }
+
+  /** Executes a function when the zone is stable. */
+  private _executeOnStable(fn: () => any): void {
+    if (this._ngZone.isStable) {
+      fn();
+    } else {
+      this._ngZone.onStable.pipe(take(1)).subscribe(fn);
     }
   }
 }

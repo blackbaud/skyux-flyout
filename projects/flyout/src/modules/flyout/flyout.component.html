@@ -22,23 +22,9 @@
   [@flyoutState]="getAnimationState()"
   [style.width.px]="flyoutWidth"
   #flyoutRef
-  cdkTrapFocus
-  [cdkTrapFocusAutoCapture]="true"
+  [cdkTrapFocus]="enableTrapFocus"
+  [cdkTrapFocusAutoCapture]="enableTrapFocusAutoCapture"
 >
-  <div
-    class="sky-flyout-resize-handle"
-    role="separator"
-    tabindex="0"
-    type="range"
-    [attr.aria-controls]="flyoutId"
-    [attr.aria-label]="'skyux_flyout_resize_handle' | skyLibResources"
-    [attr.aria-valuemax]="config.maxWidth"
-    [attr.aria-valuemin]="config.minWidth"
-    [attr.aria-valuenow]="flyoutWidth"
-    (keydown)="onResizeHandleKeyDown($event)"
-    (mousedown)="onResizeHandleMouseDown($event)"
-  ></div>
-
   <div
     class="sky-flyout-header"
     [skyThemeClass]="{
@@ -99,6 +85,19 @@
   <div class="sky-flyout-content" #flyoutContent>
     <div #target></div>
   </div>
+  <div
+    class="sky-flyout-resize-handle"
+    role="separator"
+    tabindex="0"
+    type="range"
+    [attr.aria-controls]="flyoutId"
+    [attr.aria-label]="'skyux_flyout_resize_handle' | skyLibResources"
+    [attr.aria-valuemax]="config.maxWidth"
+    [attr.aria-valuemin]="config.minWidth"
+    [attr.aria-valuenow]="flyoutWidth"
+    (keydown)="onResizeHandleKeyDown($event)"
+    (mousedown)="onResizeHandleMouseDown($event)"
+  ></div>
 </div>
 
 <ng-template #permalinkTemplate>
