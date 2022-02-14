@@ -12,7 +12,6 @@ import {
   ViewChild,
   ViewContainerRef,
   NgZone,
-  AfterViewInit,
 } from '@angular/core';
 
 import {
@@ -29,7 +28,6 @@ import { fromEvent, Subject } from 'rxjs';
 import { take, takeUntil, takeWhile } from 'rxjs/operators';
 
 import {
-  SkyCoreAdapterService,
   SkyMediaBreakpoints,
   SkyMediaQueryService,
   SkyUIConfigService,
@@ -85,7 +83,7 @@ let nextId = 0;
   // Allow automatic change detection for child components.
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class SkyFlyoutComponent implements AfterViewInit, OnDestroy, OnInit {
+export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public config: SkyFlyoutConfig;
   public enableTrapFocus: boolean;
   public enableTrapFocusAutoCapture: boolean;
@@ -196,7 +194,6 @@ export class SkyFlyoutComponent implements AfterViewInit, OnDestroy, OnInit {
     private flyoutMediaQueryService: SkyFlyoutMediaQueryService,
     private elementRef: ElementRef,
     private uiConfigService: SkyUIConfigService,
-    private coreAdapter: SkyCoreAdapterService,
     readonly _ngZone: NgZone
   ) {
     // All commands flow through the message stream.
@@ -209,22 +206,6 @@ export class SkyFlyoutComponent implements AfterViewInit, OnDestroy, OnInit {
 
   public ngOnInit(): void {
     this.adapter.adjustHeaderForHelp(this.flyoutHeader);
-  }
-
-  public ngAfterViewInit(): void {
-    // Waiting for zone to be stable will avoid ExpressionChangeAfterCheckedError.
-    this._executeOnStable(() => {
-      const autofocusElement = this.adapter.getAutofocusElement(
-        this.flyoutContent
-      );
-      // If autofocus element exists, add selector to allow CDK to initialize with it first selected.
-      // https://github.com/angular/components/blob/24180d188f434d60ab1f6222a84b06dbc7695ac2/src/cdk/a11y/focus-trap/focus-trap.ts#L207
-      if (autofocusElement) {
-        autofocusElement.setAttribute('cdk-focus-initial', '');
-      }
-      this.enableTrapFocusAutoCapture = true;
-      this.enableTrapFocus = true;
-    });
   }
 
   public ngOnDestroy(): void {
@@ -483,6 +464,7 @@ export class SkyFlyoutComponent implements AfterViewInit, OnDestroy, OnInit {
           this.isOpen = false;
           this.isOpening = true;
         }
+        this.initFocusTrap();
         break;
 
       case SkyFlyoutMessageType.Close:
@@ -652,5 +634,23 @@ export class SkyFlyoutComponent implements AfterViewInit, OnDestroy, OnInit {
     } else {
       this._ngZone.onStable.pipe(take(1)).subscribe(fn);
     }
+  }
+
+  private initFocusTrap(): void {
+    this.enableTrapFocusAutoCapture = false;
+    this.enableTrapFocus = false;
+    // Waiting for zone to be stable will avoid ExpressionChangeAfterCheckedError.
+    this._executeOnStable(() => {
+      const autofocusElement = this.adapter.getAutofocusElement(
+        this.flyoutContent
+      );
+      // If autofocus element exists, add selector to allow CDK to initialize with it first selected.
+      // https://github.com/angular/components/blob/24180d188f434d60ab1f6222a84b06dbc7695ac2/src/cdk/a11y/focus-trap/focus-trap.ts#L207
+      if (autofocusElement) {
+        autofocusElement.setAttribute('cdk-focus-initial', '');
+      }
+      this.enableTrapFocusAutoCapture = true;
+      this.enableTrapFocus = true;
+    });
   }
 }
