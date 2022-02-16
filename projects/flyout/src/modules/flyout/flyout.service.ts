@@ -166,7 +166,7 @@ export class SkyFlyoutService implements OnDestroy {
 
       this.removeAfterClosed = false;
       flyoutInstance.messageStream
-        .pipe(take(1))
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((message: SkyFlyoutMessage) => {
           if (message.type === SkyFlyoutMessageType.Close) {
             this.removeAfterClosed = true;
