@@ -97,7 +97,7 @@ describe('Flyout service', () => {
 
     router.navigate(['/']);
 
-    tick();
+    tick(500);
     applicationRef.tick();
 
     expect(closeSpy).toHaveBeenCalled();
@@ -116,7 +116,32 @@ describe('Flyout service', () => {
 
     router.navigate(['/']);
 
+    tick(500);
+    applicationRef.tick();
+
+    expect(removeComponentSpy).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should remove the host when the user navigates through history if no closed event is fired in 500ms - sanity check', fakeAsync(() => {
+    service.open(SkyFlyoutHostsTestComponent);
+    const dynamicService = TestBed.inject(SkyDynamicComponentService);
+    const removeComponentSpy = spyOn(
+      dynamicService,
+      'removeComponent'
+    ).and.callThrough();
+    spyOn(service['host'].instance.messageStream, 'next').and.stub();
+
     tick();
+    applicationRef.tick();
+
+    router.navigate(['/']);
+
+    tick();
+    applicationRef.tick();
+
+    expect(removeComponentSpy).not.toHaveBeenCalled();
+
+    tick(500);
     applicationRef.tick();
 
     expect(removeComponentSpy).toHaveBeenCalled();

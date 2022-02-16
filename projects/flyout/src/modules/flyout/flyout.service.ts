@@ -86,6 +86,13 @@ export class SkyFlyoutService implements OnDestroy {
           if (event instanceof NavigationStart) {
             this.close();
           }
+
+          // Sanity check - if the host still exists after animations should have completed - remove host
+          setTimeout(() => {
+            if (this.host) {
+              this.removeHostComponent();
+            }
+          }, 500);
         });
     }
 
