@@ -1020,7 +1020,7 @@ describe('Flyout component', () => {
       getPermalinkButtonElement().click();
       const navigation = TestBed.inject(Router).getCurrentNavigation();
       expect(navigation.extras.state.foo).toEqual('bar');
-      tick(500);
+      tick();
     }));
 
     it('should navigate to a URL when clicking on the permalink button', fakeAsync(() => {

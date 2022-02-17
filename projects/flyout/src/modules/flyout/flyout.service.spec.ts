@@ -97,7 +97,7 @@ describe('Flyout service', () => {
 
     router.navigate(['/']);
 
-    tick(500);
+    tick();
     applicationRef.tick();
 
     expect(closeSpy).toHaveBeenCalled();
@@ -116,7 +116,7 @@ describe('Flyout service', () => {
 
     router.navigate(['/']);
 
-    tick(500);
+    tick();
     applicationRef.tick();
 
     expect(removeComponentSpy).toHaveBeenCalledTimes(1);
@@ -137,11 +137,6 @@ describe('Flyout service', () => {
     router.navigate(['/']);
 
     tick();
-    applicationRef.tick();
-
-    expect(removeComponentSpy).not.toHaveBeenCalled();
-
-    tick(500);
     applicationRef.tick();
 
     expect(removeComponentSpy).toHaveBeenCalled();
