@@ -1,4 +1,11 @@
-import { ComponentRef, Injectable, OnDestroy, Type } from '@angular/core';
+import {
+  ApplicationRef,
+  ComponentRef,
+  Injectable,
+  NgZone,
+  OnDestroy,
+  Type,
+} from '@angular/core';
 
 import { NavigationStart, Router } from '@angular/router';
 
@@ -40,7 +47,9 @@ export class SkyFlyoutService implements OnDestroy {
     private coreAdapter: SkyCoreAdapterService,
     private windowRef: SkyAppWindowRef,
     private dynamicComponentService: SkyDynamicComponentService,
-    private router: Router
+    private router: Router,
+    private readonly _ngZone: NgZone,
+    private readonly applicationRef: ApplicationRef
   ) {}
 
   public ngOnDestroy(): void {
@@ -85,14 +94,16 @@ export class SkyFlyoutService implements OnDestroy {
         .subscribe((event) => {
           if (event instanceof NavigationStart) {
             this.close();
-          }
 
-          // Sanity check - if the host still exists after animations should have completed - remove host
-          setTimeout(() => {
-            if (this.host) {
-              this.removeHostComponent();
-            }
-          }, 500);
+            // Sanity check - if the host still exists after animations should have completed - remove host
+            this._ngZone.onStable.pipe(take(1)).subscribe(() => {
+              if (this.host) {
+                this.removeHostComponent();
+                // Without this tick - the host does not actually get removed on initial navigation in this case.
+                this.applicationRef.tick();
+              }
+            });
+          }
         });
     }
 
