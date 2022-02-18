@@ -641,14 +641,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.enableTrapFocus = false;
     // Waiting for zone to be stable will avoid ExpressionChangeAfterCheckedError.
     this._executeOnStable(() => {
-      const autofocusElement = this.adapter.getAutofocusElement(
-        this.flyoutContent
-      );
-      // If autofocus element exists, add selector to allow CDK to initialize with it first selected.
-      // https://github.com/angular/components/blob/24180d188f434d60ab1f6222a84b06dbc7695ac2/src/cdk/a11y/focus-trap/focus-trap.ts#L207
-      if (autofocusElement) {
-        autofocusElement.setAttribute('cdk-focus-initial', '');
-      }
       this.enableTrapFocusAutoCapture = true;
       this.enableTrapFocus = true;
     });

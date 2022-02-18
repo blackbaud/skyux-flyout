@@ -825,7 +825,7 @@ describe('Flyout component', () => {
     ).toBeTruthy();
   }));
 
-  it('should automatically focus the first focusable element in the content area when the flyout opens', fakeAsync(() => {
+  it('should automatically focus the close button when the flyout opens', fakeAsync(() => {
     (<HTMLElement>document.querySelector('#flyout-trigger-button')).focus();
 
     openFlyout({}, { name: 'Sam', showNormalButton: true });
@@ -835,7 +835,7 @@ describe('Flyout component', () => {
     tick();
 
     expect(document.activeElement).toBe(
-      document.querySelector('#normal-button')
+      document.querySelector('.sky-flyout-btn-close')
     );
   }));
 
