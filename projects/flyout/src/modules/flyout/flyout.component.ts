@@ -194,7 +194,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     private flyoutMediaQueryService: SkyFlyoutMediaQueryService,
     private elementRef: ElementRef,
     private uiConfigService: SkyUIConfigService,
-    readonly _ngZone: NgZone
+    private readonly _ngZone: NgZone
   ) {
     // All commands flow through the message stream.
     this.messageStream
@@ -211,17 +211,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-  }
-
-  @HostListener('document:keyup', ['$event'])
-  public onDocumentKeyUp(event: KeyboardEvent) {
-    /* istanbul ignore else */
-    /* sanity check */
-    if (event.key == 'Escape') {
-      // Escape key up
-      event.preventDefault();
-      this.close();
-    }
   }
 
   @HostListener('window:resize', ['$event'])

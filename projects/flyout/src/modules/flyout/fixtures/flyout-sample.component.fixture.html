@@ -1,15 +1,15 @@
 {{ data?.name }}
 <iframe
-  src="https://developer.blackbaud.com/skyux/"
   *ngIf="data?.showIframe"
+  src="https://developer.blackbaud.com/skyux/"
 ></iframe>
 <button id="normal-button" type="button" *ngIf="data?.showNormalButton">
   Normal Button
 </button>
 <button
+  *ngIf="data?.showAutofocusButton"
   id="autofocus-button"
   type="button"
-  *ngIf="data?.showAutofocusButton"
   cdkFocusInitial
 >
   Autofocus Button

@@ -354,20 +354,6 @@ describe('Flyout component', () => {
     expect(flyout.isOpen).toBe(false);
   }));
 
-  it('should close when the escape button is pressed', fakeAsync(() => {
-    const flyout = openFlyout({});
-    expect(flyout.isOpen).toBe(true);
-
-    SkyAppTestUtility.fireDomEvent(fixture.nativeElement, 'keyup', {
-      keyboardEventInit: {
-        key: 'Escape',
-      },
-    });
-    fixture.detectChanges();
-    tick();
-    expect(flyout.isOpen).toBe(false);
-  }));
-
   it('should close when the click event fires outside of the flyout', fakeAsync(() => {
     const flyout = openFlyout({});
     expect(flyout.isOpen).toBe(true);
@@ -549,11 +535,7 @@ describe('Flyout component', () => {
 
     expect(flyout.isOpen).toBe(true);
 
-    SkyAppTestUtility.fireDomEvent(document, 'keyup', {
-      keyboardEventInit: {
-        key: 'Escape',
-      },
-    });
+    closeFlyout();
 
     tick();
     fixture.detectChanges();
