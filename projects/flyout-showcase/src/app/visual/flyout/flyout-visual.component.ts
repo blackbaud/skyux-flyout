@@ -48,6 +48,7 @@ export class FlyoutVisualComponent implements OnDestroy {
           useValue: record,
         },
       ],
+      ariaLabel: 'User details',
       defaultWidth: 500,
     });
 
