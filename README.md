@@ -1,3 +1,7 @@
-# @skyux/flyout Workspace
+# @skyux/flyout (moved)
 
-For information about `@skyux/flyout` please visit the library's README file, located at `projects/flyout/README.md`.
+### *The source code for `@skyux/flyout` has moved to [blackbaud/skyux](https://github.com/blackbaud/skyux).*
+
+To work with the latest version of `@skyux/flyout`, go to [blackbaud/skyux](https://github.com/blackbaud/skyux).
+
+The source code for SKY UX 4 remains in the [`4.x.x`](https://github.com/blackbaud/skyux-flyout/tree/4.x.x) branch of this repo.
