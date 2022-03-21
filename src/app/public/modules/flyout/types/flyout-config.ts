@@ -14,7 +14,7 @@ export interface SkyFlyoutConfig {
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that describes
    * the flyout. This sets the flyout's `aria-describedby` attribute
-   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * [to support accessibility](https://developer.blackbaud.com/skyux-v4/learn/accessibility).
    * The description typically includes text on the flyout but not on items that users
    * interact with, such as buttons and forms.
    */
@@ -23,13 +23,13 @@ export interface SkyFlyoutConfig {
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that labels
    * the flyout. This sets the flyout's `aria-labelledby` attribute
-   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * [to support accessibility](https://developer.blackbaud.com/skyux-v4/learn/accessibility).
    */
   ariaLabelledBy?: string;
 
   /**
    * Specifies an ARIA role for the flyout
-   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
+   * [to support accessibility](https://developer.blackbaud.com/skyux-v4/learn/accessibility)
    * by indicating how the flyout functions and what it controls. For information about how
    * an ARIA role indicates what an item represents on a web page,
    * see the [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
@@ -95,7 +95,7 @@ export interface SkyFlyoutConfig {
    * Specifies a unique key for the UI Config Service to retrieve stored settings from a database.
    * The UI Config Service saves configuration settings for users to preserve the width of
    * the flyout. For more information about the UI Config Service,
-   * see [the sticky settings documentation](https://developer.blackbaud.com/skyux/learn/get-started/advanced/sticky-settings).
+   * see [the sticky settings documentation](https://developer.blackbaud.com/skyux-v4/learn/get-started/advanced/sticky-settings).
    */
   settingsKey?: string;
 }
